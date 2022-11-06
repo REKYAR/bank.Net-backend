@@ -35,6 +35,7 @@ steps:
 
 - task: AzureRmWebAppDeployment@4
   inputs:
+    ConnectedServiceName: '$(Mieszko Conn)'
     ConnectionType: 'AzureRM'
     appType: 'webApp'
     WebAppName: 'Bank-Project-Backend-Prod'
