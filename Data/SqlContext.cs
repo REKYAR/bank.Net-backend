@@ -15,6 +15,8 @@ namespace Bank.NET___backend.Data
         //{
         //    _connectionString = $"Server=bank-project-postresql.postgres.database.azure.com;Database=bank-project-postgresql;Port=5432;User Id=bankserveradmin;Password={password};";
         //}
+
+
         public SqlContext(DbContextOptions<SqlContext> options)
         : base(options)
         {

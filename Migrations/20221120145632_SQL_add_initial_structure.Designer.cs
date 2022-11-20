@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Bank.NETbackend.Migrations
 {
     [DbContext(typeof(SqlContext))]
-    [Migration("20221119210434_SQL_add_initial_structure")]
+    [Migration("20221120145632_SQL_add_initial_structure")]
     partial class SQLaddinitialstructure
     {
         /// <inheritdoc />
@@ -46,10 +46,6 @@ namespace Bank.NETbackend.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -133,6 +129,10 @@ namespace Bank.NETbackend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("UserEmail")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int?>("UserID")
                         .HasColumnType("integer");
 
@@ -167,10 +167,6 @@ namespace Bank.NETbackend.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("text");
 
