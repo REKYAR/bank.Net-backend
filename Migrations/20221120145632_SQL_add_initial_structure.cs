@@ -21,8 +21,7 @@ namespace Bank.NETbackend.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     LastName = table.Column<string>(type: "text", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
-                    Login = table.Column<string>(type: "text", nullable: false),
-                    PasswordHash = table.Column<string>(type: "text", nullable: false)
+                    Login = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -35,7 +34,6 @@ namespace Bank.NETbackend.Migrations
                 {
                     UserID = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    PasswordHash = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Surname = table.Column<string>(type: "text", nullable: false),
                     GovermentId = table.Column<string>(type: "text", nullable: false),
@@ -56,7 +54,8 @@ namespace Bank.NETbackend.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     State = table.Column<string>(type: "text", nullable: false),
                     MonthlyInstallment = table.Column<decimal>(type: "numeric", nullable: false),
-                    UserID = table.Column<int>(type: "integer", nullable: true)
+                    UserID = table.Column<int>(type: "integer", nullable: true),
+                    UserEmail = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
