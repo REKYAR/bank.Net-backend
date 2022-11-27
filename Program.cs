@@ -1,11 +1,22 @@
+using Bank.NET___backend;
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
+using Azure.Core;
+using Bank.NET___backend.Prelaunch;
+using Bank.NET___backend.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 
+Prelaunch.GetSecrets();
+
 var builder = WebApplication.CreateBuilder(args);
 
+//string COSMOS_PRIMARY_CONNECTION_STRING = Environment.GetEnvironmentVariable("COSMOS_PRIMARY_CONNECTION_STRING");
+//string SQL_PASSWORD = Environment.GetEnvironmentVariable("SQL_PASSWORD");
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAdB2C"));
 
@@ -49,8 +60,12 @@ builder.Services.AddSwaggerGen(
         });
     });
 
+builder.Services.AddDbContext<SqlContext>(options => options.UseNpgsql());
+
+
 var app = builder.Build();
 
+//
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -62,6 +77,7 @@ if (app.Environment.IsDevelopment())
         c.OAuthScopeSeparator(" ");
     });
 }
+//get secrets
 
 app.UseHttpsRedirection();
 
@@ -70,5 +86,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
+    
 app.Run();
