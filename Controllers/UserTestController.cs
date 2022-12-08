@@ -26,13 +26,13 @@ namespace Bank.NET___backend.Controllers
 
         [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
         [Authorize]
-        [HttpGet]
+        [HttpGet("ProfileInfo")]
         public ActionResult<User> LoggedUserInfo()
         {
             var claims = User.Claims.ToList();
 
-            var NameClaim = GetClaim(claims, "given_name");
-            var SurnameClaim = GetClaim(claims, "family_name");
+            var NameClaim = GetClaim(claims, ClaimTypes.GivenName);
+            var SurnameClaim = GetClaim(claims, ClaimTypes.Surname);
             var EmailClaim = GetClaim(claims, "emails");
             var IncomeClaim = GetClaim(claims, "extension_Incomelevel");
             var GovermentIDClaim = GetClaim(claims, "extension_GovermentID");
@@ -56,9 +56,9 @@ namespace Bank.NET___backend.Controllers
             return Ok(user);
         }
 
-        private Claim? GetClaim(IEnumerable<Claim> claims, string claimType)
+        private Claim? GetClaim(List<Claim> claims, string claimType)
         {
-            return claims.First(claim => claim.Type == claimType);
+            return claims.Find(x => x.Type == claimType);
         }
 
         [HttpPost]
