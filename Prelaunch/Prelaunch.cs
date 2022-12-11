@@ -25,13 +25,15 @@ namespace Bank.NET___backend.Prelaunch
 
             KeyVaultSecret SQL_PASSWORD = client.GetSecret("SQL-PASSWORD").Value;
             KeyVaultSecret COSMOS_PRIMARY_CONNECTION_STRING = client.GetSecret("COSMOS-PRIMARY-CONNECTION-STRING").Value;
-
+            KeyVaultSecret FILES_KEY =  client.GetSecret("files-key").Value;
 
             string sqlPassword = SQL_PASSWORD.Value;
             string cosmosPrimaryConnectionString = COSMOS_PRIMARY_CONNECTION_STRING.Value;
+             string filesKey = FILES_KEY.Value;
 
             System.Environment.SetEnvironmentVariable("SQL_PASSWORD",sqlPassword);
             System.Environment.SetEnvironmentVariable("COSMOS_PRIMARY_CONNECTION_STRING",cosmosPrimaryConnectionString);
+            System.Environment.SetEnvironmentVariable("FILES_KEY",filesKey);
         }
     }
 }

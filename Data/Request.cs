@@ -36,4 +36,36 @@ namespace Bank.NET___backend.Data
         public User? User { get; set; }
         public Response? Response { get; set; }
     }
+    public class RequestDTO
+    {
+        public DateTime Date { get; set; }
+        public decimal Amount { get; set; }
+        public int NumberOfInstallments { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string GovermentId { get; set; }
+        public string Email { get; set; }
+        public string JobType { get; set; }
+        public decimal IncomeLevel { get; set; }
+        public string Status { get; set; }
+        public RequestDTO(DateTime date, decimal amount, int numberOfInstallments, string name, string surname, string govermentId, string email, string jobType, decimal incomeLevel, string status)
+        {
+            Date = date;
+            Amount = amount;
+            NumberOfInstallments = numberOfInstallments;
+            Name = name;
+            Surname = surname;
+            GovermentId = govermentId;
+            Email = email;
+            JobType = jobType;
+            IncomeLevel = incomeLevel;
+            Status = status;
+        }
+    }
+    enum RequestStatus
+    {
+        Pending,
+        OfferSelected
+    }
+
 }
