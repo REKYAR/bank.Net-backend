@@ -46,6 +46,7 @@ namespace Bank.NET___backend.Controllers
             return Ok(dto);
         }
 
+        //create request and redirect to offers
         [HttpPost]
         public ActionResult PostRequest([FromBody] Dictionary<string, string> Requestdata)
         {
@@ -82,6 +83,7 @@ namespace Bank.NET___backend.Controllers
             return Ok();
         }
 
+        //generate 3 offers (for now we generate all 3)
         [HttpGet]
         [Route("api/requestManagement/offers/{RequestID}")]
         public ActionResult<IEnumerable<Offer>> getOffers(int RequestID)
