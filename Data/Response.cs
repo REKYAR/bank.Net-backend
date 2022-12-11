@@ -26,4 +26,18 @@ namespace Bank.NET___backend.Data
         public string UserEmail { get; set; }
 
     }
+    public class ResponseDTO
+    {
+        public string State { get; set; }
+        public decimal MonthlyInstallment { get; set; }
+        public string UserEmail { get; set; }
+    }
+    enum ResponseStatus
+    {
+        PendingConfirmation,
+        PendingApproval,
+        Approved,
+        Refused,
+        AwaitingDocuments
+    }
 }
