@@ -50,24 +50,25 @@ namespace Bank.NET___backend.Controllers
         //spr zrobic request
         [HttpPost]
         //public ActionResult PostRequest([FromBody] Dictionary<string, string> Requestdata)
-        public ActionResult PostRequest([FromBody] Request Requestdata)
+        public ActionResult PostRequest([FromBody] RequestDTO Requestdata)
         {
-            Data.Request req /*= new Data.Request();*/;
+            Data.Request req = new Data.Request();
             try
             {
-                req = Requestdata;
-                //req.IncomeLevel = Decimal.Parse(Requestdata["incomeLevel"]);
-                //req.Status = RequestStatus.Pending.ToString();
-                //req.Surname = Requestdata["surname"];
-                //req.Date = DateTime.UtcNow;
-                //req.Amount = Decimal.Parse(Requestdata["amount"]);
-                //req.Email = Requestdata["email"];
-                //req.GovermentId = Requestdata["govId"];
-                //req.NumberOfInstallments = int.Parse(Requestdata["numberOfInstallments"]);
-                //req.IncomeLevel = Decimal.Parse(Requestdata["income"]);
-                //req.Name = Requestdata["name"];
+                req.IncomeLevel = Requestdata.IncomeLevel;
+                req.Status = RequestStatus.Pending.ToString();
+                req.Surname = Requestdata.Surname;
                 req.Date = DateTime.UtcNow;
-                req.RequestID = 0;
+                req.Amount = Requestdata.Amount;
+                req.Email = Requestdata.Email;
+                req.GovermentId = Requestdata.GovermentId;
+                req.NumberOfInstallments = Requestdata.NumberOfInstallments;
+                req.IncomeLevel = Requestdata.IncomeLevel;
+                req.Name = Requestdata.Name;
+                //req.Date = DateTime.UtcNow;
+                //req.RequestID = 0;
+                //req.Status = RequestStatus.Pending.ToString();
+
                 //if (_sqlContext.Users.Where(u => u.Email == req.Email).Count() != 0)
                 //{
                 //    User u = _sqlContext.Users.Where(u => u.Email == req.Email).First();
