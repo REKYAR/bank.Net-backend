@@ -47,30 +47,36 @@ namespace Bank.NET___backend.Controllers
         }
 
         //create request and redirect to offers
+        //spr zrobic request
         [HttpPost]
-        public ActionResult PostRequest([FromBody] Dictionary<string, string> Requestdata)
+        //public ActionResult PostRequest([FromBody] Dictionary<string, string> Requestdata)
+        public ActionResult PostRequest([FromBody] Request Requestdata)
         {
-            Data.Request req = new Data.Request();
+            Data.Request req /*= new Data.Request();*/;
             try
             {
-                req.IncomeLevel = Decimal.Parse(Requestdata["incomeLevel"]);
-                req.Status = RequestStatus.Pending.ToString();
-                req.Surname = Requestdata["surname"];
+                req = Requestdata;
+                //req.IncomeLevel = Decimal.Parse(Requestdata["incomeLevel"]);
+                //req.Status = RequestStatus.Pending.ToString();
+                //req.Surname = Requestdata["surname"];
+                //req.Date = DateTime.UtcNow;
+                //req.Amount = Decimal.Parse(Requestdata["amount"]);
+                //req.Email = Requestdata["email"];
+                //req.GovermentId = Requestdata["govId"];
+                //req.NumberOfInstallments = int.Parse(Requestdata["numberOfInstallments"]);
+                //req.IncomeLevel = Decimal.Parse(Requestdata["income"]);
+                //req.Name = Requestdata["name"];
                 req.Date = DateTime.UtcNow;
-                req.Amount = Decimal.Parse(Requestdata["amount"]);
-                req.Email = Requestdata["email"];
-                req.GovermentId = Requestdata["govId"];
-                req.NumberOfInstallments = int.Parse(Requestdata["numberOfInstallments"]);
-                req.IncomeLevel = Decimal.Parse(Requestdata["income"]);
-                req.Name = Requestdata["name"];
-                if (_sqlContext.Users.Where(u => u.Email == req.Email).Count() != 0)
-                {
-                    User u = _sqlContext.Users.Where(u => u.Email == req.Email).First();
-                    req.User = u;
-                    _sqlContext.Requests.Add(req);
-                    u.Requests.Add(req);
+                req.RequestID = 0;
+                //if (_sqlContext.Users.Where(u => u.Email == req.Email).Count() != 0)
+                //{
+                //    User u = _sqlContext.Users.Where(u => u.Email == req.Email).First();
+                //    req.User = u;
+                //    _sqlContext.Requests.Add(req);
+                //    u.Requests.Add(req);
 
-                }
+                //}
+                return Ok(req);
             }
             catch (Exception c)
             {
