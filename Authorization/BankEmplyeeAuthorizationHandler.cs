@@ -1,6 +1,5 @@
 ﻿using Bank.NET___backend.Data;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Graph;
 
 namespace Bank.NET___backend.Authorization
 {
