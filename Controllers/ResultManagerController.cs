@@ -15,6 +15,7 @@ namespace Bank.NET___backend.Controllers
             _sqlContext = sqlContext;
         }
 
+        //validate selected answear
         [HttpPost]
         [Route("api/ResultManagement/SelectedResult/{RequestId}")]
         public ActionResult SelectedResult(int RequestId, [FromBody]Offer of)
@@ -29,7 +30,7 @@ namespace Bank.NET___backend.Controllers
                     req.Response = res;
                     res.State = ResponseStatus.PendingConfirmation.ToString();
                     //send add documents and send to review here
-                    return Redirect($"api/ResultManagement/getConfirmation/{req.RequestID}/{req.ResponseID}");
+                    return Redirect($"api/ResultManagement/getConfirmation/{req.RequestID}/{req.ResponseID}"); //to defaultowo ma iść w mailu, mail wysyłany dopiero po aprobacie admina
                 }
             }
             catch (Exception)
@@ -39,7 +40,8 @@ namespace Bank.NET___backend.Controllers
             }
             return NotFound();
         }
-
+        
+        //final confirmation
         [HttpGet]
         [Route("api/ResultManagement/getConfirmation/{rqid}/{rsid}")]
         public ActionResult GetConfirmation(int rqid, int rsid)
