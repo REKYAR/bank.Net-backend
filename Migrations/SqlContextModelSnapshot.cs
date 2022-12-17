@@ -98,14 +98,10 @@ namespace Bank.NETbackend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("UserID")
+                    b.Property<int>("UserID")
                         .HasColumnType("integer");
 
                     b.HasKey("RequestID");
-
-                    b.HasIndex("ResponseID");
-
-                    b.HasIndex("UserID");
 
                     b.ToTable("Requests");
                 });
@@ -171,26 +167,6 @@ namespace Bank.NETbackend.Migrations
                     b.HasKey("UserID");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("Bank.NET___backend.Data.Request", b =>
-                {
-                    b.HasOne("Bank.NET___backend.Data.Response", "Response")
-                        .WithMany()
-                        .HasForeignKey("ResponseID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Bank.NET___backend.Data.User", null)
-                        .WithMany("Requests")
-                        .HasForeignKey("UserID");
-
-                    b.Navigation("Response");
-                });
-
-            modelBuilder.Entity("Bank.NET___backend.Data.User", b =>
-                {
-                    b.Navigation("Requests");
                 });
 #pragma warning restore 612, 618
         }

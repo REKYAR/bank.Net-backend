@@ -17,10 +17,10 @@ namespace Bank.NET___backend.Data
         //}
 
         //wykometowac do migracji
-        public SqlContext(DbContextOptions<SqlContext> options)
-        : base(options)
-        {
-        }
+        //public SqlContext(DbContextOptions<SqlContext> options)
+        //: base(options)
+        //{
+        //}
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
