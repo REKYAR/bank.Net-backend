@@ -19,9 +19,9 @@ namespace Bank.NET___backend.Data
         [Required]
         public decimal MonthlyInstallment { get; set; }
 
-        public User? User { get; set; }
+        //public int? UserId { get; set; }
         [Required]
-        public Request Request { get; set; }
+        public int RequestID { get; set; }
         [Required]
         public string UserEmail { get; set; }
 

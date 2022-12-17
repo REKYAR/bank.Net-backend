@@ -23,7 +23,7 @@ namespace Bank.NET___backend.Data
         public decimal IncomeLevel { get; set; }
 
         public ICollection<Request> Requests { get; set; }
-        public ICollection<Response> Responses { get; set; }
+        //public ICollection<Response> Responses { get; set; }
     }
     public class UserDTO
     {

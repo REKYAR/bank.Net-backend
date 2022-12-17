@@ -36,7 +36,7 @@ namespace Bank.NET___backend.Controllers
                 return NotFound();
             }
             
-            List<Data.Request> reqs = _sqlContext.Requests.Where(req => req.User == u).ToList();
+            List<Data.Request> reqs = _sqlContext.Requests.Where(req => req.UserID == u.UserID).ToList();
             List<RequestDTO> dto =  new List<RequestDTO>();
             foreach (Request r in reqs)
             {
@@ -72,7 +72,7 @@ namespace Bank.NET___backend.Controllers
                 if (_sqlContext.Users.Where(u => u.Email == req.Email).Count() != 0)
                 {
                     User u = _sqlContext.Users.Where(u => u.Email == req.Email).First();
-                    req.User = u;
+                    req.UserID = u.UserID;
                     u.Requests.Add(req);
                 }
                 _sqlContext.Requests.Add(req);
@@ -104,8 +104,8 @@ namespace Bank.NET___backend.Controllers
                 foreach (Offer offer in offers)
                 {
                     Response r = new Response();
-                    r.Request = req;
-                    r.User = req.User;
+                    r.RequestID = req.RequestID;
+                    //r.User = req.User;
                     r.UserEmail = req.Email;
                     r.MonthlyInstallment = offer.MonthlyInstallment;
                     r.State = ResponseStatus.PendingApproval.ToString();

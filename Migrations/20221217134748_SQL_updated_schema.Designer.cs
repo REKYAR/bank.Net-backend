@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Bank.NETbackend.Migrations
 {
     [DbContext(typeof(SqlContext))]
-    [Migration("20221120145632_SQL_add_initial_structure")]
-    partial class SQLaddinitialstructure
+    [Migration("20221217134748_SQL_updated_schema")]
+    partial class SQLupdatedschema
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -106,8 +106,7 @@ namespace Bank.NETbackend.Migrations
 
                     b.HasKey("RequestID");
 
-                    b.HasIndex("ResponseID")
-                        .IsUnique();
+                    b.HasIndex("ResponseID");
 
                     b.HasIndex("UserID");
 
@@ -125,6 +124,9 @@ namespace Bank.NETbackend.Migrations
                     b.Property<decimal>("MonthlyInstallment")
                         .HasColumnType("numeric");
 
+                    b.Property<int>("RequestID")
+                        .HasColumnType("integer");
+
                     b.Property<string>("State")
                         .IsRequired()
                         .HasColumnType("text");
@@ -133,12 +135,7 @@ namespace Bank.NETbackend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("UserID")
-                        .HasColumnType("integer");
-
                     b.HasKey("ResponseID");
-
-                    b.HasIndex("UserID");
 
                     b.ToTable("Responses");
                 });
@@ -182,40 +179,21 @@ namespace Bank.NETbackend.Migrations
             modelBuilder.Entity("Bank.NET___backend.Data.Request", b =>
                 {
                     b.HasOne("Bank.NET___backend.Data.Response", "Response")
-                        .WithOne("Request")
-                        .HasForeignKey("Bank.NET___backend.Data.Request", "ResponseID")
+                        .WithMany()
+                        .HasForeignKey("ResponseID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Bank.NET___backend.Data.User", "User")
+                    b.HasOne("Bank.NET___backend.Data.User", null)
                         .WithMany("Requests")
                         .HasForeignKey("UserID");
 
                     b.Navigation("Response");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Bank.NET___backend.Data.Response", b =>
-                {
-                    b.HasOne("Bank.NET___backend.Data.User", "User")
-                        .WithMany("Responses")
-                        .HasForeignKey("UserID");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Bank.NET___backend.Data.Response", b =>
-                {
-                    b.Navigation("Request")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Bank.NET___backend.Data.User", b =>
                 {
                     b.Navigation("Requests");
-
-                    b.Navigation("Responses");
                 });
 #pragma warning restore 612, 618
         }
