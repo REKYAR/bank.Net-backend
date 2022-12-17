@@ -73,7 +73,7 @@ namespace Bank.NET___backend.Controllers
                 {
                     User u = _sqlContext.Users.Where(u => u.Email == req.Email).First();
                     req.UserID = u.UserID;
-                    u.Requests.Add(req);
+                    //u.Requests.Add(req);
                 }
                 _sqlContext.Requests.Add(req);
                 _sqlContext.SaveChanges();

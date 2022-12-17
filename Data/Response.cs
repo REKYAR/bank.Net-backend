@@ -21,6 +21,7 @@ namespace Bank.NET___backend.Data
 
         //public int? UserId { get; set; }
         [Required]
+        [ForeignKey("Request")]
         public int RequestID { get; set; }
         [Required]
         public string UserEmail { get; set; }
