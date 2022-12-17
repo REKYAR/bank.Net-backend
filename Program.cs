@@ -24,7 +24,7 @@ var builder = WebApplication.CreateBuilder(args);
 //    ReferenceHandler = ReferenceHandler.IgnoreCycles,
 //    WriteIndented = true
 //};
-
+ 
 //string COSMOS_PRIMARY_CONNECTION_STRING = Environment.GetEnvironmentVariable("COSMOS_PRIMARY_CONNECTION_STRING");
 //string SQL_PASSWORD = Environment.GetEnvironmentVariable("SQL_PASSWORD");
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
