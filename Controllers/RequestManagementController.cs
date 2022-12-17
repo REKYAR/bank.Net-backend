@@ -75,7 +75,7 @@ namespace Bank.NET___backend.Controllers
                     req.UserID = u.UserID;
                     //u.Requests.Add(req);
                 }
-                return Ok(req);
+                //return Ok(req);
                 _sqlContext.Requests.Add(req);
                 _sqlContext.SaveChanges();
             }
