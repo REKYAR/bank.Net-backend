@@ -17,7 +17,7 @@ namespace Bank.NET___backend.Controllers
 
         //validate selected answear
         [HttpPost]
-        [Route("api/ResultManagement/SelectedResult/{RequestId}")]
+        [Route("/SelectedResult/{RequestId}")]
         public ActionResult SelectedResult(int RequestId, [FromBody]Offer of)
         {
             try
@@ -43,7 +43,7 @@ namespace Bank.NET___backend.Controllers
         
         //final confirmation
         [HttpGet]
-        [Route("api/ResultManagement/getConfirmation/{rqid}/{rsid}")]
+        [Route("/getConfirmation/{rqid}/{rsid}")]
         public ActionResult GetConfirmation(int rqid, int rsid)
         {
             if (_sqlContext.Responses.Where(r => r.ResponseID == rsid).Count() == 1 && _sqlContext.Requests.Where(r => r.RequestID== rqid).Count() == 1)
