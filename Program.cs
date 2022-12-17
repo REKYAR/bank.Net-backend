@@ -12,6 +12,8 @@ using Microsoft.OpenApi.Models;
 using System.Reflection;
 //using System.Text.Json;
 //using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Authorization;
+using Bank.NET___backend.Authorization;
 
 Prelaunch.GetSecrets();
 
@@ -70,6 +72,13 @@ builder.Services.AddSwaggerGen(
 
 builder.Services.AddDbContext<SqlContext>(options => options.UseNpgsql());
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("BankEmployee", policy =>
+        policy.Requirements.Add(new GroupAuthorizationRequirement()));
+});
+
+builder.Services.AddSingleton<IAuthorizationHandler, BankEmplyeeAuthorizationHandler>();
 
 var app = builder.Build();
 

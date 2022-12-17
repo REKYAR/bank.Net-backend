@@ -31,6 +31,13 @@ namespace Bank.NET___backend.Data
         public string State { get; set; }
         public decimal MonthlyInstallment { get; set; }
         public string UserEmail { get; set; }
+
+        public ResponseDTO(string state, decimal monthlyInstallment, string userEmail)
+        {
+            State = state;
+            MonthlyInstallment = monthlyInstallment;
+            UserEmail = userEmail;
+        }
     }
     enum ResponseStatus
     {
