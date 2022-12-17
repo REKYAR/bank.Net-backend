@@ -69,15 +69,13 @@ namespace Bank.NET___backend.Controllers
                 //req.RequestID = 0;
                 //req.Status = RequestStatus.Pending.ToString();
 
-                //if (_sqlContext.Users.Where(u => u.Email == req.Email).Count() != 0)
-                //{
-                //    User u = _sqlContext.Users.Where(u => u.Email == req.Email).First();
-                //    req.User = u;
-                //    _sqlContext.Requests.Add(req);
-                //    u.Requests.Add(req);
-
-                //}
-                return Ok(req);
+                if (_sqlContext.Users.Where(u => u.Email == req.Email).Count() != 0)
+                {
+                    User u = _sqlContext.Users.Where(u => u.Email == req.Email).First();
+                    req.User = u;
+                    u.Requests.Add(req);
+                }
+                _sqlContext.Requests.Add(req);
             }
             catch (Exception c)
             {
@@ -87,7 +85,7 @@ namespace Bank.NET___backend.Controllers
             //_sqlContext.Requests.Add(req);
             //send mail with request id
             return Redirect($"api/requestManagement/offers/{req.RequestID}");
-            return Ok();
+            //return Ok();
         }
 
         //generate 3 offers (for now we generate all 3)
