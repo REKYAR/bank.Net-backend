@@ -76,6 +76,7 @@ namespace Bank.NET___backend.Controllers
                     u.Requests.Add(req);
                 }
                 _sqlContext.Requests.Add(req);
+                _sqlContext.SaveChanges();
             }
             catch (Exception c)
             {
