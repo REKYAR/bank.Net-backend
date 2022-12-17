@@ -90,7 +90,7 @@ namespace Bank.NET___backend.Controllers
 
         //generate 3 offers (for now we generate all 3)
         [HttpGet]
-        [Route("api/requestManagement/offers/{RequestID}")]
+        [Route("/offers/{RequestID}")]
         public ActionResult<IEnumerable<Offer>> getOffers(int RequestID)
         {
             if (_sqlContext.Requests.Where(r => r.RequestID == RequestID).Count() == 1)
@@ -114,7 +114,7 @@ namespace Bank.NET___backend.Controllers
             }
             else
             {
-                return NotFound();
+                return NotFound(RequestID);
             }
         }
 
