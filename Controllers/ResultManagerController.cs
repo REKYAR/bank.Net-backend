@@ -23,7 +23,7 @@ namespace Bank.NET___backend.Controllers
             try
             {
                 var req = _sqlContext.Requests.Where(r => r.RequestID == RequestId).First();
-                var res = _sqlContext.Responses.Where(r=>r.Request.RequestID == RequestId && r.MonthlyInstallment == of.MonthlyInstallment).First();
+                var res = _sqlContext.Responses.Where(r=>r.RequestID == RequestId && r.MonthlyInstallment == of.MonthlyInstallment).First();
                 if (of.validate(req, res.MonthlyInstallment))
                 {
                     req.Status = RequestStatus.OfferSelected.ToString();

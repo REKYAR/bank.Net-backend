@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Bank.NETbackend.Migrations
 {
     /// <inheritdoc />
-    public partial class SQLaddinitialstructure : Migration
+    public partial class SQLupdatedschema : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -29,6 +29,22 @@ namespace Bank.NETbackend.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Responses",
+                columns: table => new
+                {
+                    ResponseID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    State = table.Column<string>(type: "text", nullable: false),
+                    MonthlyInstallment = table.Column<decimal>(type: "numeric", nullable: false),
+                    RequestID = table.Column<int>(type: "integer", nullable: false),
+                    UserEmail = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Responses", x => x.ResponseID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -44,27 +60,6 @@ namespace Bank.NETbackend.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.UserID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Responses",
-                columns: table => new
-                {
-                    ResponseID = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    State = table.Column<string>(type: "text", nullable: false),
-                    MonthlyInstallment = table.Column<decimal>(type: "numeric", nullable: false),
-                    UserID = table.Column<int>(type: "integer", nullable: true),
-                    UserEmail = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Responses", x => x.ResponseID);
-                    table.ForeignKey(
-                        name: "FK_Responses_Users_UserID",
-                        column: x => x.UserID,
-                        principalTable: "Users",
-                        principalColumn: "UserID");
                 });
 
             migrationBuilder.CreateTable(
@@ -105,17 +100,11 @@ namespace Bank.NETbackend.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Requests_ResponseID",
                 table: "Requests",
-                column: "ResponseID",
-                unique: true);
+                column: "ResponseID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Requests_UserID",
                 table: "Requests",
-                column: "UserID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Responses_UserID",
-                table: "Responses",
                 column: "UserID");
         }
 

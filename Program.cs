@@ -10,12 +10,20 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+//using System.Text.Json;
+//using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authorization;
 using Bank.NET___backend.Authorization;
 
 Prelaunch.GetSecrets();
 
 var builder = WebApplication.CreateBuilder(args);
+
+//JsonSerializerOptions options = new()
+//{
+//    ReferenceHandler = ReferenceHandler.IgnoreCycles,
+//    WriteIndented = true
+//};
 
 //string COSMOS_PRIMARY_CONNECTION_STRING = Environment.GetEnvironmentVariable("COSMOS_PRIMARY_CONNECTION_STRING");
 //string SQL_PASSWORD = Environment.GetEnvironmentVariable("SQL_PASSWORD");

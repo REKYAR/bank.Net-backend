@@ -33,7 +33,7 @@ namespace Bank.NET___backend.Data
         [ForeignKey("Response")]
         public int ResponseID { get; set; }
 
-        public User? User { get; set; }
+        public int? UserID { get; set; }
         public Response? Response { get; set; }
     }
     public class RequestDTO
