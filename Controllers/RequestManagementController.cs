@@ -65,6 +65,7 @@ namespace Bank.NET___backend.Controllers
                 req.NumberOfInstallments = Requestdata.NumberOfInstallments;
                 req.IncomeLevel = Requestdata.IncomeLevel;
                 req.Name = Requestdata.Name;
+                req.JobType = Requestdata.JobType;
 
                 if (_sqlContext.Users.Where(u => u.Email == req.Email).Count() != 0)
                 {
