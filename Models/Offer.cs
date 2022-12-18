@@ -15,6 +15,8 @@ namespace Bank.NET___backend.Models
         public decimal IncomeLevel { get; set; }
         public string Status { get; set; }
         public decimal MonthlyInstallment { get; set; }
+        public Offer()
+        {}
         public Offer(Request r, decimal monthlyInstallment)
         {
             Date = DateTime.Now;
