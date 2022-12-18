@@ -76,7 +76,7 @@ namespace Bank.NET___backend.Controllers
             }
             catch (Exception c)
             {
-                return BadRequest(c.InnerException);
+                return BadRequest(c.InnerException.Message);
             }
             //_sqlContext.Requests.Add(req);
             //send mail with request id
