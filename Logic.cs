@@ -16,7 +16,7 @@ namespace Bank.NET___backend
             //{
             //    return null;
             //}
-            return (request.Amount * (1 + cost))/request.NumberOfInstallments;
+            return Math.Round((request.Amount * (1 + cost))/request.NumberOfInstallments, 2);
         }
     }
 }
