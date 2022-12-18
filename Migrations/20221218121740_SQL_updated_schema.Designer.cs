@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Bank.NETbackend.Migrations
 {
     [DbContext(typeof(SqlContext))]
-    [Migration("20221217143527_SQL_updated_schema")]
+    [Migration("20221218121740_SQL_updated_schema")]
     partial class SQLupdatedschema
     {
         /// <inheritdoc />
@@ -90,7 +90,7 @@ namespace Bank.NETbackend.Migrations
                     b.Property<int>("NumberOfInstallments")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ResponseID")
+                    b.Property<int?>("ResponseID")
                         .HasColumnType("integer");
 
                     b.Property<string>("Status")
@@ -101,7 +101,7 @@ namespace Bank.NETbackend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("UserID")
+                    b.Property<int?>("UserID")
                         .HasColumnType("integer");
 
                     b.HasKey("RequestID");

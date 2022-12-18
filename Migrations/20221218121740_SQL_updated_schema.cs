@@ -44,8 +44,8 @@ namespace Bank.NETbackend.Migrations
                     JobType = table.Column<string>(type: "text", nullable: false),
                     IncomeLevel = table.Column<decimal>(type: "numeric", nullable: false),
                     Status = table.Column<string>(type: "text", nullable: false),
-                    ResponseID = table.Column<int>(type: "integer", nullable: false),
-                    UserID = table.Column<int>(type: "integer", nullable: false)
+                    ResponseID = table.Column<int>(type: "integer", nullable: true),
+                    UserID = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {

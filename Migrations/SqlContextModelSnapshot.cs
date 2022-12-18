@@ -87,7 +87,7 @@ namespace Bank.NETbackend.Migrations
                     b.Property<int>("NumberOfInstallments")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ResponseID")
+                    b.Property<int?>("ResponseID")
                         .HasColumnType("integer");
 
                     b.Property<string>("Status")
@@ -98,7 +98,7 @@ namespace Bank.NETbackend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("UserID")
+                    b.Property<int?>("UserID")
                         .HasColumnType("integer");
 
                     b.HasKey("RequestID");
