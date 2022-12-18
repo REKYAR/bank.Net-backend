@@ -65,24 +65,18 @@ namespace Bank.NET___backend.Controllers
                 req.NumberOfInstallments = Requestdata.NumberOfInstallments;
                 req.IncomeLevel = Requestdata.IncomeLevel;
                 req.Name = Requestdata.Name;
-                //req.Date = DateTime.UtcNow;
-                //req.RequestID = 0;
-                //req.Status = RequestStatus.Pending.ToString();
 
                 if (_sqlContext.Users.Where(u => u.Email == req.Email).Count() != 0)
                 {
                     User u = _sqlContext.Users.Where(u => u.Email == req.Email).First();
                     req.UserID = u.UserID;
-                    //u.Requests.Add(req);
                 }
-                //return Ok(req);
                 _sqlContext.Requests.Add(req);
                 _sqlContext.SaveChanges();
             }
             catch (Exception c)
             {
-
-                return BadRequest(c);
+                return BadRequest(c.Message);
             }
             //_sqlContext.Requests.Add(req);
             //send mail with request id
