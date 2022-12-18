@@ -29,6 +29,7 @@ namespace Bank.NET___backend.Controllers
                     req.Status = RequestStatus.OfferSelected.ToString();
                     req.ResponseID = res.ResponseID;
                     res.State = ResponseStatus.PendingConfirmation.ToString();
+                    _sqlContext.SaveChanges();
                     //send add documents and send to review here
                     return Redirect($"api/ResultManagement/getConfirmation/{req.RequestID}/{req.ResponseID}"); //to defaultowo ma iść w mailu, mail wysyłany dopiero po aprobacie admina
                 }
