@@ -107,6 +107,7 @@ namespace Bank.NET___backend.Controllers
                     r.State = ResponseStatus.PendingApproval.ToString();
                     _sqlContext.Responses.Add(r);
                 }
+                _sqlContext.SaveChanges();
                 return Ok(offers);
             }
             else
