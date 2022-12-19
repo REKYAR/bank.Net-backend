@@ -81,7 +81,8 @@ namespace Bank.NET___backend.Controllers
             }
             //_sqlContext.Requests.Add(req);
             //send mail with request id
-            return Redirect($"https://bank-project-backend-dev.azurewebsites.net/api/requestManagement/offers/{req.RequestID}");
+            return  Ok(req.RequestID);
+            //return Redirect($"https://bank-project-backend-dev.azurewebsites.net/api/requestManagement/offers/{req.RequestID}");
             //return Ok();
         }
 
