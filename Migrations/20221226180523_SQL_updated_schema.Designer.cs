@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Bank.NETbackend.Migrations
 {
     [DbContext(typeof(SqlContext))]
-    [Migration("20221218121740_SQL_updated_schema")]
+    [Migration("20221226180523_SQL_updated_schema")]
     partial class SQLupdatedschema
     {
         /// <inheritdoc />
@@ -62,11 +62,17 @@ namespace Bank.NETbackend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("RequestID"));
 
+                    b.Property<string>("AgreementKey")
+                        .HasColumnType("text");
+
                     b.Property<decimal>("Amount")
                         .HasColumnType("numeric");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DocumentKey")
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -82,6 +88,9 @@ namespace Bank.NETbackend.Migrations
                     b.Property<string>("JobType")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<Guid?>("MappedGuid")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Name")
                         .IsRequired()

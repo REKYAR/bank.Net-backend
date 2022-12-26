@@ -34,6 +34,11 @@ namespace Bank.NET___backend.Data
         public int? ResponseID { get; set; }
         [ForeignKey("User")]
         public int? UserID { get; set; }
+
+        public string? DocumentKey { get; set; }
+        public string? AgreementKey { get; set; }
+        public Guid? MappedGuid { get; set; }
+
     }
     public class RequestDTO
     {
@@ -64,7 +69,8 @@ namespace Bank.NET___backend.Data
     enum RequestStatus
     {
         Pending,
-        OfferSelected
+        OfferSelected,
+        DocumentsProvided
     }
 
 }

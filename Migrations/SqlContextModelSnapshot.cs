@@ -59,11 +59,17 @@ namespace Bank.NETbackend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("RequestID"));
 
+                    b.Property<string>("AgreementKey")
+                        .HasColumnType("text");
+
                     b.Property<decimal>("Amount")
                         .HasColumnType("numeric");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DocumentKey")
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -79,6 +85,9 @@ namespace Bank.NETbackend.Migrations
                     b.Property<string>("JobType")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<Guid?>("MappedGuid")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Name")
                         .IsRequired()
