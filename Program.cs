@@ -15,8 +15,9 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authorization;
 using Bank.NET___backend.Authorization;
 
-Directory.CreateDirectory(".\\upload");
-Directory.CreateDirectory(".\\download");
+var tempDirectoryPath = Environment.GetEnvironmentVariable("TEMP");
+Directory.CreateDirectory(Path.Combine(tempDirectoryPath, "upload"));
+Directory.CreateDirectory(Path.Combine(tempDirectoryPath, "download"));
 
 Prelaunch.GetSecrets();
 

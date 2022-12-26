@@ -87,6 +87,8 @@ namespace Bank.NET___backend.Controllers
         [Route("/UploadDocument/{RequestId}")]
         public ActionResult UploadDocument(int RequestId)
         {
+            string tempDirectoryPath = (string)Environment.GetEnvironmentVariable("TEMP");
+            string upload = Path.Combine(tempDirectoryPath, "upload");
             try
             {
                 var files = Request.Form.Files;
@@ -97,7 +99,7 @@ namespace Bank.NET___backend.Controllers
 
                 IFormFile file = files.First();
                 string newname = $"{Guid.NewGuid()}_{file.FileName}";
-                string filePath = $".\\uploads\\{newname}";
+                string filePath = Path.Combine(upload, newname);
                 using (Stream fileStream = new FileStream(filePath, FileMode.Create)) {
                     file.CopyTo(fileStream);
                 }
