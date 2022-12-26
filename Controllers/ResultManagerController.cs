@@ -24,14 +24,19 @@ namespace Bank.NET___backend.Controllers
             {
                 var req = _sqlContext.Requests.Where(r => r.RequestID == RequestId).First();
                 var res = _sqlContext.Responses.Where(r=>r.RequestID == RequestId && r.MonthlyInstallment == of.MonthlyInstallment).First();
-                if (of.validate(req, res.MonthlyInstallment))
+                if (of.validate(req, res.MonthlyInstallment) && req.Status == RequestStatus.Pending.ToString())
                 {
                     req.Status = RequestStatus.OfferSelected.ToString();
                     req.ResponseID = res.ResponseID;
                     res.State = ResponseStatus.PendingConfirmation.ToString();
                     _sqlContext.SaveChanges();
+                    return Ok();
                     //send add documents and send to review here
-                    return Redirect($"api/ResultManagement/getConfirmation/{req.RequestID}/{req.ResponseID}"); //to defaultowo ma iść w mailu, mail wysyłany dopiero po aprobacie admina
+                    //return Redirect($"api/ResultManagement/getConfirmation/{req.RequestID}/{req.ResponseID}"); //to defaultowo ma iść w mailu, mail wysyłany dopiero po aprobacie admina
+                }
+                else
+                {
+                    return NotFound();
                 }
             }
             catch (Exception)
@@ -39,7 +44,6 @@ namespace Bank.NET___backend.Controllers
 
                 throw;
             }
-            return NotFound();
         }
         
         //final confirmation
