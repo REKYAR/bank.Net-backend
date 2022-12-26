@@ -25,7 +25,7 @@ namespace Bank.NET___backend
             EmailRecipients emailRecipients = new EmailRecipients(emailAddresses);
             EmailMessage emailMessage = new EmailMessage("donotreply@394f8de0-648f-49e2-ae57-fce7523309f0.azurecomm.net", emailContent, emailRecipients);
             SendEmailResult emailResult = emailClient.Send(emailMessage,CancellationToken.None);
-            return; emailResult
+            return emailResult; 
         }
     }
 }
