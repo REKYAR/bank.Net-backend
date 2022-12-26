@@ -38,6 +38,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 //builder.Services.AddSingleton<IDictionary<>>()
 
+
 builder.Services.AddControllers().AddJsonOptions(options => {options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -86,6 +87,15 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddSingleton<IAuthorizationHandler, BankEmplyeeAuthorizationHandler>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "global_allow",
+        builder =>
+        {
+            builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+        });
+});
+
 var app = builder.Build();
 
 //
@@ -101,8 +111,11 @@ if (app.Environment.IsDevelopment())
     });
 }
 //get secrets
+app.UseCors();
 
 app.UseHttpsRedirection();
+
+app.UseCors("global_allow");
 
 app.UseAuthentication();
 
