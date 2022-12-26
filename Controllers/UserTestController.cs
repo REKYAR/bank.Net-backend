@@ -87,7 +87,7 @@ namespace Bank.NET___backend.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest($"{e.Message} ||| {e.InnerException.Message}");
+                return BadRequest($"{e.Message} ||| e.InnerException.Message");
                 throw;
             }
             
