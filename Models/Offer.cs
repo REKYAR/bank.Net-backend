@@ -19,6 +19,7 @@ namespace Bank.NET___backend.Models
         {}
         public Offer(Request r, decimal monthlyInstallment)
         {
+            
             Date = DateTime.Now;
             Amount = r.Amount;
             NumberOfInstallments = r.NumberOfInstallments;

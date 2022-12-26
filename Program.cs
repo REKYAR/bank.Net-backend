@@ -15,6 +15,9 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authorization;
 using Bank.NET___backend.Authorization;
 
+Directory.CreateDirectory(".\\upload");
+Directory.CreateDirectory(".\\download");
+
 Prelaunch.GetSecrets();
 
 var builder = WebApplication.CreateBuilder(args);

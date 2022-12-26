@@ -45,7 +45,66 @@ namespace Bank.NET___backend.Controllers
                 throw;
             }
         }
-        
+
+        [HttpPost]
+        [Route("/UploadAgreement/{RequestId}")]
+        public ActionResult UploadAgreement(int RequestId, FormFile file)
+        {
+            try
+            {
+                string newname = $"{Guid.NewGuid()}_{file.FileName}";
+                string filePath = $".\\uploads\\{newname}";
+                using (Stream fileStream = new FileStream(filePath, FileMode.Create)) {
+                    file.CopyTo(fileStream);
+                }
+                Helpers.uploadDocument("dotnet-bank-agreements",filePath,newname);
+                var req = _sqlContext.Requests.Where(r => r.RequestID == RequestId).First();
+                req.AgreementKey = newname;
+                if (req.DocumentKey is not null)
+                {
+                    req.Status = RequestStatus.DocumentsProvided.ToString();
+                }
+                _sqlContext.SaveChanges();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"{e.Message}");
+                //Console.WriteLine(e);
+                throw;
+            }
+            
+        }
+
+        [HttpPost]
+        [Route("/UploadDocument/{RequestId}")]
+        public ActionResult UploadDocument(int RequestId, FormFile file)
+        {
+            try
+            {
+                string newname = $"{Guid.NewGuid()}_{file.FileName}";
+                string filePath = $".\\uploads\\{newname}";
+                using (Stream fileStream = new FileStream(filePath, FileMode.Create)) {
+                    file.CopyTo(fileStream);
+                }
+                Helpers.uploadDocument("dotnet-bank-documents",filePath,newname);
+                var req = _sqlContext.Requests.Where(r => r.RequestID == RequestId).First();
+                req.DocumentKey = newname;
+                if (req.AgreementKey is not null)
+                {
+                    req.Status = RequestStatus.DocumentsProvided.ToString();
+                }
+                _sqlContext.SaveChanges();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"{e.Message}");
+                //Console.WriteLine(e);
+                throw;
+            }
+        }
+
         //final confirmation
         [HttpGet]
         [Route("/getConfirmation/{rqid}/{rsid}")]
