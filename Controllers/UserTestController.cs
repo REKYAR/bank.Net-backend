@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
 using System.Security.Claims;
+using Azure.Communication.Email.Models;
 
 namespace Bank.NET___backend.Controllers
 {
@@ -74,6 +75,23 @@ namespace Bank.NET___backend.Controllers
             _sqlContext.Users.Add(user);
             _sqlContext.SaveChanges();
             return Ok( user );
+        }
+
+        [HttpGet("TestEmail")]
+        public ActionResult<string> Email()
+        {
+            try
+            {
+                SendEmailResult ser =  Helpers.sendTextEmail();
+                return Ok( ser.ToString() );
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"{e.Message} ||| {e.InnerException.Message}");
+                throw;
+            }
+            
+           
         }
     }
 }
