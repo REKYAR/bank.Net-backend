@@ -23,7 +23,7 @@ namespace Bank.NET___backend
             emailContent.PlainText = "This email message is sent from Azure Communication Service Email using .NET SDK.";
             List<EmailAddress> emailAddresses = new List<EmailAddress> { new EmailAddress("01161439@pw.edu.pl") { DisplayName = "Friendly Display Name" }};
             EmailRecipients emailRecipients = new EmailRecipients(emailAddresses);
-            EmailMessage emailMessage = new EmailMessage("donotreply@394f8de0-648f-49e2-ae57-fce7523309f0.azurecomm.net", emailContent, emailRecipients);
+            EmailMessage emailMessage = new EmailMessage("dotnetbank@394f8de0-648f-49e2-ae57-fce7523309f0.azurecomm.net", emailContent, emailRecipients);
             SendEmailResult emailResult = emailClient.Send(emailMessage,CancellationToken.None);
             return emailResult; 
         }
