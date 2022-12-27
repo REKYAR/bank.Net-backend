@@ -50,6 +50,8 @@ namespace Bank.NET___backend.Controllers
         [Route("/UploadAgreement/{RequestId}")]
         public ActionResult UploadAgreement(int RequestId,  IFormFile file)
         {
+            string tempDirectoryPath = (string)Environment.GetEnvironmentVariable("TEMP");
+            string upload = Path.Combine(tempDirectoryPath, "upload");
             try
             {
                 //var files = Request.Form.Files;
@@ -85,19 +87,19 @@ namespace Bank.NET___backend.Controllers
 
         [HttpPost]
         [Route("/UploadDocument/{RequestId}")]
-        public ActionResult UploadDocument(int RequestId)
+        public ActionResult UploadDocument(int RequestId,  IFormFile file)
         {
             string tempDirectoryPath = (string)Environment.GetEnvironmentVariable("TEMP");
             string upload = Path.Combine(tempDirectoryPath, "upload");
             try
             {
-                var files = Request.Form.Files;
-                if (files.Count != 1)
-                {
-                    return BadRequest("more/less than one file uploaded");
-                }
+                //var files = Request.Form.Files;
+                //if (files.Count != 1)
+                //{
+                //    return BadRequest("more/less than one file uploaded");
+                //}
 
-                IFormFile file = files.First();
+                //IFormFile file = files.First();
                 string newname = $"{Guid.NewGuid()}_{file.FileName}";
                 string filePath = Path.Combine(upload, newname);
                 using (Stream fileStream = new FileStream(filePath, FileMode.Create)) {
