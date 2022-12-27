@@ -54,21 +54,19 @@ namespace Bank.NET___backend.Controllers
             string upload = Path.Combine(tempDirectoryPath, "upload");
             try
             {
-                //var files = Request.Form.Files;
-                //if (files.Count != 1)
-                //{
-                //    return BadRequest("more/less than one file uploaded");
-                //}
 
-                //IFormFile file = files.First();
                 string newname = $"{Guid.NewGuid()}_{file.FileName}";
-                string filePath = $".\\uploads\\{newname}";
-                System.IO.File.Create(filePath);
+                //string filePath = $".\\uploads\\{newname}";
+                //System.IO.File.Create(filePath);
 
-                using (Stream fileStream = new FileStream(filePath, FileMode.Create)) {
-                    file.CopyTo(fileStream);
+                //using (Stream fileStream = new FileStream(filePath, FileMode.OpenOrCreate)) {
+                //    file.CopyTo(fileStream);
+                //}
+                using (Stream contentStream = file.OpenReadStream())
+                {
+                    Helpers.uploadDocument("dotnet-bank-agreements",contentStream,newname);
                 }
-                Helpers.uploadDocument("dotnet-bank-agreements",filePath,newname);
+                //Helpers.uploadDocument("dotnet-bank-agreements",filePath,newname);
                 var req = _sqlContext.Requests.Where(r => r.RequestID == RequestId).First();
                 req.AgreementKey = newname;
                 if (req.DocumentKey is not null)
@@ -95,24 +93,22 @@ namespace Bank.NET___backend.Controllers
             string upload = Path.Combine(tempDirectoryPath, "upload");
             try
             {
-                //var files = Request.Form.Files;
-                //if (files.Count != 1)
-                //{
-                //    return BadRequest("more/less than one file uploaded");
-                //}
 
-                //IFormFile file = files.First();
                 string newname = $"{Guid.NewGuid()}_{file.FileName}";
-                string filePath = Path.Combine(upload, newname);
-                System.IO.File.Create(filePath);
-
-                using (Stream fileStream = new FileStream(filePath, FileMode.Create))
+                //string filePath = Path.Combine(upload, newname);
+                //System.IO.File.Create(filePath);
+                
+                //using (Stream fileStream = new FileStream(filePath, FileMode.OpenOrCreate))
+                //{
+                //   file.CopyTo(fileStream);
+                //    //file.Create();
+                //    //file.(fileStream);
+                //}
+                using (Stream contentStream = file.OpenReadStream())
                 {
-                    file.CopyTo(fileStream);
-                    //file.Create();
-                    //file.(fileStream);
+                    Helpers.uploadDocument("dotnet-bank-documents",contentStream,newname);
                 }
-                Helpers.uploadDocument("dotnet-bank-documents",filePath,newname);
+                //Helpers.uploadDocument("dotnet-bank-documents",filePath,newname);
                 var req = _sqlContext.Requests.Where(r => r.RequestID == RequestId).First();
                 req.DocumentKey = newname;
                 if (req.AgreementKey is not null)

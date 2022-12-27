@@ -64,7 +64,21 @@ namespace Bank.NET___backend
             return emailResult; 
         }
 
-        public static Response<BlobContentInfo> uploadDocument(string containerName, string path, string fileName)
+        //public static Response<BlobContentInfo> uploadDocument(string containerName, string path, string fileName)
+        //{
+        //    string? storageKey = System.Environment.GetEnvironmentVariable("STORAGE_KEY");
+        //    if (storageKey is null)
+        //    {
+        //        throw new NullReferenceException("STORAGE_KEY is null");
+        //    }
+        //    BlobServiceClient blobServiceClient = new BlobServiceClient($"DefaultEndpointsProtocol=https;AccountName=dotnetbankstorage;AccountKey={storageKey};EndpointSuffix=core.windows.net");
+        //    BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(containerName);
+        //    BlobClient blobClient = containerClient.GetBlobClient(fileName);
+        //    Response<BlobContentInfo> result = blobClient.Upload(path, true);
+        //    return result;
+        //}
+
+        public static Response<BlobContentInfo> uploadDocument(string containerName, Stream contentStream, string fileName)
         {
             string? storageKey = System.Environment.GetEnvironmentVariable("STORAGE_KEY");
             if (storageKey is null)
@@ -74,7 +88,7 @@ namespace Bank.NET___backend
             BlobServiceClient blobServiceClient = new BlobServiceClient($"DefaultEndpointsProtocol=https;AccountName=dotnetbankstorage;AccountKey={storageKey};EndpointSuffix=core.windows.net");
             BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(containerName);
             BlobClient blobClient = containerClient.GetBlobClient(fileName);
-            Response<BlobContentInfo> result = blobClient.Upload(path, true);
+            Response<BlobContentInfo> result = blobClient.Upload(contentStream, true);
             return result;
         }
 
