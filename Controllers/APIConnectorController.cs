@@ -1,8 +1,6 @@
 ﻿using Bank.NET___backend.Data;
 using Bank.NET___backend.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp;
 
 namespace Bank.NET___backend.Controllers
 {
@@ -30,7 +28,8 @@ namespace Bank.NET___backend.Controllers
                 newUser.JobType = Data["extension_JobType"];
                 newUser.IncomeLevel = decimal.Parse(Data["extension_Incomelevel"]);
 
-                _sqlContext.Add(newUser);
+                _sqlContext.Users.Add(newUser);
+                _sqlContext.SaveChanges();
 
                 return Ok(new APIConnectorContinue());
             }
