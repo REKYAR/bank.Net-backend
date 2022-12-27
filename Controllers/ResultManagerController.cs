@@ -63,6 +63,8 @@ namespace Bank.NET___backend.Controllers
                 //IFormFile file = files.First();
                 string newname = $"{Guid.NewGuid()}_{file.FileName}";
                 string filePath = $".\\uploads\\{newname}";
+                System.IO.File.Create(filePath);
+
                 using (Stream fileStream = new FileStream(filePath, FileMode.Create)) {
                     file.CopyTo(fileStream);
                 }
@@ -102,8 +104,13 @@ namespace Bank.NET___backend.Controllers
                 //IFormFile file = files.First();
                 string newname = $"{Guid.NewGuid()}_{file.FileName}";
                 string filePath = Path.Combine(upload, newname);
-                using (Stream fileStream = new FileStream(filePath, FileMode.Create)) {
+                System.IO.File.Create(filePath);
+
+                using (Stream fileStream = new FileStream(filePath, FileMode.Create))
+                {
                     file.CopyTo(fileStream);
+                    //file.Create();
+                    //file.(fileStream);
                 }
                 Helpers.uploadDocument("dotnet-bank-documents",filePath,newname);
                 var req = _sqlContext.Requests.Where(r => r.RequestID == RequestId).First();
