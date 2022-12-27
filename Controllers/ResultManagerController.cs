@@ -48,17 +48,17 @@ namespace Bank.NET___backend.Controllers
 
         [HttpPost]
         [Route("/UploadAgreement/{RequestId}")]
-        public ActionResult UploadAgreement(int RequestId)
+        public ActionResult UploadAgreement(int RequestId,  IFormFile file)
         {
             try
             {
-                var files = Request.Form.Files;
-                if (files.Count != 1)
-                {
-                    return BadRequest("more/less than one file uploaded");
-                }
+                //var files = Request.Form.Files;
+                //if (files.Count != 1)
+                //{
+                //    return BadRequest("more/less than one file uploaded");
+                //}
 
-                IFormFile file = files.First();
+                //IFormFile file = files.First();
                 string newname = $"{Guid.NewGuid()}_{file.FileName}";
                 string filePath = $".\\uploads\\{newname}";
                 using (Stream fileStream = new FileStream(filePath, FileMode.Create)) {
