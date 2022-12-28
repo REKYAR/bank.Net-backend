@@ -46,6 +46,7 @@ namespace Bank.NET___backend.Data
         PendingApproval,
         Approved,
         Refused,
-        AwaitingDocuments
+        FinalApproved
+
     }
 }

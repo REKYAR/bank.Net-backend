@@ -56,12 +56,6 @@ namespace Bank.NET___backend.Controllers
             {
 
                 string newname = $"{Guid.NewGuid()}_{file.FileName}";
-                //string filePath = $".\\uploads\\{newname}";
-                //System.IO.File.Create(filePath);
-
-                //using (Stream fileStream = new FileStream(filePath, FileMode.OpenOrCreate)) {
-                //    file.CopyTo(fileStream);
-                //}
                 using (Stream contentStream = file.OpenReadStream())
                 {
                     Helpers.uploadDocument("dotnet-bank-agreements",contentStream,newname);
@@ -95,15 +89,6 @@ namespace Bank.NET___backend.Controllers
             {
 
                 string newname = $"{Guid.NewGuid()}_{file.FileName}";
-                //string filePath = Path.Combine(upload, newname);
-                //System.IO.File.Create(filePath);
-                
-                //using (Stream fileStream = new FileStream(filePath, FileMode.OpenOrCreate))
-                //{
-                //   file.CopyTo(fileStream);
-                //    //file.Create();
-                //    //file.(fileStream);
-                //}
                 using (Stream contentStream = file.OpenReadStream())
                 {
                     Helpers.uploadDocument("dotnet-bank-documents",contentStream,newname);
@@ -128,14 +113,17 @@ namespace Bank.NET___backend.Controllers
 
         //final confirmation
         [HttpGet]
-        [Route("/getConfirmation/{rqid}/{rsid}")]
-        public ActionResult GetConfirmation(int rqid, int rsid)
+        [Route("/getFinalConfirmation/{rqid}/{guid}")]
+        public ActionResult GetConfirmation(int rqid,Guid guid)
         {
-            if (_sqlContext.Responses.Where(r => r.ResponseID == rsid).Count() == 1 && _sqlContext.Requests.Where(r => r.RequestID== rqid).Count() == 1)
+            if (_sqlContext.Requests.Where(r => r.MappedGuid == guid && r.RequestID == rqid).Count() == 1)
             {
-                var res = _sqlContext.Responses.Where(r => r.ResponseID == rsid).First();
-                res.State = ResponseStatus.Approved.ToString();
-                return Redirect("/");
+                Request req = _sqlContext.Requests.Where(r => r.MappedGuid == guid && r.RequestID == rqid).First();
+                Response res = _sqlContext.Responses.Where(r => r.ResponseID == req.ResponseID).First();
+                res.State = Data.ResponseStatus.FinalApproved.ToString();
+                req.Status = Data.RequestStatus.FinalApproved.ToString();
+                _sqlContext.SaveChanges();
+                return Ok();
             }
             else
             {
