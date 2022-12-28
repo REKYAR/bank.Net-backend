@@ -56,12 +56,6 @@ namespace Bank.NET___backend.Controllers
             {
 
                 string newname = $"{Guid.NewGuid()}_{file.FileName}";
-                //string filePath = $".\\uploads\\{newname}";
-                //System.IO.File.Create(filePath);
-
-                //using (Stream fileStream = new FileStream(filePath, FileMode.OpenOrCreate)) {
-                //    file.CopyTo(fileStream);
-                //}
                 using (Stream contentStream = file.OpenReadStream())
                 {
                     Helpers.uploadDocument("dotnet-bank-agreements",contentStream,newname);
@@ -95,15 +89,6 @@ namespace Bank.NET___backend.Controllers
             {
 
                 string newname = $"{Guid.NewGuid()}_{file.FileName}";
-                //string filePath = Path.Combine(upload, newname);
-                //System.IO.File.Create(filePath);
-                
-                //using (Stream fileStream = new FileStream(filePath, FileMode.OpenOrCreate))
-                //{
-                //   file.CopyTo(fileStream);
-                //    //file.Create();
-                //    //file.(fileStream);
-                //}
                 using (Stream contentStream = file.OpenReadStream())
                 {
                     Helpers.uploadDocument("dotnet-bank-documents",contentStream,newname);
