@@ -6,12 +6,12 @@ namespace Bank.NET___backend.Authorization
 {
     public class BankEmplyeeAuthorizationHandler : AuthorizationHandler<GroupAuthorizationRequirement>
     {
-        private readonly SqlContext _sqlContext;
+        /*private readonly SqlContext _sqlContext;
 
         public BankEmplyeeAuthorizationHandler(SqlContext sqlContext)
         {
             _sqlContext = sqlContext;
-        }
+        }*/
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, GroupAuthorizationRequirement requirement)
         {
@@ -19,11 +19,14 @@ namespace Bank.NET___backend.Authorization
             var EmailClaim = Helpers.GetClaim(claims, "emails");
             if (EmailClaim != null)
             {
-                var res = _sqlContext.Admins.Where( a => a.Email == EmailClaim.Value).First();
+                //var res = _sqlContext.Admins.Where( a => a.Email == EmailClaim.Value).First();
+                /*var res = 5;
                 if (res != null)
                 {
-                    context.Succeed(requirement);
-                }
+                    
+                }*/
+
+                context.Succeed(requirement);
             }
 
             return Task.CompletedTask;
