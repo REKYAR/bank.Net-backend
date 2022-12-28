@@ -32,6 +32,22 @@ namespace Bank.NET___backend.Models
             Status = r.Status;
             MonthlyInstallment = monthlyInstallment;
         }
+
+        public Offer(RequestDTO r, decimal monthlyInstallment)
+        {
+            
+            Date = DateTime.Now;
+            Amount = r.Amount;
+            NumberOfInstallments = r.NumberOfInstallments;
+            Name = r.Name;
+            Surname = r.Surname;
+            GovermentId = r.GovermentId;
+            Email = r.Email;
+            JobType = r.JobType;
+            IncomeLevel = r.IncomeLevel;
+            Status = r.Status;
+            MonthlyInstallment = monthlyInstallment;
+        }
         public bool validate(Request r, decimal monthlyInstallment)
         {
             return (Amount == r.Amount &&

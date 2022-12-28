@@ -18,5 +18,19 @@ namespace Bank.NET___backend
             //}
             return Math.Round((request.Amount * (1 + cost))/request.NumberOfInstallments, 2);
         }
+
+        public static decimal generateOffer(RequestDTO request)
+        {
+            Random random = new Random();
+            decimal cost = (decimal)(3 *(random.NextDouble() + 1)/100);
+            //request.Amount;
+            //request.IncomeLevel;
+            //request.NumberOfInstallments;
+            //if (300*request.IncomeLevel < request.Amount * (1 + cost))
+            //{
+            //    return null;
+            //}
+            return Math.Round((request.Amount * (1 + cost))/request.NumberOfInstallments, 2);
+        }
     }
 }
