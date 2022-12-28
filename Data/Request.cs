@@ -70,7 +70,9 @@ namespace Bank.NET___backend.Data
     {
         Pending,
         OfferSelected,
-        DocumentsProvided
+        DocumentsProvided,
+        Approved,
+        FinalApproved
     }
 
 }
