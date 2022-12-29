@@ -19,7 +19,7 @@ var tempDirectoryPath = Environment.GetEnvironmentVariable("TEMP");
 Directory.CreateDirectory(Path.Combine(tempDirectoryPath, "upload"));
 Directory.CreateDirectory(Path.Combine(tempDirectoryPath, "download"));
 
-Prelaunch.GetSecrets();
+//Prelaunch.GetSecrets();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -85,7 +85,7 @@ builder.Services.AddAuthorization(options =>
         policy.Requirements.Add(new GroupAuthorizationRequirement()));
 });
 
-builder.Services.AddSingleton<IAuthorizationHandler, BankEmplyeeAuthorizationHandler>();
+builder.Services.AddSingleton<IAuthorizationHandler, GroupAuthorizationHandler>();
 
 builder.Services.AddCors(options =>
 {

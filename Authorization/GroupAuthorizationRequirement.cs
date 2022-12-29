@@ -6,5 +6,6 @@ namespace Bank.NET___backend.Authorization
 {
     public class GroupAuthorizationRequirement : IAuthorizationRequirement
     {
+
     }
 }
