@@ -17,12 +17,15 @@ namespace Bank.NET___backend.Controllers
             _sqlContext = sqlContext;
         }
 
-        [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
-        [HttpGet("All")]
-        [Authorize(Policy = "BankEmployee")]
-        public ActionResult<IEnumerable<CompleteRequest>> GetAllResponses()
+        //[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+        [HttpGet]
+        //[Authorize(Policy = "BankEmployee")]
+        public ActionResult<IEnumerable<CompleteRequest>> GetResponses([FromQuery] ResponseParametres responseParametres)
         {
-            List<Response> responses = _sqlContext.Responses.ToList();
+            List<Response> responses = _sqlContext.Responses.OrderBy(res => res.RequestID)
+                .Skip((responseParametres.PageNumber-1) * responseParametres.PageSize)
+                .Take(responseParametres.PageSize)
+                .ToList();
             List<ResponseDTO> result = CreateResponseRTO(responses);
 
             return Ok(result);
