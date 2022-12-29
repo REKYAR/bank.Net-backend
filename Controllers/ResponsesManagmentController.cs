@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
+using Newtonsoft.Json;
 
 namespace Bank.NET___backend.Controllers
 {
@@ -22,11 +23,23 @@ namespace Bank.NET___backend.Controllers
         //[Authorize(Policy = "BankEmployee")]
         public ActionResult<IEnumerable<CompleteRequest>> GetResponses([FromQuery] ResponseParametres responseParametres)
         {
-            List<Response> responses = _sqlContext.Responses.OrderBy(res => res.RequestID)
-                .Skip((responseParametres.PageNumber-1) * responseParametres.PageSize)
-                .Take(responseParametres.PageSize)
-                .ToList();
+            PagedList<Response> responses = PagedList<Response>.ToPagedList(_sqlContext.Responses.OrderBy(res => res.RequestID),
+                responseParametres.PageNumber,
+                responseParametres.PageSize);
+              
             List<ResponseDTO> result = CreateResponseRTO(responses);
+
+            var metadata = new
+            {
+                responses.TotalCount,
+                responses.PagesSize,
+                responses.CurrentPage,
+                responses.TotalPages,
+                responses.HasNext,
+                responses.HasPrevious
+            };
+
+            Response.Headers.Add("Pagination", JsonConvert.SerializeObject(metadata));
 
             return Ok(result);
         }
