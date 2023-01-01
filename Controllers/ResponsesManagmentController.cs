@@ -124,7 +124,7 @@ namespace Bank.NET___backend.Controllers
             {
                 Request req = _sqlContext.Requests.Where(r => r.RequestID == rqid).First();
                 ;
-                var stream = Helpers.downloadDocument("dotnet-bank-agreements",req.AgreementKey).GetRawResponse().ContentStream;
+                var stream = Helpers.downloadDocument("dotnet-bank-agreements",req.AgreementKey);
                 stream.Seek(0, SeekOrigin.Begin);
                 return File(stream, MediaTypeNames.Text.Plain, "parameters.txt");
             }
@@ -142,7 +142,7 @@ namespace Bank.NET___backend.Controllers
             try
             {
                 Request req = _sqlContext.Requests.Where(r => r.RequestID == rqid).First();
-                var stream =Helpers.downloadDocument("dotnet-bank-documents",req.DocumentKey).GetRawResponse().ContentStream;
+                var stream = Helpers.downloadDocument("dotnet-bank-documents",req.DocumentKey);
                 stream.Seek(0, SeekOrigin.Begin);
                 return File(stream, MediaTypeNames.Text.Plain, "parameters.txt");
             }
