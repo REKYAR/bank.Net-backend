@@ -31,8 +31,7 @@ namespace Bank.NET___backend
             SendEmailResult emailResult = emailClient.Send(emailMessage,CancellationToken.None);
             return emailResult; 
         }
-
-        public static SendEmailResult sendUploadEmail(string email)
+        public static SendEmailResult sendInitalStatusUpdateEmail(string email)
         {
             string? commsKey = System.Environment.GetEnvironmentVariable("COMMUNICATION_KEY");
             if (commsKey is null)
@@ -41,14 +40,30 @@ namespace Bank.NET___backend
             }
             EmailClient emailClient = new EmailClient($"endpoint=https://dotnet-bank-communication-second.communication.azure.com/;accesskey={commsKey}");
             EmailContent emailContent = new EmailContent("DOTNET bank document upload");
-            emailContent.PlainText = "You need to upload agreement linked here <link>, and a government document. \n <link to documnent upload>, \n <link to id upload>";
+            emailContent.PlainText = "Thank you for uploading both documents, now you need to wait for bank employee to review your request";
             List<EmailAddress> emailAddresses = new List<EmailAddress> { new EmailAddress($"{email}") { DisplayName = "Friendly Display Name" }};
             EmailRecipients emailRecipients = new EmailRecipients(emailAddresses);
             EmailMessage emailMessage = new EmailMessage("dotnetbank@394f8de0-648f-49e2-ae57-fce7523309f0.azurecomm.net", emailContent, emailRecipients);
             SendEmailResult emailResult = emailClient.Send(emailMessage,CancellationToken.None);
             return emailResult; 
         }
-        public static SendEmailResult sendConfirmationEmail(string email)
+        public static SendEmailResult sendUploadEmail(string email, int requestId)
+        {
+            string? commsKey = System.Environment.GetEnvironmentVariable("COMMUNICATION_KEY");
+            if (commsKey is null)
+            {
+                throw new NullReferenceException("COMMUNICATION_KEY is null");
+            }
+            EmailClient emailClient = new EmailClient($"endpoint=https://dotnet-bank-communication-second.communication.azure.com/;accesskey={commsKey}");
+            EmailContent emailContent = new EmailContent("DOTNET bank document upload");
+            emailContent.PlainText = "You need to upload agreement linked here <link>, and a government document. \n <link to document upload>, \n <link to agreement upload>";
+            List<EmailAddress> emailAddresses = new List<EmailAddress> { new EmailAddress($"{email}") { DisplayName = "Friendly Display Name" }};
+            EmailRecipients emailRecipients = new EmailRecipients(emailAddresses);
+            EmailMessage emailMessage = new EmailMessage("dotnetbank@394f8de0-648f-49e2-ae57-fce7523309f0.azurecomm.net", emailContent, emailRecipients);
+            SendEmailResult emailResult = emailClient.Send(emailMessage,CancellationToken.None);
+            return emailResult; 
+        }
+        public static SendEmailResult sendConfirmationEmail(string email, int requestId, Guid requestGuid)
         {
             string? commsKey = System.Environment.GetEnvironmentVariable("COMMUNICATION_KEY");
             if (commsKey is null)
@@ -57,7 +72,7 @@ namespace Bank.NET___backend
             }
             EmailClient emailClient = new EmailClient($"endpoint=https://dotnet-bank-communication-second.communication.azure.com/;accesskey={commsKey}");
             EmailContent emailContent = new EmailContent("DOTNET bank confirmation email");
-            emailContent.PlainText = "In order to confirm your loan selection you need to click this link  <link>";
+            emailContent.PlainText = "In order to confirm your loan selection you need to click this link <link>";
             List<EmailAddress> emailAddresses = new List<EmailAddress> { new EmailAddress($"{email}") { DisplayName = "Friendly Display Name" }};
             EmailRecipients emailRecipients = new EmailRecipients(emailAddresses);
             EmailMessage emailMessage = new EmailMessage("dotnetbank@394f8de0-648f-49e2-ae57-fce7523309f0.azurecomm.net", emailContent, emailRecipients);
