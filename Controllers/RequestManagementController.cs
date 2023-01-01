@@ -46,6 +46,33 @@ namespace Bank.NET___backend.Controllers
             return Ok(dto);
         }
 
+        [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+        [HttpGet]
+        [Authorize]
+        public ActionResult<IEnumerable<CompleteRequest>> GetLast30DaysRequests()
+        {
+            var claims = User.Claims.ToList();
+            var EmailClaim = Helpers.GetClaim(claims, "emails");
+            if ( EmailClaim == null)
+            {
+                return NotFound();
+            }
+            User? u = _sqlContext.Users.Where(u => u.Email == EmailClaim.Value).First();
+            if ( u == null)
+            {
+                return NotFound();
+            }
+            
+            List<Data.Request> reqs = _sqlContext.Requests.Where(req => req.UserID == u.UserID && (DateTime.UtcNow - req.Date ).Days <= 30).ToList();
+            List<RequestDTO> dto =  new List<RequestDTO>();
+            foreach (Request r in reqs)
+            {
+                dto.Add(new RequestDTO(r.Date,r.Amount,r.NumberOfInstallments,r.Name,r.Surname,r.GovermentId,r.Email,r.JobType,r.IncomeLevel,r.Status));
+            }
+
+            return Ok(dto);
+        }
+
         //create request and redirect to offers
         //spr zrobic request
         [HttpPost]
