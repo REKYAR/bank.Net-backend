@@ -1,4 +1,5 @@
-﻿using Bank.NET___backend.Data;
+﻿using System.Net.Mime;
+using Bank.NET___backend.Data;
 using Bank.NET___backend.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -114,6 +115,41 @@ namespace Bank.NET___backend.Controllers
             catch (Exception e)
             {
                 return BadRequest(e);
+            }
+        }
+        [HttpPost("GetAgreement/{rqid}")]
+        public ActionResult GetAgreement(int rqid)
+        {
+            try
+            {
+                Request req = _sqlContext.Requests.Where(r => r.RequestID == rqid).First();
+                ;
+                var stream = Helpers.downloadDocument("dotnet-bank-agreements",req.AgreementKey).GetRawResponse().ContentStream;
+                stream.Seek(0, SeekOrigin.Begin);
+                return File(stream, MediaTypeNames.Text.Plain, "parameters.txt");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            
+        }
+
+        [HttpPost("GetDocument/{rqid}")]
+        public ActionResult GetDocument(int rqid)
+        {
+            try
+            {
+                Request req = _sqlContext.Requests.Where(r => r.RequestID == rqid).First();
+                var stream =Helpers.downloadDocument("dotnet-bank-documents",req.DocumentKey).GetRawResponse().ContentStream;
+                stream.Seek(0, SeekOrigin.Begin);
+                return File(stream, MediaTypeNames.Text.Plain, "parameters.txt");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
             }
         }
 

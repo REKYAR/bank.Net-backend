@@ -40,7 +40,7 @@ namespace Bank.NET___backend
             }
             EmailClient emailClient = new EmailClient($"endpoint=https://dotnet-bank-communication-second.communication.azure.com/;accesskey={commsKey}");
             EmailContent emailContent = new EmailContent("DOTNET bank document upload");
-            emailContent.PlainText = "You need to upload agreement linked here <link>, and a government document. \n <link to documnent upload>, <link to id upload>";
+            emailContent.PlainText = "You need to upload agreement linked here <link>, and a government document. \n <link to documnent upload>, \n <link to id upload>";
             List<EmailAddress> emailAddresses = new List<EmailAddress> { new EmailAddress($"{email}") { DisplayName = "Friendly Display Name" }};
             EmailRecipients emailRecipients = new EmailRecipients(emailAddresses);
             EmailMessage emailMessage = new EmailMessage("dotnetbank@394f8de0-648f-49e2-ae57-fce7523309f0.azurecomm.net", emailContent, emailRecipients);
@@ -78,7 +78,7 @@ namespace Bank.NET___backend
             return result;
         }
 
-        public static Response downloadDocument(string containerName, string fileName)
+        public static Response<BlobDownloadInfo> downloadDocument(string containerName, string fileName)
         {
             string? storageKey = System.Environment.GetEnvironmentVariable("STORAGE_KEY");
             if (storageKey is null)
@@ -89,8 +89,11 @@ namespace Bank.NET___backend
             BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(containerName);
             string downloadFilePath = $"./downloads/{fileName}";
             BlobClient blobClient = containerClient.GetBlobClient(fileName);
-            Response response = blobClient.DownloadTo(downloadFilePath);
+            //Response response = blobClient.DownloadTo(downloadFilePath);
+            Response<BlobDownloadInfo> response = blobClient.Download();
+            //response.GetRawResponse();
             //Response response = blobClient.dow
+            //response.GetRawResponse().
             return response; 
         }
     }
