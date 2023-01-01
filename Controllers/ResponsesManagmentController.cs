@@ -126,7 +126,9 @@ namespace Bank.NET___backend.Controllers
                 ;
                 var stream = Helpers.downloadDocument("dotnet-bank-agreements",req.AgreementKey);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, MediaTypeNames.Text.Plain, "parameters.txt");
+                //return File(stream, "agreement.jpg");
+                MediaTypeNames.Image.Jpeg.ToString();
+                return File(stream, MediaTypeNames.Image.Jpeg,"agreement.jpg");
             }
             catch (Exception e)
             {
@@ -144,7 +146,7 @@ namespace Bank.NET___backend.Controllers
                 Request req = _sqlContext.Requests.Where(r => r.RequestID == rqid).First();
                 var stream = Helpers.downloadDocument("dotnet-bank-documents",req.DocumentKey);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, MediaTypeNames.Text.Plain, "parameters.txt");
+                return File(stream, MediaTypeNames.Image.Jpeg, "document.jpg");
             }
             catch (Exception e)
             {

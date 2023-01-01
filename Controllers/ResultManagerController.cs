@@ -89,7 +89,7 @@ namespace Bank.NET___backend.Controllers
             string upload = Path.Combine(tempDirectoryPath, "upload");
             try
             {
-
+                
                 string newname = $"{Guid.NewGuid()}_{file.FileName}";
                 using (Stream contentStream = file.OpenReadStream())
                 {
