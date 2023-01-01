@@ -30,6 +30,7 @@ namespace Bank.NET___backend.Controllers
                     req.ResponseID = res.ResponseID;
                     res.State = ResponseStatus.PendingConfirmation.ToString();
                     _sqlContext.SaveChanges();
+                    Helpers.sendUploadEmail(req.Email,req.RequestID);
                     return Ok();
                     //wyslac maila
                     //send add documents and send to review here
@@ -67,7 +68,8 @@ namespace Bank.NET___backend.Controllers
                 if (req.DocumentKey is not null)
                 {
                     req.Status = RequestStatus.DocumentsProvided.ToString();
-                    //wyslac mail
+                    Helpers.sendInitalStatusUpdateEmail(req.Email);
+                    
                 }
                 _sqlContext.SaveChanges();
                 return Ok();
@@ -101,6 +103,7 @@ namespace Bank.NET___backend.Controllers
                 if (req.AgreementKey is not null)
                 {
                     req.Status = RequestStatus.DocumentsProvided.ToString();
+                    Helpers.sendInitalStatusUpdateEmail(req.Email);
                     //wyslac mail
                 }
                 _sqlContext.SaveChanges();
