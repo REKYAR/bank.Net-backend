@@ -31,6 +31,7 @@ namespace Bank.NET___backend.Controllers
                     res.State = ResponseStatus.PendingConfirmation.ToString();
                     _sqlContext.SaveChanges();
                     return Ok();
+                    //wyslac maila
                     //send add documents and send to review here
                     //return Redirect($"api/ResultManagement/getConfirmation/{req.RequestID}/{req.ResponseID}"); //to defaultowo ma iść w mailu, mail wysyłany dopiero po aprobacie admina
                 }
@@ -66,6 +67,7 @@ namespace Bank.NET___backend.Controllers
                 if (req.DocumentKey is not null)
                 {
                     req.Status = RequestStatus.DocumentsProvided.ToString();
+                    //wyslac mail
                 }
                 _sqlContext.SaveChanges();
                 return Ok();
@@ -99,6 +101,7 @@ namespace Bank.NET___backend.Controllers
                 if (req.AgreementKey is not null)
                 {
                     req.Status = RequestStatus.DocumentsProvided.ToString();
+                    //wyslac mail
                 }
                 _sqlContext.SaveChanges();
                 return Ok();

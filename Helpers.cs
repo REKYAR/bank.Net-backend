@@ -4,6 +4,7 @@ using System.Security.Claims;
 using Azure;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Bank.NET___backend
 {
@@ -78,7 +79,7 @@ namespace Bank.NET___backend
             return result;
         }
 
-        public static Response<BlobDownloadInfo> downloadDocument(string containerName, string fileName)
+        public static Stream downloadDocument(string containerName, string fileName)
         {
             string? storageKey = System.Environment.GetEnvironmentVariable("STORAGE_KEY");
             if (storageKey is null)
@@ -90,11 +91,12 @@ namespace Bank.NET___backend
             string downloadFilePath = $"./downloads/{fileName}";
             BlobClient blobClient = containerClient.GetBlobClient(fileName);
             //Response response = blobClient.DownloadTo(downloadFilePath);
-            Response<BlobDownloadInfo> response = blobClient.Download();
+            //FileStreamResult resultStream ;
+            var resultStream = blobClient.OpenRead();
             //response.GetRawResponse();
             //Response response = blobClient.dow
             //response.GetRawResponse().
-            return response; 
+            return resultStream; 
         }
     }
 }
