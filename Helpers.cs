@@ -75,7 +75,7 @@ namespace Bank.NET___backend
             BlobServiceClient blobServiceClient = new BlobServiceClient($"DefaultEndpointsProtocol=https;AccountName=dotnetbankstorage;AccountKey={storageKey};EndpointSuffix=core.windows.net");
             BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(containerName);
             BlobClient blobClient = containerClient.GetBlobClient(fileName);
-            Response<BlobContentInfo> result = blobClient.Upload(contentStream, true);
+            Response<BlobContentInfo> result = blobClient.Upload(contentStream,true);
             return result;
         }
 
@@ -96,7 +96,7 @@ namespace Bank.NET___backend
             //response.GetRawResponse();
             //Response response = blobClient.dow
             //response.GetRawResponse().
-            return resultStream; 
+            return resultStream;
         }
     }
 }
