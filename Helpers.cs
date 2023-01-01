@@ -78,7 +78,7 @@ namespace Bank.NET___backend
             return result;
         }
 
-        public static Response downloadDocument(string containerName, string fileName)
+        public static Response<BlobDownloadInfo> downloadDocument(string containerName, string fileName)
         {
             string? storageKey = System.Environment.GetEnvironmentVariable("STORAGE_KEY");
             if (storageKey is null)
@@ -89,8 +89,11 @@ namespace Bank.NET___backend
             BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(containerName);
             string downloadFilePath = $"./downloads/{fileName}";
             BlobClient blobClient = containerClient.GetBlobClient(fileName);
-            Response response = blobClient.DownloadTo(downloadFilePath);
+            //Response response = blobClient.DownloadTo(downloadFilePath);
+            Response<BlobDownloadInfo> response = blobClient.Download();
+            //response.GetRawResponse();
             //Response response = blobClient.dow
+            //response.GetRawResponse().
             return response; 
         }
     }
