@@ -15,12 +15,21 @@ namespace Bank.NET___backend.Models
         public decimal IncomeLevel { get; set; }
         public string Status { get; set; }
 
-        public CompleteRequest(User user, Request request)
+        public decimal? Rate { get; set; }
+
+        public CompleteRequest( Request request, decimal? rate)
         {
             Date = request.Date;
             Amount = request.Amount;
             NumberOfInstallments = request.NumberOfInstallments;
             Name = request.Name;
+            Surname = request.Surname;
+            GovermentId = request.GovermentId;
+            Email = request.Email;
+            JobType = request.JobType;
+            IncomeLevel = request.IncomeLevel;
+            Status = request.Status;
+            Rate = rate;    
         }
     }
 }
