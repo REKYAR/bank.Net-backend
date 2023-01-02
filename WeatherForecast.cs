@@ -10,4 +10,4 @@ namespace Bank.NET___backend
 
         public string? Summary { get; set; }
     }
-}
+};

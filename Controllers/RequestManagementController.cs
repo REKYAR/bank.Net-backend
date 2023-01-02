@@ -37,10 +37,18 @@ namespace Bank.NET___backend.Controllers
             }
             
             List<Data.Request> reqs = _sqlContext.Requests.Where(req => req.UserID == u.UserID).ToList();
-            List<RequestDTO> dto =  new List<RequestDTO>();
+            List<CompleteRequest> dto =  new List<CompleteRequest>();
             foreach (Request r in reqs)
             {
-                dto.Add(new RequestDTO(r.Date,r.Amount,r.NumberOfInstallments,r.Name,r.Surname,r.GovermentId,r.Email,r.JobType,r.IncomeLevel,r.Status));
+                if (r.ResponseID is null)
+                {
+                    dto.Add(new CompleteRequest(r, null));
+                }
+                else
+                {
+                    dto.Add(new CompleteRequest(r, _sqlContext.Responses.Where(res => res.ResponseID == r.ResponseID).First().MonthlyInstallment));
+                }
+               
             }
 
             return Ok(dto);
@@ -64,13 +72,42 @@ namespace Bank.NET___backend.Controllers
             }
             
             List<Data.Request> reqs = _sqlContext.Requests.Where(req => req.UserID == u.UserID && (DateTime.UtcNow - req.Date ).Days <= 30).ToList();
-            List<RequestDTO> dto =  new List<RequestDTO>();
+            List<CompleteRequest> dto =  new List<CompleteRequest>();
             foreach (Request r in reqs)
             {
-                dto.Add(new RequestDTO(r.Date,r.Amount,r.NumberOfInstallments,r.Name,r.Surname,r.GovermentId,r.Email,r.JobType,r.IncomeLevel,r.Status));
+                if (r.ResponseID is null)
+                {
+                    dto.Add(new CompleteRequest(r, null));
+                }
+                else
+                {
+                    dto.Add(new CompleteRequest(r, _sqlContext.Responses.Where(res => res.ResponseID == r.ResponseID).First().MonthlyInstallment));
+                }
             }
 
             return Ok(dto);
+        }
+        [HttpGet]
+        [Route("/inspect/{RequestID}")]
+        public ActionResult<CompleteRequest> GetRequest(int rqid)
+        {
+            try
+            {
+                Request r = _sqlContext.Requests.Where(r => r.RequestID == rqid).First();
+                if (r.ResponseID is null)
+                {
+                    return Ok(new CompleteRequest(r, null));
+                }
+                else
+                {
+                    return Ok(new CompleteRequest(r, _sqlContext.Responses.Where(res => res.ResponseID == r.ResponseID).First().MonthlyInstallment));
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         //create request and redirect to offers
