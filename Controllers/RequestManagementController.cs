@@ -90,7 +90,7 @@ namespace Bank.NET___backend.Controllers
             return Ok(dto);
         }
         [HttpGet]
-        [Route("/inspect/{RequestID}")]
+        [Route("/inspect/{rqid}")]
         public ActionResult<CompleteRequest> GetRequest(int rqid)
         {
             try
