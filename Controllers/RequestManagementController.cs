@@ -21,6 +21,7 @@ namespace Bank.NET___backend.Controllers
 
         [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
         [HttpGet]
+        [Route("/getAllRequests")]
         [Authorize]
         public ActionResult<IEnumerable<CompleteRequest>> GetAllRequests()
         {
@@ -56,6 +57,7 @@ namespace Bank.NET___backend.Controllers
 
         [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
         [HttpGet]
+        [Route("/getRecentRequests")]
         [Authorize]
         public ActionResult<IEnumerable<CompleteRequest>> GetLast30DaysRequests()
         {
