@@ -1,5 +1,6 @@
 ﻿using Bank.NET___backend.Data;
 using Bank.NET___backend.Models;
+using Bank.NET___backend.Models.QueryParametres;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,25 +22,15 @@ namespace Bank.NET___backend.Controllers
         //[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
         [HttpGet]
         //[Authorize(Policy = "BankEmployee")]
-        public ActionResult<IEnumerable<CompleteRequest>> GetResponses([FromQuery] ResponseParametres responseParametres)
+        public ActionResult<IEnumerable<CompleteRequest>> GetResponses([FromQuery] ResponseQueryParameters parametres)
         {
             PagedList<Response> responses = PagedList<Response>.ToPagedList(_sqlContext.Responses.OrderBy(res => res.RequestID),
-                responseParametres.PageNumber,
-                responseParametres.PageSize);
+                parametres.PageNumber,
+                parametres.PageSize);
               
             List<ResponseDTO> result = CreateResponseRTO(responses);
 
-            var metadata = new
-            {
-                responses.TotalCount,
-                responses.PagesSize,
-                responses.CurrentPage,
-                responses.TotalPages,
-                responses.HasNext,
-                responses.HasPrevious
-            };
-
-            Response.Headers.Add("Pagination", JsonConvert.SerializeObject(metadata));
+            Response.Headers.Add("Pagination", responses.getMetadata());
 
             return Ok(result);
         }
