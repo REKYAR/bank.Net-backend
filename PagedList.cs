@@ -1,4 +1,6 @@
-﻿namespace Bank.NET___backend
+﻿using Newtonsoft.Json;
+
+namespace Bank.NET___backend
 {
     public class PagedList<T>: List<T>
     {
@@ -26,6 +28,21 @@
             var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
 
             return new PagedList<T>(items, count, pageNumber, pageSize);
+        }
+
+        public string getMetadata()
+        {
+            var metadata = new
+            {
+                TotalCount,
+                PagesSize,
+                CurrentPage,
+                TotalPages,
+                HasNext,
+                HasPrevious
+            };
+
+            return JsonConvert.SerializeObject(metadata);
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace Bank.NET___backend.Models
+﻿namespace Bank.NET___backend.Models.QueryParametres
 {
-    public class ResponseParametres
+    public abstract class QueryStringParameters
     {
         const int maxPageSize = 100;
         public int PageNumber { get; set; } = 1;
@@ -11,7 +11,7 @@
             get { return _pageSize; }
             set
             {
-                _pageSize = (value > maxPageSize) ? maxPageSize: value;
+                _pageSize = value > maxPageSize ? maxPageSize : value;
             }
         }
     }
