@@ -19,11 +19,20 @@ namespace Bank.NET___backend.Controllers
             _sqlContext = sqlContext;
         }
 
-        [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+        /*[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
         [HttpGet]
         [Route("/getAllRequests")]
         [Authorize]
         public ActionResult<IEnumerable<CompleteRequest>> GetAllRequests()
+        {
+            List<Data.Request> reqs = _sqlContext.Requests.ToList();
+        }*/
+
+        [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+        [HttpGet]
+        [Route("/getUserRequests")]
+        [Authorize]
+        public ActionResult<IEnumerable<CompleteRequest>> GetUserRequests()
         {
             var claims = User.Claims.ToList();
             var EmailClaim = Helpers.GetClaim(claims, "emails");
