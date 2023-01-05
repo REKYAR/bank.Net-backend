@@ -25,26 +25,15 @@ namespace Bank.NET___backend.Controllers
         //[Authorize(Policy = "BankEmployee")]
         public ActionResult<IEnumerable<CompleteRequest>> GetResponses([FromQuery] ResponseQueryParameters parametres)
         {
-            PagedList<Response> responses = PagedList<Response>.ToPagedList(_sqlContext.Responses.OrderBy(res => res.RequestID),
-                parametres.PageNumber,
-                parametres.PageSize);
-              
-            List<ResponseDTO> result = CreateResponseRTO(responses);
+            if (!parametres.ValidateParameters())
+            {
+                return BadRequest();
+            }
 
-            Response.Headers.Add("Pagination", responses.getMetadata());
+            IQueryable<CompleteRequest> data = _sqlContext.Responses.Join(_sqlContext.Requests, res => res.RequestID, req => req.RequestID,
+                (res, req) => new CompleteRequest(res, req));
 
-            return Ok(result);
-        }
-
-        [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
-        [HttpGet("Pending")]
-        [Authorize(Policy = "BankEmployee")]
-        public ActionResult<IEnumerable<CompleteRequest>> GetPendingConfirmationResponses()
-        {
-            List<Response> responses = _sqlContext.Responses.Where(res => res.State == ResponseStatus.PendingConfirmation.ToString()).ToList();
-            List<ResponseDTO> result = CreateResponseRTO(responses);
-
-            return Ok(result);
+            return Ok(parametres.handleQueryParametres(data));
         }
 
         [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]

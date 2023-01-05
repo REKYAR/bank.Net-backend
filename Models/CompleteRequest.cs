@@ -17,6 +17,10 @@ namespace Bank.NET___backend.Models
 
         public decimal? Rate { get; set; }
 
+        public int? ResponseID { get; set; }
+
+        public string? ResponseStatus { get; set; }
+
         public CompleteRequest( Request request, decimal? rate)
         {
             Date = request.Date;
@@ -29,7 +33,25 @@ namespace Bank.NET___backend.Models
             JobType = request.JobType;
             IncomeLevel = request.IncomeLevel;
             Status = request.Status;
-            Rate = rate;    
+            Rate = rate;
+        }
+
+        public CompleteRequest(Response res, Request req)
+        {
+            Date = req.Date;
+            Amount = req.Amount;
+            NumberOfInstallments = req.NumberOfInstallments;
+            Name = req.Name;
+            Surname = req.Surname;
+            GovermentId = req.GovermentId;
+            Email = req.Email;
+            JobType = req.JobType;
+            IncomeLevel = req.IncomeLevel;
+            Status = req.Status;
+
+            Rate = res.MonthlyInstallment;
+            ResponseID = res.ResponseID;
+            ResponseStatus = res.State;
         }
     }
 }
