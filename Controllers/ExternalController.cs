@@ -18,7 +18,7 @@ namespace Bank.NET___backend.Controllers
         }
 
         //post inqure (create request)
-        [HttpPost("/postInquire")]
+        [HttpPost("api/[controller]/postInquire")]
         public ActionResult<int> PostRequestExternal([FromBody] RequestDTO Requestdata)
         {
             Data.Request req = new Data.Request();
@@ -65,7 +65,7 @@ namespace Bank.NET___backend.Controllers
         }
 
         //get inqure 
-        [HttpGet("/getInquire/{RequestID}")]
+        [HttpGet("getInquire/{RequestID}")]
         public ActionResult<Request> GetRequestExternal(int RequestID)
         {
             try
@@ -81,7 +81,7 @@ namespace Bank.NET___backend.Controllers
         }
 
         //get offer
-        [HttpGet("/offer/{ResponseId}")]
+        [HttpGet("offer/{ResponseId}")]
         public ActionResult<Response> GetResultExternal(int ResponseId)
         {
             try
@@ -97,7 +97,7 @@ namespace Bank.NET___backend.Controllers
         }
 
         //get offer document
-        [HttpPost("/getAgreement/{RequestID}")]
+        [HttpPost("getAgreement/{RequestID}")]
         public ActionResult GetDocumentTemplateExternal(int RequestID)
         {
             try
@@ -116,7 +116,7 @@ namespace Bank.NET___backend.Controllers
 
         //post offer document
         [HttpPost]
-        [Route("/uploadAgreement/{RequestId}")]
+        [Route("uploadAgreement/{RequestId}")]
         public ActionResult UploadDocumentExternal(int RequestId, IFormFile file)
         {
             string tempDirectoryPath = (string)Environment.GetEnvironmentVariable("TEMP");
@@ -149,7 +149,7 @@ namespace Bank.NET___backend.Controllers
 
         //finalize request
         [HttpGet]
-        [Route("/offer/{RequestId}/complete")]
+        [Route("offer/{RequestId}/complete")]
         public ActionResult FinalizeExternal(int RequestID)
         {
             try
