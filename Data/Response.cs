@@ -26,6 +26,7 @@ namespace Bank.NET___backend.Data
         [Required]
         public string UserEmail { get; set; }
 
+
     }
     public class ResponseDTO
     {
