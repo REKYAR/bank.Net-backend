@@ -44,10 +44,12 @@ namespace Bank.NETbackend.Migrations
                     JobType = table.Column<string>(type: "text", nullable: false),
                     IncomeLevel = table.Column<decimal>(type: "numeric", nullable: false),
                     Status = table.Column<string>(type: "text", nullable: false),
+                    External = table.Column<bool>(type: "boolean", nullable: false),
                     ResponseID = table.Column<int>(type: "integer", nullable: true),
                     UserID = table.Column<int>(type: "integer", nullable: true),
                     DocumentKey = table.Column<string>(type: "text", nullable: true),
                     AgreementKey = table.Column<string>(type: "text", nullable: true),
+                    ApiInfo = table.Column<string>(type: "text", nullable: true),
                     MappedGuid = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>

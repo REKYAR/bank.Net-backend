@@ -29,6 +29,8 @@ namespace Bank.NET___backend.Data
         public decimal IncomeLevel { get; set; }
         [Required]
         public string Status { get; set; }
+        [Required]
+        public bool External { get; set; }
 
         [ForeignKey("Response")]
         public int? ResponseID { get; set; }
@@ -37,6 +39,7 @@ namespace Bank.NET___backend.Data
 
         public string? DocumentKey { get; set; }
         public string? AgreementKey { get; set; }
+        public string? ApiInfo { get; set; }
         public Guid? MappedGuid { get; set; }
 
     }
@@ -52,6 +55,7 @@ namespace Bank.NET___backend.Data
         public string JobType { get; set; }
         public decimal IncomeLevel { get; set; }
         public string Status { get; set; }
+        public string ApiInfo { get; set; }
         public RequestDTO(DateTime date, decimal amount, int numberOfInstallments, string name, string surname, string govermentId, string email, string jobType, decimal incomeLevel, string status)
         {
             Date = date;
@@ -72,7 +76,9 @@ namespace Bank.NET___backend.Data
         OfferSelected,
         DocumentsProvided,
         Approved,
-        FinalApproved
+        FinalApproved,
+        FinalRefused,
+        ExternalClosed
     }
 
 }
