@@ -1,4 +1,5 @@
-﻿using Bank.NET___backend.Data;
+﻿using System.Net.Mime;
+using Bank.NET___backend.Data;
 using Bank.NET___backend.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -48,6 +49,32 @@ namespace Bank.NET___backend.Controllers
             }
         }
 
+
+        [HttpGet]
+        [Route("/getAgreement/{rqid}")]
+        public ActionResult GetDocumentUser(int rqid)
+        {
+            if (_sqlContext.Requests.Where(r =>r.RequestID == rqid).Count() == 1)
+            {
+                Request req = _sqlContext.Requests.Where(r =>  r.RequestID == rqid).First();
+                Response res = _sqlContext.Responses.Where(r => r.ResponseID == req.ResponseID).First();
+                if (res.External)
+                {
+                    //TODO hit external api for result
+                    return Ok();
+                }
+                else
+                {
+                    var stream = Helpers.generateAgreeement(req.Name, req.Surname);
+                    return File(stream, MediaTypeNames.Application.Pdf, "document.pdf"); 
+                }
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
         [HttpPost]
         [Route("/UploadAgreement/{RequestId}")]
         public ActionResult UploadAgreement(int RequestId,  IFormFile file)
@@ -64,15 +91,25 @@ namespace Bank.NET___backend.Controllers
                 }
                 //Helpers.uploadDocument("dotnet-bank-agreements",filePath,newname);
                 var req = _sqlContext.Requests.Where(r => r.RequestID == RequestId).First();
-                req.AgreementKey = newname;
-                if (req.DocumentKey is not null)
+                var res = _sqlContext.Responses.Where(r => r.ResponseID == req.ResponseID).First();
+                if (res.External)
                 {
+                    //TODO send doc to external api as well
+                    req.AgreementKey = newname;
                     req.Status = RequestStatus.DocumentsProvided.ToString();
                     Helpers.sendInitalStatusUpdateEmail(req.Email);
-                    
+                    _sqlContext.SaveChanges();
+                    return Ok();
                 }
-                _sqlContext.SaveChanges();
-                return Ok();
+                else
+                {
+                    req.AgreementKey = newname;
+                    req.Status = RequestStatus.DocumentsProvided.ToString();
+                    Helpers.sendInitalStatusUpdateEmail(req.Email);
+                    _sqlContext.SaveChanges();
+                    return Ok();
+                }
+                
             }
             catch (Exception e)
             {
@@ -83,6 +120,8 @@ namespace Bank.NET___backend.Controllers
             
         }
 
+
+        //INVALID
         [HttpPost]
         [Route("/UploadDocument/{RequestId}")]
         public ActionResult UploadDocument(int RequestId,  IFormFile file)
@@ -103,7 +142,7 @@ namespace Bank.NET___backend.Controllers
                 if (req.AgreementKey is not null)
                 {
                     req.Status = RequestStatus.DocumentsProvided.ToString();
-                    Helpers.sendInitalStatusUpdateEmail(req.Email);
+                    //Helpers.sendInitalStatusUpdateEmail(req.Email);
                     //wyslac mail
                 }
                 _sqlContext.SaveChanges();
@@ -129,6 +168,10 @@ namespace Bank.NET___backend.Controllers
                 res.State = Data.ResponseStatus.FinalApproved.ToString();
                 req.Status = Data.RequestStatus.FinalApproved.ToString();
                 _sqlContext.SaveChanges();
+                if (res.External)
+                {
+                    //TODO send complete to external api
+                }
                 return Ok();
             }
             else

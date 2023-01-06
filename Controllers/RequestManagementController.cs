@@ -175,6 +175,7 @@ namespace Bank.NET___backend.Controllers
                 offers.Add(new Offer(req,Logic.generateOffer(req)));
                 offers.Add(new Offer(req,Logic.generateOffer(req)));//to be changed
                 offers.Add(new Offer(req,Logic.generateOffer(req)));//to be changed
+                //TODO change to integrate with external
                 foreach (Offer offer in offers)
                 {
                     Response r = new Response();
