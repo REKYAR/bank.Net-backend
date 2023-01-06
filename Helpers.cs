@@ -5,6 +5,8 @@ using Azure;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.Mvc;
+using PdfSharpCore.Drawing;
+using PdfSharpCore.Pdf;
 
 namespace Bank.NET___backend
 {
@@ -112,6 +114,26 @@ namespace Bank.NET___backend
             //Response response = blobClient.dow
             //response.GetRawResponse().
             return resultStream;
+        }
+
+        public static Stream generateAgreeement(string name, string lastname)
+        {
+            
+            var document = new PdfDocument();
+            var page = document.AddPage();
+
+            var gfx = XGraphics.FromPdfPage(page);
+            var font = new XFont("Arial", 20, XFontStyle.Regular);
+
+            var textColor = XBrushes.Black;
+            var layout = new XRect(20, 20, page.Width, 0);
+            var format = XStringFormats.Default;
+
+            gfx.DrawString($"I {name} {lastname} agree to this stuff.", font, textColor, layout, format);
+            Stream stream = new MemoryStream();
+
+            document.Save(stream);
+            return stream;
         }
     }
 }

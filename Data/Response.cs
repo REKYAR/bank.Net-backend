@@ -46,7 +46,8 @@ namespace Bank.NET___backend.Data
         PendingApproval,
         Approved,
         Refused,
-        FinalApproved
-
+        FinalApproved,
+        FinalRefused,
+        ExternalClosed
     }
 }

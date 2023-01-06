@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Bank.NETbackend.Migrations
 {
     [DbContext(typeof(SqlContext))]
-    [Migration("20221226180523_SQL_updated_schema")]
+    [Migration("20230106140733_SQL_updated_schema")]
     partial class SQLupdatedschema
     {
         /// <inheritdoc />
@@ -68,6 +68,9 @@ namespace Bank.NETbackend.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("numeric");
 
+                    b.Property<string>("ApiInfo")
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
 
@@ -77,6 +80,9 @@ namespace Bank.NETbackend.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<bool>("External")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("GovermentId")
                         .IsRequired()
