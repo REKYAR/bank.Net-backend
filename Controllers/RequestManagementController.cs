@@ -173,12 +173,13 @@ namespace Bank.NET___backend.Controllers
                 var req = _sqlContext.Requests.Where(r => r.RequestID == RequestID).First();
                 List<Offer> offers = new List<Offer>();
                 offers.Add(new Offer(req,Logic.generateOffer(req)));
-                offers.Add(new Offer(req,Logic.generateOffer(req)));
-                offers.Add(new Offer(req,Logic.generateOffer(req)));
+                offers.Add(new Offer(req,Logic.generateOffer(req)));//to be changed
+                offers.Add(new Offer(req,Logic.generateOffer(req)));//to be changed
                 foreach (Offer offer in offers)
                 {
                     Response r = new Response();
                     r.RequestID = req.RequestID;
+                    r.External = false;
                     //r.User = req.User;
                     r.UserEmail = req.Email;
                     r.MonthlyInstallment = offer.MonthlyInstallment;

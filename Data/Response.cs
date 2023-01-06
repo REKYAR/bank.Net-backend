@@ -25,7 +25,9 @@ namespace Bank.NET___backend.Data
         public int RequestID { get; set; }
         [Required]
         public string UserEmail { get; set; }
-
+        [Required]
+        public bool External { get; set; }
+        public string? ApiInfo { get; set; }
 
     }
     public class ResponseDTO
