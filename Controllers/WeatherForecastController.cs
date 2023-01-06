@@ -4,7 +4,7 @@ using Microsoft.Identity.Web.Resource;
 
 namespace Bank.NET___backend.Controllers
 {
-    [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+    [RequiredScope("access_as_user")]
     [Authorize]
     [ApiController]
     [Route("[controller]")]

@@ -19,7 +19,7 @@ var tempDirectoryPath = Environment.GetEnvironmentVariable("TEMP");
 Directory.CreateDirectory(Path.Combine(tempDirectoryPath, "upload"));
 Directory.CreateDirectory(Path.Combine(tempDirectoryPath, "download"));
 
-//Prelaunch.GetSecrets();
+Prelaunch.GetSecrets();
 
 var builder = WebApplication.CreateBuilder(args);
 
