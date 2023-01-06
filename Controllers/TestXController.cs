@@ -17,8 +17,8 @@ namespace Bank.NET___backend.Controllers
         }
 
         //post inqure (create request)
-        [HttpPost("/postInquire")]
-        public ActionResult<int> PostRequestExternal([FromBody] RequestDTO Requestdata)
+        [HttpPost("/xpostInquire")]
+        public ActionResult<int> XPostRequestExternal([FromBody] RequestDTO Requestdata)
         {
             Data.Request req = new Data.Request();
             Data.Response res = new Data.Response();
@@ -64,8 +64,8 @@ namespace Bank.NET___backend.Controllers
         }
 
         //get inqure 
-        [HttpGet("/getInquire/{RequestID}")]
-        public ActionResult<Request> GetRequestExternal(int RequestID)
+        [HttpGet("/xgetInquire/{RequestID}")]
+        public ActionResult<Request> XGetRequestExternal(int RequestID)
         {
             try
             {
@@ -80,8 +80,8 @@ namespace Bank.NET___backend.Controllers
         }
 
         //get offer
-        [HttpGet("/offer/{ResponseId}")]
-        public ActionResult<Response> GetResultExternal(int ResponseId)
+        [HttpGet("/xoffer/{ResponseId}")]
+        public ActionResult<Response> XGetResultExternal(int ResponseId)
         {
             try
             {
@@ -96,8 +96,8 @@ namespace Bank.NET___backend.Controllers
         }
 
         //get offer document
-        [HttpPost("/getAgreement/{RequestID}")]
-        public ActionResult GetDocumentTemplateExternal(int RequestID)
+        [HttpPost("/xgetAgreement/{RequestID}")]
+        public ActionResult XGetDocumentTemplateExternal(int RequestID)
         {
             try
             {
@@ -115,8 +115,8 @@ namespace Bank.NET___backend.Controllers
 
         //post offer document
         [HttpPost]
-        [Route("/uploadAgreement/{RequestId}")]
-        public ActionResult UploadDocumentExternal(int RequestId, IFormFile file)
+        [Route("/xuploadAgreement/{RequestId}")]
+        public ActionResult XUploadDocumentExternal(int RequestId, IFormFile file)
         {
             string tempDirectoryPath = (string)Environment.GetEnvironmentVariable("TEMP");
             string upload = Path.Combine(tempDirectoryPath, "upload");
@@ -148,8 +148,8 @@ namespace Bank.NET___backend.Controllers
 
         //finalize request
         [HttpGet]
-        [Route("/offer/{RequestId}/complete")]
-        public ActionResult FinalizeExternal(int RequestID)
+        [Route("/xoffer/{RequestId}/complete")]
+        public ActionResult XFinalizeExternal(int RequestID)
         {
             try
             {
