@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Bank.NETbackend.Migrations
 {
     [DbContext(typeof(SqlContext))]
-    [Migration("20230106140733_SQL_updated_schema")]
+    [Migration("20230106150717_SQL_updated_schema")]
     partial class SQLupdatedschema
     {
         /// <inheritdoc />
@@ -131,6 +131,12 @@ namespace Bank.NETbackend.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ResponseID"));
+
+                    b.Property<string>("ApiInfo")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("External")
+                        .HasColumnType("boolean");
 
                     b.Property<decimal>("MonthlyInstallment")
                         .HasColumnType("numeric");

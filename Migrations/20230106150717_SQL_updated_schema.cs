@@ -66,7 +66,9 @@ namespace Bank.NETbackend.Migrations
                     State = table.Column<string>(type: "text", nullable: false),
                     MonthlyInstallment = table.Column<decimal>(type: "numeric", nullable: false),
                     RequestID = table.Column<int>(type: "integer", nullable: false),
-                    UserEmail = table.Column<string>(type: "text", nullable: false)
+                    UserEmail = table.Column<string>(type: "text", nullable: false),
+                    External = table.Column<bool>(type: "boolean", nullable: false),
+                    ApiInfo = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {

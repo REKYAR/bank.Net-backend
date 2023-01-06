@@ -129,6 +129,12 @@ namespace Bank.NETbackend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ResponseID"));
 
+                    b.Property<string>("ApiInfo")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("External")
+                        .HasColumnType("boolean");
+
                     b.Property<decimal>("MonthlyInstallment")
                         .HasColumnType("numeric");
 
