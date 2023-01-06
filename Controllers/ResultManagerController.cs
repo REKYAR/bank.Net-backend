@@ -60,7 +60,7 @@ namespace Bank.NET___backend.Controllers
                 Response res = _sqlContext.Responses.Where(r => r.ResponseID == req.ResponseID).First();
                 if (res.External)
                 {
-                    //hit external api for result
+                    //TODO hit external api for result
                     return Ok();
                 }
                 else
@@ -91,11 +91,25 @@ namespace Bank.NET___backend.Controllers
                 }
                 //Helpers.uploadDocument("dotnet-bank-agreements",filePath,newname);
                 var req = _sqlContext.Requests.Where(r => r.RequestID == RequestId).First();
-                req.AgreementKey = newname;
-                req.Status = RequestStatus.DocumentsProvided.ToString();
-                Helpers.sendInitalStatusUpdateEmail(req.Email);
-                _sqlContext.SaveChanges();
-                return Ok();
+                var res = _sqlContext.Responses.Where(r => r.ResponseID == req.ResponseID).First();
+                if (res.External)
+                {
+                    //TODO send doc to external api as well
+                    req.AgreementKey = newname;
+                    req.Status = RequestStatus.DocumentsProvided.ToString();
+                    Helpers.sendInitalStatusUpdateEmail(req.Email);
+                    _sqlContext.SaveChanges();
+                    return Ok();
+                }
+                else
+                {
+                    req.AgreementKey = newname;
+                    req.Status = RequestStatus.DocumentsProvided.ToString();
+                    Helpers.sendInitalStatusUpdateEmail(req.Email);
+                    _sqlContext.SaveChanges();
+                    return Ok();
+                }
+                
             }
             catch (Exception e)
             {
@@ -154,6 +168,10 @@ namespace Bank.NET___backend.Controllers
                 res.State = Data.ResponseStatus.FinalApproved.ToString();
                 req.Status = Data.RequestStatus.FinalApproved.ToString();
                 _sqlContext.SaveChanges();
+                if (res.External)
+                {
+                    //TODO send complete to external api
+                }
                 return Ok();
             }
             else
