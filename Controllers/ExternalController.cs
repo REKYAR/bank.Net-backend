@@ -161,6 +161,7 @@ namespace Bank.NET___backend.Controllers
                 Response res = _sqlContext.Responses.Where(r => r.ResponseID == req.ResponseID).First();
                 req.Status = RequestStatus.ExternalClosed.ToString();
                 res.State = ResponseStatus.ExternalClosed.ToString();
+                _sqlContext.SaveChanges();
                 return Ok();
             }
             catch (Exception e)
