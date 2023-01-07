@@ -127,7 +127,6 @@ namespace Bank.NET___backend.Controllers
         //public ActionResult PostRequest([FromBody] Dictionary<string, string> Requestdata)
         public ActionResult PostRequest([FromBody] RequestDTO Requestdata)
         {
-            Random r = new Random();
             Data.Request req = new Data.Request();
             try
             {
