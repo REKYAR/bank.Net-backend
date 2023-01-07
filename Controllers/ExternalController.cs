@@ -44,13 +44,15 @@ namespace Bank.NET___backend.Controllers
                 _sqlContext.Requests.Add(req);
                 decimal moInstallment = Logic.generateOffer(req);
 
-                res.RequestID = req.RequestID;
+                //res.RequestID = req.RequestID;
                 res.MonthlyInstallment = moInstallment;
                 res.UserEmail = req.Email;
                 res.State = ResponseStatus.PendingApproval.ToString();
                 _sqlContext.Responses.Add(res);
-                req.ResponseID = res.ResponseID;
+                
                 _sqlContext.SaveChanges();
+                req.ResponseID = res.ResponseID;
+                res.RequestID= req.RequestID;
             }
             catch (Exception c)
             {
@@ -149,7 +151,7 @@ namespace Bank.NET___backend.Controllers
 
         //finalize request
         [HttpGet]
-        [Route("offer/{RequestId}/complete")]
+        [Route("offer/{RequestID}/complete")]
         public ActionResult FinalizeExternal(int RequestID)
         {
             try

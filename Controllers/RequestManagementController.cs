@@ -127,6 +127,7 @@ namespace Bank.NET___backend.Controllers
         //public ActionResult PostRequest([FromBody] Dictionary<string, string> Requestdata)
         public ActionResult PostRequest([FromBody] RequestDTO Requestdata)
         {
+            Random r = new Random();
             Data.Request req = new Data.Request();
             try
             {
@@ -141,7 +142,7 @@ namespace Bank.NET___backend.Controllers
                 req.IncomeLevel = Requestdata.IncomeLevel;
                 req.Name = Requestdata.Name;
                 req.JobType = Requestdata.JobType;
-                req.MappedGuid = new Guid();
+                req.MappedGuid = Guid.NewGuid();
                 req.ApiInfo = null;
                 req.External = false;
                 if (_sqlContext.Users.Where(u => u.Email == req.Email).Count() != 0)
