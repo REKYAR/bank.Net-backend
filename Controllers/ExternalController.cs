@@ -135,7 +135,7 @@ namespace Bank.NET___backend.Controllers
 
                 //Helpers.uploadDocument("dotnet-bank-documents",filePath,newname);
                 var req = _sqlContext.Requests.Where(r => r.RequestID == RequestId).First();
-                req.DocumentKey = newname;
+                req.AgreementKey = newname;
                 req.Status = RequestStatus.DocumentsProvided.ToString();
                 //Helpers.sendInitalStatusUpdateEmail(req.Email);
 
