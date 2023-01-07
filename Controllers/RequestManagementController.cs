@@ -141,7 +141,7 @@ namespace Bank.NET___backend.Controllers
                 req.IncomeLevel = Requestdata.IncomeLevel;
                 req.Name = Requestdata.Name;
                 req.JobType = Requestdata.JobType;
-                req.MappedGuid = new Guid();
+                req.MappedGuid = Guid.NewGuid();
                 req.ApiInfo = null;
                 req.External = false;
                 if (_sqlContext.Users.Where(u => u.Email == req.Email).Count() != 0)
