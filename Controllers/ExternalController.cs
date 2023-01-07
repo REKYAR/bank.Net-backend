@@ -53,6 +53,7 @@ namespace Bank.NET___backend.Controllers
                 _sqlContext.SaveChanges();
                 req.ResponseID = res.ResponseID;
                 res.RequestID= req.RequestID;
+                _sqlContext.SaveChanges();
             }
             catch (Exception c)
             {
