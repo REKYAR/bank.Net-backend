@@ -68,7 +68,9 @@ namespace Bank.NETbackend.Migrations
                     RequestID = table.Column<int>(type: "integer", nullable: false),
                     UserEmail = table.Column<string>(type: "text", nullable: false),
                     External = table.Column<bool>(type: "boolean", nullable: false),
-                    ApiInfo = table.Column<string>(type: "text", nullable: true)
+                    ApiInfo = table.Column<string>(type: "text", nullable: true),
+                    OfferId = table.Column<Guid>(type: "uuid", nullable: true),
+                    documentKey = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
