@@ -81,7 +81,7 @@ namespace Bank.NET___backend.Controllers
 
         [HttpPost]
         [Route("/UploadAgreement/{RequestId}")]
-        public ActionResult UploadAgreement(int RequestId,  IFormFile file)
+        public async Task<ActionResult> UploadAgreement(int RequestId,  IFormFile file)
         {
             string tempDirectoryPath = (string)Environment.GetEnvironmentVariable("TEMP");
             string upload = Path.Combine(tempDirectoryPath, "upload");
@@ -99,6 +99,19 @@ namespace Bank.NET___backend.Controllers
                 if (res.External)
                 {
                     //TODO send doc to external api as well
+                    using (var form = new MultipartFormDataContent())
+                    {
+                        using(var client = new HttpClient())
+                        {
+                            using (Stream contentStream = file.OpenReadStream())
+                            {
+                                form.Add(new StreamContent(contentStream),"Agreement.txt");
+                            }
+                            var response = await client.PostAsync($"{res.ApiInfo.Split("&&&")[1]}/Offer/{res.OfferId}/document/upload",form);
+                            //return await response.Content.ReadAsStringAsync();
+                        }
+                    }
+                    
                     req.AgreementKey = newname;
                     req.Status = RequestStatus.DocumentsProvided.ToString();
                     Helpers.sendInitalStatusUpdateEmail(req.Email);
