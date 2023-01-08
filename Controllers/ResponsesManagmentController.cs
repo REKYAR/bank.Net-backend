@@ -107,8 +107,8 @@ namespace Bank.NET___backend.Controllers
                 var stream = Helpers.downloadDocument("dotnet-bank-agreements",req.AgreementKey);
                 stream.Seek(0, SeekOrigin.Begin);
                 //return File(stream, "agreement.jpg");
-                MediaTypeNames.Image.Jpeg.ToString();
-                return File(stream, MediaTypeNames.Image.Jpeg,"agreement.jpg");
+                //MediaTypeNames.Image.Jpeg.ToString();
+                return File(stream, MediaTypeNames.Text.Plain,"agreement.txt");
             }
             catch (Exception e)
             {

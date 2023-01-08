@@ -52,7 +52,7 @@ namespace Bank.NET___backend.Controllers
 
         [HttpGet]
         [Route("/getAgreement/{rqid}")]
-        public ActionResult GetDocumentUser(int rqid)
+        public async Task<ActionResult> GetDocumentUser(int rqid)
         {
             if (_sqlContext.Requests.Where(r =>r.RequestID == rqid).Count() == 1)
             {
@@ -61,12 +61,16 @@ namespace Bank.NET___backend.Controllers
                 if (res.External)
                 {
                     //TODO hit external api for result
-                    return Ok();
+                    HttpClient client = new HttpClient();
+                    HttpResponseMessage response3 = await client.GetAsync($"{res.ApiInfo.Split("&&&")[1]}/Offer/{res.OfferId.ToString()}/document/{res.documentKey.Split('/').Last()}");
+                    return File(response3.Content.ReadAsStream(), MediaTypeNames.Text.Plain, "File.txt");
+                    //var stream = 
+                    //return Ok();
                 }
                 else
                 {
                     var stream = Helpers.generateAgreeement(req.Name, req.Surname);
-                    return File(stream, MediaTypeNames.Application.Pdf, "document.pdf"); 
+                    return File(stream, MediaTypeNames.Text.Plain, "document.txt"); 
                 }
             }
             else
@@ -159,7 +163,7 @@ namespace Bank.NET___backend.Controllers
         //final confirmation
         [HttpGet]
         [Route("/getFinalConfirmation/{rqid}/{guid}")]
-        public ActionResult GetConfirmation(int rqid,Guid guid)
+        public async Task<ActionResult> GetConfirmation(int rqid,Guid guid)
         {
             if (_sqlContext.Requests.Where(r => r.MappedGuid == guid && r.RequestID == rqid).Count() == 1)
             {
@@ -170,6 +174,8 @@ namespace Bank.NET___backend.Controllers
                 _sqlContext.SaveChanges();
                 if (res.External)
                 {
+                    HttpClient client = new HttpClient();
+                    var response = await client.PostAsync($"{res.ApiInfo.Split("&&&")[1]}/Offer/{res.OfferId.ToString()}/complete",null);
                     //TODO send complete to external api
                 }
                 return Ok();

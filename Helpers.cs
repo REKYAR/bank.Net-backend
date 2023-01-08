@@ -1,10 +1,15 @@
-﻿using Azure.Communication.Email;
+﻿using System.Net.Mime;
+using Azure.Communication.Email;
 using Azure.Communication.Email.Models;
 using System.Security.Claims;
+using System.Text;
 using Azure;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
+using Bank.NET___backend.ApiStructures.NewFolder.bankapi4dotnet;
+using Bank.NET___backend.Data;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
 
@@ -119,21 +124,94 @@ namespace Bank.NET___backend
         public static Stream generateAgreeement(string name, string lastname)
         {
             
-            var document = new PdfDocument();
-            var page = document.AddPage();
+            //var document = new PdfDocument();
+            //var page = document.AddPage();
 
-            var gfx = XGraphics.FromPdfPage(page);
-            var font = new XFont("Arial", 20, XFontStyle.Regular);
+            //var gfx = XGraphics.FromPdfPage(page);
+            //var font = new XFont("Arial", 20, XFontStyle.Regular);
 
-            var textColor = XBrushes.Black;
-            var layout = new XRect(20, 20, page.Width, 0);
-            var format = XStringFormats.Default;
+            //var textColor = XBrushes.Black;
+            //var layout = new XRect(20, 20, page.Width, 0);
+            //var format = XStringFormats.Default;
 
-            gfx.DrawString($"I {name} {lastname} agree to this stuff.", font, textColor, layout, format);
-            Stream stream = new MemoryStream();
+            //gfx.DrawString($"I {name} {lastname} agree to this stuff.", font, textColor, layout, format);
+            //Stream stream = new MemoryStream();
 
-            document.Save(stream);
+            //document.Save(stream);
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream);
+            writer.Write($"I {name} {lastname} agree to this stuff.");
+            writer.Flush();
+            stream.Position = 0;
             return stream;
+        }
+
+        public static async Task<Data.Response> GetOfferFromApi1(Data.Request req, string apiinfo)
+        {
+            Data.Response res = new Data.Response();
+            res.UserEmail = req.Email;
+            res.RequestID = req.RequestID;
+            res.State = ResponseStatus.PendingApproval.ToString();
+            try
+            {
+                res.External = true;
+                
+                res.ApiInfo = apiinfo;
+                Dictionary<string, string> responseDict = new Dictionary<string, string>();
+                Dictionary<string, string> response2Dict = new Dictionary<string, string>();
+                ApiStructures.NewFolder.bankapi4dotnet.Offer of;
+            
+                HttpClient client = new HttpClient();
+                string uri = apiinfo.Split("&&&")[1];
+                CreateInquiryRequest cir = new CreateInquiryRequest(req.Amount, req.NumberOfInstallments, req.Name,
+                    req.Surname, 0, 0, 0, req.IncomeLevel);
+                HttpResponseMessage response = await client.PostAsJsonAsync($"{uri}/api/Inquire", cir);
+                if (response.IsSuccessStatusCode)
+                {
+                    string s = await response.Content.ReadAsStringAsync();
+                    responseDict = JsonConvert.DeserializeObject<Dictionary<string,string>>(s);
+                }
+
+                if (responseDict is null)
+                {
+                    throw new NullReferenceException();
+                }
+                else
+                {
+                    HttpResponseMessage response2 = await client.GetAsync($"{uri}/api/Inquire/{responseDict["inquireId"]}");
+                    string s = await response2.Content.ReadAsStringAsync();
+                    response2Dict = response2.Content.ReadAsAsync<Dictionary<string,string>>().Result;
+                }
+
+                if (response2Dict is null)
+                {
+                    throw new NullReferenceException();
+                }
+                else
+                {
+                    HttpResponseMessage response2 = await client.GetAsync($"{uri}/Offer/{response2Dict["offerId"]}");
+                    string s = await response2.Content.ReadAsStringAsync();
+                    of = response2.Content.ReadAsAsync<Offer>().Result;
+                    res.documentKey = of.DocumentLink.Split('/').Last();
+                    res.OfferId = of.Id;
+                    res.MonthlyInstallment = of.MonthlyInstallment;
+                    //return Ok(of);
+                }
+
+                return res;
+            }
+            catch (Exception e)
+            {
+                res.ApiInfo = null;
+                res.External = false;
+                res.MonthlyInstallment = Logic.generateOffer(req);
+                return res;
+                throw;
+            }
+            
+            //OFFER RECIVED
+            //HttpResponseMessage response3 = await client.GetAsync($"{uri}/Offer/{of.Id}/document/{of.DocumentLink.Split('/').Last()}");
+            //return File(response3.Content.ReadAsStream(), MediaTypeNames.Text.Plain, "File.txt");
         }
     }
 }

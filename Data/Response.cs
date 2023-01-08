@@ -28,6 +28,8 @@ namespace Bank.NET___backend.Data
         [Required]
         public bool External { get; set; }
         public string? ApiInfo { get; set; }
+        public Guid? OfferId { get; set; }
+        public string? documentKey { get; set; }
 
     }
     public class ResponseDTO

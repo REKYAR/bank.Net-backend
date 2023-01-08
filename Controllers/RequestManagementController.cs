@@ -166,7 +166,7 @@ namespace Bank.NET___backend.Controllers
         //generate 3 offers (for now we generate all 3)
         [HttpGet]
         [Route("api/RequestManagement/offers/{RequestID}")]
-        public ActionResult<IEnumerable<Offer>> getOffers(int RequestID)
+        public async Task<ActionResult<IEnumerable<Offer>>> getOffers(int RequestID)
         {
             if (_sqlContext.Requests.Where(r => r.RequestID == RequestID).Count() == 1)
             {
@@ -175,18 +175,42 @@ namespace Bank.NET___backend.Controllers
                 offers.Add(new Offer(req,Logic.generateOffer(req)));
                 offers.Add(new Offer(req,Logic.generateOffer(req)));//to be changed
                 offers.Add(new Offer(req,Logic.generateOffer(req)));//to be changed
-                //TODO change to integrate with external
-                foreach (Offer offer in offers)
-                {
-                    Response r = new Response();
-                    r.RequestID = req.RequestID;
-                    r.External = false;
-                    //r.User = req.User;
-                    r.UserEmail = req.Email;
-                    r.MonthlyInstallment = offer.MonthlyInstallment;
-                    r.State = ResponseStatus.PendingApproval.ToString();
-                    _sqlContext.Responses.Add(r);
-                }
+                //own
+                Response r1 = new Response();
+                r1.RequestID = req.RequestID;
+                r1.External = false;
+                //r.User = req.User;
+                r1.UserEmail = req.Email;
+                r1.MonthlyInstallment = offers[0].MonthlyInstallment;
+                r1.State = ResponseStatus.PendingApproval.ToString();
+                _sqlContext.Responses.Add(r1);
+
+
+                //external1 TODO change to integrate with external
+                Response r2 = new Response();
+                r2.RequestID = req.RequestID;
+                r2.External = false;
+                //r.User = req.User;
+                r2.UserEmail = req.Email;
+                r2.MonthlyInstallment = offers[1].MonthlyInstallment;
+                r2.State = ResponseStatus.PendingApproval.ToString();
+                _sqlContext.Responses.Add(r2);
+                //external2
+
+                string in1 = "uri&&&https://bankapi4dotnet.azurewebsites.net/";
+                Response r3 = await Helpers.GetOfferFromApi1(req, in1);
+                _sqlContext.Responses.Add(r3);
+                //foreach (Offer offer in offers)
+                //{
+                //    Response r = new Response();
+                //    r.RequestID = req.RequestID;
+                //    r.External = false;
+                //    //r.User = req.User;
+                //    r.UserEmail = req.Email;
+                //    r.MonthlyInstallment = offer.MonthlyInstallment;
+                //    r.State = ResponseStatus.PendingApproval.ToString();
+                //    _sqlContext.Responses.Add(r);
+                //}
                 _sqlContext.SaveChanges();
                 return Ok(offers);
             }

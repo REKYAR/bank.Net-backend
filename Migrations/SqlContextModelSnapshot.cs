@@ -138,6 +138,9 @@ namespace Bank.NETbackend.Migrations
                     b.Property<decimal>("MonthlyInstallment")
                         .HasColumnType("numeric");
 
+                    b.Property<Guid?>("OfferId")
+                        .HasColumnType("uuid");
+
                     b.Property<int>("RequestID")
                         .HasColumnType("integer");
 
@@ -147,6 +150,9 @@ namespace Bank.NETbackend.Migrations
 
                     b.Property<string>("UserEmail")
                         .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("documentKey")
                         .HasColumnType("text");
 
                     b.HasKey("ResponseID");

@@ -108,7 +108,7 @@ namespace Bank.NET___backend.Controllers
                 Request r = _sqlContext.Requests.Where(r => r.RequestID == RequestID).First();
                 var stream = Helpers.generateAgreeement(r.Name, r.Surname);
                 //Response res = _sqlContext.Responses.Where(r => r.ResponseID == ResponseId).First();
-                return File(stream, MediaTypeNames.Application.Pdf, "document.pdf");
+                return File(stream, MediaTypeNames.Text.Plain, "document.txt");
             }
             catch (Exception e)
             {
