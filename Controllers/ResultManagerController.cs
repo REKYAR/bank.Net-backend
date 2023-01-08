@@ -106,8 +106,9 @@ namespace Bank.NET___backend.Controllers
                             using (Stream contentStream = file.OpenReadStream())
                             {
                                 form.Add(new StreamContent(contentStream),"Agreement.txt");
+                                var response = await client.PostAsync($"{res.ApiInfo.Split("&&&")[1]}/Offer/{res.OfferId}/document/upload",form);
                             }
-                            var response = await client.PostAsync($"{res.ApiInfo.Split("&&&")[1]}/Offer/{res.OfferId}/document/upload",form);
+                            
                             //return await response.Content.ReadAsStringAsync();
                         }
                     }
