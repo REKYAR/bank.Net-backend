@@ -4,10 +4,10 @@ using Microsoft.Identity.Web.Resource;
 
 namespace Bank.NET___backend.Controllers
 {
+    [Route("[controller]")]
     [RequiredScope("access_as_user")]
     [Authorize]
     [ApiController]
-    [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -22,6 +22,7 @@ namespace Bank.NET___backend.Controllers
             _logger = logger;
         }
 
+        
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
@@ -33,5 +34,19 @@ namespace Bank.NET___backend.Controllers
             })
             .ToArray();
         }
+
+        /*[RequiredScope("other_bank_access")]
+        [HttpGet(Name = "GetWeatherForecast")]
+        [Route("[controller]/other_bank")]
+        public IEnumerable<WeatherForecast> GetToOtherBank()
+        {
+            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            {
+                Date = DateTime.Now.AddDays(index),
+                TemperatureC = Random.Shared.Next(-20, 55),
+                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+            })
+            .ToArray();
+        }*/
     }
 }
