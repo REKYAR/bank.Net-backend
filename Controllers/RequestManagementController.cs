@@ -199,6 +199,7 @@ namespace Bank.NET___backend.Controllers
 
                 string in1 = "uri&&&https://bankapi4dotnet.azurewebsites.net/";
                 Response r3 = await Helpers.GetOfferFromApi1(req, in1);
+                offers[2].MonthlyInstallment = r3.MonthlyInstallment;
                 _sqlContext.Responses.Add(r3);
                 //foreach (Offer offer in offers)
                 //{
