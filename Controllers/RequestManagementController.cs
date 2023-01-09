@@ -28,7 +28,7 @@ namespace Bank.NET___backend.Controllers
             List<Data.Request> reqs = _sqlContext.Requests.ToList();
         }*/
 
-        [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+        [RequiredScope("access_as_user")]
         [HttpGet]
         [Route("/getUserRequests")]
         [Authorize]
@@ -64,7 +64,7 @@ namespace Bank.NET___backend.Controllers
             return Ok(dto);
         }
 
-        [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+        [RequiredScope("access_as_user")]
         [HttpGet]
         [Route("/getRecentRequests")]
         [Authorize]
@@ -98,6 +98,7 @@ namespace Bank.NET___backend.Controllers
 
             return Ok(dto);
         }
+
         [HttpGet]
         [Route("/inspect/{rqid}")]
         public ActionResult<CompleteRequest> GetRequest(int rqid)

@@ -3,6 +3,8 @@ using Bank.NET___backend.Data;
 using Bank.NET___backend.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Identity.Web.Resource;
 
 namespace Bank.NET___backend.Controllers
 {
@@ -19,6 +21,8 @@ namespace Bank.NET___backend.Controllers
 
         //post inqure (create request)
         [HttpPost("api/[controller]/postInquire")]
+        [RequiredScope("other_bank_access")]
+        [Authorize]
         public ActionResult<int> PostRequestExternal([FromBody] RequestDTO Requestdata)
         {
             Data.Request req = new Data.Request();
@@ -69,6 +73,8 @@ namespace Bank.NET___backend.Controllers
 
         //get inqure 
         [HttpGet("getInquire/{RequestID}")]
+        [RequiredScope("other_bank_access")]
+        [Authorize]
         public ActionResult<Request> GetRequestExternal(int RequestID)
         {
             try
@@ -85,6 +91,8 @@ namespace Bank.NET___backend.Controllers
 
         //get offer
         [HttpGet("offer/{ResponseId}")]
+        [RequiredScope("other_bank_access")]
+        [Authorize]
         public ActionResult<Response> GetResultExternal(int ResponseId)
         {
             try
@@ -101,6 +109,8 @@ namespace Bank.NET___backend.Controllers
 
         //get offer document
         [HttpPost("getAgreement/{RequestID}")]
+        [RequiredScope("other_bank_access")]
+        [Authorize]
         public ActionResult GetDocumentTemplateExternal(int RequestID)
         {
             try
@@ -120,6 +130,8 @@ namespace Bank.NET___backend.Controllers
         //post offer document
         [HttpPost]
         [Route("uploadAgreement/{RequestId}")]
+        [RequiredScope("other_bank_access")]
+        [Authorize]
         public ActionResult UploadDocumentExternal(int RequestId, IFormFile file)
         {
             string tempDirectoryPath = (string)Environment.GetEnvironmentVariable("TEMP");
@@ -153,6 +165,8 @@ namespace Bank.NET___backend.Controllers
         //finalize request
         [HttpGet]
         [Route("offer/{RequestID}/complete")]
+        [RequiredScope("other_bank_access")]
+        [Authorize]
         public ActionResult FinalizeExternal(int RequestID)
         {
             try

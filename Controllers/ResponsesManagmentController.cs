@@ -36,7 +36,7 @@ namespace Bank.NET___backend.Controllers
             return Ok(parametres.handleQueryParametres(data));
         }
 
-        [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+        [RequiredScope("access_as_user")]
         [HttpPost("Approve")]
         [Authorize(Policy = "BankEmployee")]
         public ActionResult<ResponseDTO> ApproveResponse([FromBody] Dictionary<string, string> ResponseData)
@@ -67,7 +67,7 @@ namespace Bank.NET___backend.Controllers
             }
         }
 
-        [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+        [RequiredScope("access_as_user")]
         [HttpPost("Refuse")]
         [Authorize(Policy = "BankEmployee")]
         public ActionResult<ResponseDTO> RefuseResponse([FromBody] Dictionary<string, string> ResponseData)
@@ -97,7 +97,10 @@ namespace Bank.NET___backend.Controllers
                 return BadRequest(e);
             }
         }
+
         [HttpPost("GetAgreement/{rqid}")]
+        [Authorize(Policy = "BankEmployee")]
+        [RequiredScope("access_as_user")]
         public ActionResult GetAgreement(int rqid)
         {
             try
@@ -119,6 +122,8 @@ namespace Bank.NET___backend.Controllers
         }
 
         [HttpPost("GetDocument/{rqid}")]
+        [Authorize(Policy = "BankEmployee")]
+        [RequiredScope("access_as_user")]
         public ActionResult GetDocument(int rqid)
         {
             try
