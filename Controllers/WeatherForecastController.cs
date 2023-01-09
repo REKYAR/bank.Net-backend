@@ -13,7 +13,7 @@ namespace Bank.NET___backend.Controllers
         private static readonly string[] Summaries = new[]
         {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+        };
 
         private readonly ILogger<WeatherForecastController> _logger;
 
@@ -35,8 +35,8 @@ namespace Bank.NET___backend.Controllers
             .ToArray();
         }
 
-        /*[RequiredScope("other_bank_access")]
-        [HttpGet(Name = "GetWeatherForecast")]
+        [RequiredScope("other_bank_access")]
+        [HttpGet]
         [Route("[controller]/other_bank")]
         public IEnumerable<WeatherForecast> GetToOtherBank()
         {
@@ -47,6 +47,6 @@ namespace Bank.NET___backend.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
-        }*/
+        }
     }
 }
