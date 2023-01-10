@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
+using System.Text.Json;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace Bank.NET___backend.Controllers
@@ -12,6 +13,8 @@ namespace Bank.NET___backend.Controllers
     [ApiController]
     public class APIConnectorController : ControllerBase
     {
+        private static string authPrefix = "Basic ";
+        
         private readonly SqlContext _sqlContext;
         private string _decodedAuthData;
         private string _extensionAppID;
@@ -29,9 +32,8 @@ namespace Bank.NET___backend.Controllers
         }
 
         [HttpPost("NewUser")]
-        public ActionResult<BaseAPIConnectorResponse> ApproveNewUser([FromBody] Dictionary<string, string> Data)
+        public ActionResult<BaseAPIConnectorResponse> ApproveNewUser([FromBody] Dictionary<string, JsonElement> Data)
         {
-            //Authorization
             var authHeader = Request.Headers.Authorization;
             if (ApiConnectorAuth(Request.Headers.Authorization) == false)
                 return Ok(new APIConnectorBlock("Invalid auth data"));
@@ -39,12 +41,12 @@ namespace Bank.NET___backend.Controllers
             try
             {
                 User newUser = new User();
-                newUser.Name = Data["givenName"];
-                newUser.Surname = Data["surname"];
-                newUser.GovermentId = Data["extension_" + _extensionAppID + "_GovermentID"];
-                newUser.Email = Data["email"];
-                newUser.JobType = Data["extension_" + _extensionAppID + "JobType"];
-                newUser.IncomeLevel = decimal.Parse(Data["extension_" + _extensionAppID + "_Incomelevel"]);
+                newUser.Name = Data["givenName"].ToString();
+                newUser.Surname = Data["surname"].ToString();
+                newUser.GovermentId = Data["extension_" + _extensionAppID + "_GovermentID"].ToString();
+                newUser.Email = Data["email"].ToString();
+                newUser.JobType = Data["extension_" + _extensionAppID + "_JobType"].ToString();
+                newUser.IncomeLevel = Data["extension_" + _extensionAppID + "_Incomelevel"].GetDecimal();
 
                 _sqlContext.Users.Add(newUser);
                 _sqlContext.SaveChanges();
@@ -62,13 +64,10 @@ namespace Bank.NET___backend.Controllers
             if (StringValues.IsNullOrEmpty(authHeader))
                 return false;
 
-            if (authHeader.Count != 2)
+            if (authHeader.Count != 1)
                 return false;
 
-            if (authHeader[0] != "Basic")
-                return false;
-
-            byte[] decodedData = Convert.FromBase64String(authHeader[1]);
+            byte[] decodedData = Convert.FromBase64String(authHeader[0].Substring(authPrefix.Length));
             if (System.Text.Encoding.UTF8.GetString(decodedData) != _decodedAuthData)
                 return false;
 
