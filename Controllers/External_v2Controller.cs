@@ -3,6 +3,8 @@ using Bank.NET___backend.ApiStructures.NewFolder.bankapi4dotnet;
 using Bank.NET___backend.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Web.Resource;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Bank.NET___backend.Controllers
 {
@@ -19,6 +21,8 @@ namespace Bank.NET___backend.Controllers
 
         //post inqure (create request)
         [HttpPost("/api/[controller]/Inquire")]
+        [RequiredScope("other_bank_access")]
+        [Authorize]
         public ActionResult PostRequestExternal([FromBody] CreateInquiryRequest Requestdata)
         {
             Data.Request req = new Data.Request();
@@ -75,6 +79,8 @@ namespace Bank.NET___backend.Controllers
 
         //get inqure 
         [HttpGet("/api/[controller]/Inquire/{InquireId}")]
+        [RequiredScope("other_bank_access")]
+        [Authorize]
         public ActionResult<CreateInquiryResponse> GetRequestExternal(Guid InquireId)
         {
             try
@@ -101,6 +107,8 @@ namespace Bank.NET___backend.Controllers
 
         //get offer
         [HttpGet("/api/[controller]/Offer/{OfferId}")]
+        [RequiredScope("other_bank_access")]
+        [Authorize]
         public ActionResult<ApiStructures.NewFolder.bankapi4dotnet.Offer> GetResultExternal(Guid OfferId)
         {
             try
@@ -122,6 +130,8 @@ namespace Bank.NET___backend.Controllers
 
         //get offer document
         [HttpPost("/api/[controller]/Offer/{OfferId}/document/{key}")]
+        [RequiredScope("other_bank_access")]
+        [Authorize]
         public ActionResult GetDocumentTemplateExternal(Guid OfferId, string key)
         {
             try
@@ -141,6 +151,8 @@ namespace Bank.NET___backend.Controllers
         //post offer document
         [HttpPost]
         [Route("/api/[controller]/Offer/{OfferId}/document/upload")]
+        [RequiredScope("other_bank_access")]
+        [Authorize]
         public ActionResult UploadDocumentExternal(Guid OfferId, IFormFile file)
         {
             string tempDirectoryPath = (string)Environment.GetEnvironmentVariable("TEMP");
@@ -174,6 +186,8 @@ namespace Bank.NET___backend.Controllers
         //finalize request
         [HttpGet]
         [Route("/api/[controller]/Offer/{OfferId}/complete")]
+        [RequiredScope("other_bank_access")]
+        [Authorize]
         public ActionResult FinalizeExternal(Guid OfferId)
         {
             try
