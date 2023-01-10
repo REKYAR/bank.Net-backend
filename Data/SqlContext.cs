@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Bank.NET___backend.ApiStructures.NewFolder.bankapi4dotnet;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bank.NET___backend.Data
 {
@@ -6,6 +7,7 @@ namespace Bank.NET___backend.Data
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Admin> Admins { get; set; }
+        public DbSet<Inquiry> Inquiries { get; set; }
         public DbSet<Request> Requests { get; set; }
         public DbSet<Response> Responses { get; set; }
 

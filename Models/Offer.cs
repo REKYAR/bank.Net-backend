@@ -2,7 +2,7 @@
 
 namespace Bank.NET___backend.Models
 {
-    public class Offer
+    public class TempOffer
     {
         public DateTime Date { get; set; }
         public decimal Amount { get; set; }
@@ -15,9 +15,9 @@ namespace Bank.NET___backend.Models
         public decimal IncomeLevel { get; set; }
         public string Status { get; set; }
         public decimal MonthlyInstallment { get; set; }
-        public Offer()
+        public TempOffer()
         {}
-        public Offer(Request r, decimal monthlyInstallment)
+        public TempOffer(Request r, decimal monthlyInstallment)
         {
             
             Date = DateTime.Now;
@@ -33,7 +33,7 @@ namespace Bank.NET___backend.Models
             MonthlyInstallment = monthlyInstallment;
         }
 
-        public Offer(RequestDTO r, decimal monthlyInstallment)
+        public TempOffer(RequestDTO r, decimal monthlyInstallment)
         {
             
             Date = DateTime.Now;

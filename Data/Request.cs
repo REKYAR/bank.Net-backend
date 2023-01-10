@@ -41,6 +41,7 @@ namespace Bank.NET___backend.Data
         public string? AgreementKey { get; set; }
         public string? ApiInfo { get; set; }
         public Guid? MappedGuid { get; set; }
+        public Guid? InquireId { get; set; }
 
     }
     public class RequestDTO
