@@ -166,15 +166,15 @@ namespace Bank.NET___backend.Controllers
         //generate 3 offers (for now we generate all 3)
         [HttpGet]
         [Route("api/RequestManagement/offers/{RequestID}")]
-        public async Task<ActionResult<IEnumerable<Offer>>> getOffers(int RequestID)
+        public async Task<ActionResult<IEnumerable<TempOffer>>> getOffers(int RequestID)
         {
             if (_sqlContext.Requests.Where(r => r.RequestID == RequestID).Count() == 1)
             {
                 var req = _sqlContext.Requests.Where(r => r.RequestID == RequestID).First();
-                List<Offer> offers = new List<Offer>();
-                offers.Add(new Offer(req,Logic.generateOffer(req)));
-                offers.Add(new Offer(req,Logic.generateOffer(req)));//to be changed
-                offers.Add(new Offer(req,Logic.generateOffer(req)));//to be changed
+                List<TempOffer> offers = new List<TempOffer>();
+                offers.Add(new Models.TempOffer(req,Logic.generateOffer(req)));
+                offers.Add(new Models.TempOffer(req,Logic.generateOffer(req)));//to be changed
+                offers.Add(new Models.TempOffer(req,Logic.generateOffer(req)));//to be changed
                 //own
                 Response r1 = new Response();
                 r1.RequestID = req.RequestID;

@@ -2,12 +2,49 @@
 
 namespace Bank.NET___backend.ApiStructures.NewFolder.bankapi4dotnet
 {
+
+    public class Inquiry
+    {
+        public Guid Id { get; set; }
+        public DateTime CreationDate { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal MoneyAmount { get; set; }
+        public int InstallmentsCount { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public int DocumentType { get; set; }
+        public int DocumentId { get; set; }
+        public int JobType { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal IncomeLevel { get; set; }
+
+        public Inquiry()
+        {
+
+        }
+        public Inquiry(Guid _id, DateTime _creationDate, decimal _moneyAmount, int _installmentsCount, string _firstName, string _lastName,
+            int _documentType, int _documentId, int _jobType, decimal _incomeLevel)
+        {
+            //enforce invariants
+            Id = _id;
+            CreationDate = _creationDate;
+            MoneyAmount = _moneyAmount;
+            InstallmentsCount = _installmentsCount;
+            FirstName = _firstName;
+            LastName = _lastName;
+            DocumentType = _documentType;
+            DocumentId = _documentId;
+            JobType = _jobType;
+            IncomeLevel = _incomeLevel;
+        }
+    }
     public class CreateInquiryRequest
     {
         public decimal MoneyAmount { get; }
         public int InstallmentsNumber { get; }
         public string FirstName { get; }
         public string LastName { get; }
+        public string Email { get; }
         public int DocumentType { get; }
         public int DocumentId { get; }
         public int JobType { get; }
@@ -29,13 +66,11 @@ namespace Bank.NET___backend.ApiStructures.NewFolder.bankapi4dotnet
     {
         public Guid InquireId { get; }
         public DateTime CreationDate{ get; }
-        public string StatusDescription { get; }
         public Guid OfferId { get; }
-        public CreateInquiryResponse(Guid _inquireId, DateTime _creationDate, string _statusDescription, Guid _offerId)
+        public CreateInquiryResponse(Guid _inquireId, DateTime _creationDate, Guid _offerId)
         {
             InquireId = _inquireId;
             CreationDate = _creationDate;
-            StatusDescription = _statusDescription;
             OfferId = _offerId;
         }
     }

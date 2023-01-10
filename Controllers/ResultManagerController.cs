@@ -19,7 +19,7 @@ namespace Bank.NET___backend.Controllers
         //validate selected answear
         [HttpPost]
         [Route("/SelectedResult/{RequestId}")]
-        public ActionResult SelectedResult(int RequestId, [FromBody]Offer of)
+        public ActionResult SelectedResult(int RequestId, [FromBody]TempOffer of)
         {
             try
             {
@@ -192,7 +192,7 @@ namespace Bank.NET___backend.Controllers
                     var response = await client.PostAsync($"{res.ApiInfo.Split("&&&")[1]}/Offer/{res.OfferId.ToString()}/complete",null);
                     //TODO send complete to external api
                 }
-                return Ok();
+                return Ok(Response);
             }
             else
             {
