@@ -32,7 +32,7 @@ namespace Bank.NET___backend.Controllers
                 req.Surname = Requestdata.LastName;
                 req.Date = DateTime.UtcNow;
                 req.Amount = Requestdata.MoneyAmount;
-                req.Email = Requestdata.Email;
+                req.Email = "placeholder_email";
                 req.GovermentId = $"{Requestdata.DocumentType}&&&{Requestdata.DocumentId}";
                 req.NumberOfInstallments = Requestdata.InstallmentsNumber;
                 req.IncomeLevel = Requestdata.IncomeLevel;
