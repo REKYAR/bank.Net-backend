@@ -19,7 +19,7 @@ namespace Bank.NET___backend.Controllers
 
         //post inqure (create request)
         [HttpPost("/api/[controller]/Inquire")]
-        public ActionResult<int> PostRequestExternal([FromBody] CreateInquiryRequest Requestdata)
+        public ActionResult PostRequestExternal([FromBody] CreateInquiryRequest Requestdata)
         {
             Data.Request req = new Data.Request();
             Data.Response res = new Data.Response();
@@ -58,6 +58,8 @@ namespace Bank.NET___backend.Controllers
                 req.ResponseID = res.ResponseID;
                 res.RequestID= req.RequestID;
                 _sqlContext.SaveChanges();
+                var response = new CreateInquiry(inq.Id,inq.CreationDate);
+                return CreatedAtAction(nameof(PostRequestExternal), new { id = inq.Id },response);
             }
             catch (Exception c)
             {
@@ -66,8 +68,8 @@ namespace Bank.NET___backend.Controllers
 
             //_sqlContext.Requests.Add(req);
             //send mail with request id
-            return Ok(req.RequestID);
-
+            //return Ok(req.RequestID);
+            
 
         }
 

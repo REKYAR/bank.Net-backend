@@ -73,6 +73,16 @@ namespace Bank.NET___backend.ApiStructures.NewFolder.bankapi4dotnet
             OfferId = _offerId;
         }
     }
+    public class CreateInquiry
+    {
+        public Guid InquireId { get; }
+        public DateTime CreationDate{ get; }
+        public CreateInquiry(Guid _inquireId, DateTime _creationDate)
+        {
+            InquireId = _inquireId;
+            CreationDate = _creationDate;
+        }
+    }
     public class FileModel
     {
         public IFormFile ImageFile { get; set; }
