@@ -44,7 +44,6 @@ namespace Bank.NET___backend.ApiStructures.NewFolder.bankapi4dotnet
         public int InstallmentsNumber { get; }
         public string FirstName { get; }
         public string LastName { get; }
-        public string Email { get; }
         public int DocumentType { get; }
         public int DocumentId { get; }
         public int JobType { get; }
