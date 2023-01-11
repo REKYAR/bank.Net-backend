@@ -30,8 +30,13 @@ namespace Bank.NET___backend.Controllers
                 return BadRequest();
             }
 
-            IQueryable<CompleteRequest> data = _sqlContext.Responses.Join(_sqlContext.Requests, res => res.RequestID, req => req.RequestID,
-                (res, req) => new CompleteRequest(res, req));
+            //IQueryable<CompleteRequest> data = _sqlContext.Responses.Join(_sqlContext.Requests, res => res.RequestID, req => req.RequestID,
+            //    (res, req) => new CompleteRequest(res, req));
+
+            var data = from request in _sqlContext.Requests
+                       join response in _sqlContext.Responses
+                       on request.ResponseID equals response.ResponseID
+                       select new CompleteRequest(response, request);
 
             return Ok(parametres.handleQueryParametres(data));
         }
