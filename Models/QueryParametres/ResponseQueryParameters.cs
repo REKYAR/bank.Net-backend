@@ -85,7 +85,7 @@ namespace Bank.NET___backend.Models.QueryParametres
         private IQueryable<CompleteRequest> filterData(IQueryable<CompleteRequest> data)
         {
             if (State != null)
-                data = data.Where(req => req.Status == State);
+                data = data.Where(req => req.ResponseStatus == State);
             
             if (minAmount > 0)
                 data = data.Where(req => req.Amount >= minAmount);
