@@ -1,4 +1,8 @@
-﻿namespace Bank.NET___backend.Models.QueryParametres
+﻿using Microsoft.CodeAnalysis;
+using Newtonsoft.Json;
+using NuGet.Protocol.Plugins;
+
+namespace Bank.NET___backend.Models.QueryParametres
 {
     public abstract class QueryStringParameters
     {
@@ -13,6 +17,18 @@
             {
                 _pageSize = value > maxPageSize ? maxPageSize : value;
             }
+        }
+
+        public string GetPagingMetadata(int TotalCount)
+        {
+            var metadata = new
+            {
+                PageNumber,
+                PageSize,
+                TotalCount
+            };
+
+            return JsonConvert.SerializeObject(metadata);
         }
     }
 }

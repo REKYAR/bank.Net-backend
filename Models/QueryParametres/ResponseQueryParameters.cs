@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace Bank.NET___backend.Models.QueryParametres
 {
-    public enum SortingParameters
+    public enum ResponseSortingParameters
     {
         DateDesc,
         DateAsc,
@@ -56,25 +56,25 @@ namespace Bank.NET___backend.Models.QueryParametres
 
         private IOrderedQueryable<CompleteRequest> sortData(IQueryable<CompleteRequest> data)
         {
-            SortingParameters parameter = Sorting == null ? SortingParameters.Default : Enum.Parse<SortingParameters>(Sorting);
+            ResponseSortingParameters parameter = Sorting == null ? ResponseSortingParameters.Default : Enum.Parse<ResponseSortingParameters>(Sorting);
 
             switch (parameter)
             {
-                case SortingParameters.DateAsc:
+                case ResponseSortingParameters.DateAsc:
                     return data.OrderBy(req => req.Date);
-                case SortingParameters.DateDesc:
+                case ResponseSortingParameters.DateDesc:
                     return data.OrderByDescending(req => req.Date);
-                case SortingParameters.RateAsc:
+                case ResponseSortingParameters.RateAsc:
                     return data.OrderBy(req => req.Rate);
-                case SortingParameters.RateDesc:
+                case ResponseSortingParameters.RateDesc:
                     return data.OrderByDescending(req => req.Rate);
-                case SortingParameters.AmountAsc:
+                case ResponseSortingParameters.AmountAsc:
                     return data.OrderBy(req => req.Amount);
-                case SortingParameters.AmountDesc:
+                case ResponseSortingParameters.AmountDesc:
                     return data.OrderByDescending(req => req.Amount);
-                case SortingParameters.NameAsc:
+                case ResponseSortingParameters.NameAsc:
                     return data.OrderBy(req => req.Name).ThenBy(req => req.Surname);
-                case SortingParameters.NameDesc:
+                case ResponseSortingParameters.NameDesc:
                     return data.OrderByDescending(req => req.Name).ThenBy(req => req.Surname);
                 default:
                     return data.OrderBy(req => req.ResponseID);
@@ -145,7 +145,7 @@ namespace Bank.NET___backend.Models.QueryParametres
             if (Sorting == null)
                 return true;
 
-            if (!Enum.TryParse<SortingParameters>(State, out _))
+            if (!Enum.TryParse<ResponseSortingParameters>(State, out _))
                 return true;
 
             return false;
