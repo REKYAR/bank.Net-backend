@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
 using Newtonsoft.Json;
+using SixLabors.ImageSharp.Processing.Processors.Quantization;
 
 namespace Bank.NET___backend.Controllers
 {
@@ -30,15 +31,20 @@ namespace Bank.NET___backend.Controllers
                 return BadRequest();
             }
 
-            //IQueryable<CompleteRequest> data = _sqlContext.Responses.Join(_sqlContext.Requests, res => res.RequestID, req => req.RequestID,
-            //    (res, req) => new CompleteRequest(res, req));
+            var requests = _sqlContext.Requests.Where(req => req.ResponseID != null && req.External == false).ToList();
+            List<CompleteRequest> data = new List<CompleteRequest>(requests.Count());
 
-            var data = from request in _sqlContext.Requests
-                       join response in _sqlContext.Responses
-                       on request.ResponseID equals response.ResponseID
-                       select new CompleteRequest(response, request);
+            foreach (Request request in requests)
+            {
+                Response? res = _sqlContext.Responses.Where(res => res.ResponseID == request.ResponseID).FirstOrDefault();
 
-            return Ok(parametres.handleQueryParametres(data));
+                if (res == null)
+                    continue;
+
+                data.Add(new CompleteRequest(res, request));
+            }
+
+            return Ok(parametres.handleQueryParametres(data.AsQueryable()));
         }
 
         [RequiredScope("access_as_user")]
