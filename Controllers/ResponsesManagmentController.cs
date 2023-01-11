@@ -3,11 +3,8 @@ using Bank.NET___backend.Data;
 using Bank.NET___backend.Models;
 using Bank.NET___backend.Models.QueryParametres;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
-using Newtonsoft.Json;
-using SixLabors.ImageSharp.Processing.Processors.Quantization;
 
 namespace Bank.NET___backend.Controllers
 {
@@ -31,23 +28,49 @@ namespace Bank.NET___backend.Controllers
                 return BadRequest();
             }
 
-            var requests = _sqlContext.Requests.Where(req => req.ResponseID != null && req.External == false).ToList();
+            var requests = _sqlContext.Requests.Where(req => req.External == false).ToList();
             List<CompleteRequest> data = new List<CompleteRequest>(requests.Count());
 
             foreach (Request request in requests)
             {
-                Response? res = _sqlContext.Responses.Where(res => res.ResponseID == request.ResponseID).FirstOrDefault();
+                if (request.ResponseID == null)
+                {
+                    data.Add(new CompleteRequest(request, null));
+                }
+                else
+                {
+                    Response? res = _sqlContext.Responses.Where(res => res.ResponseID == request.ResponseID).FirstOrDefault();
 
-                if (res == null)
-                    continue;
+                    if (res == null)
+                        continue;
 
-                data.Add(new CompleteRequest(res, request));
+                    data.Add(new CompleteRequest(res, request));
+                }
             }
 
             var result = parametres.handleQueryParametres(data.AsQueryable());
             Request.Headers.Add("PagingInfo", parametres.GetPagingMetadata(result.Count));
 
             return Ok(result);
+        }
+
+        //[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+        [HttpGet]
+        [Route("/GetResponse/{ResponseId}")]
+        //[Authorize(Policy = "BankEmployee")]
+        public ActionResult<CompleteRequest> GetResponse(int ResponseId)
+        {
+            var request = _sqlContext.Requests.Where(req => req.ResponseID == ResponseId).FirstOrDefault();
+
+            if (request == null)
+                return BadRequest();
+
+            var response = _sqlContext.Responses.Where(res => res.ResponseID == ResponseId).FirstOrDefault();
+
+            if (response == null)
+                return BadRequest();
+
+            return Ok(new CompleteRequest(response, request));
         }
 
         [HttpGet("GetSortingParameters")]
@@ -67,7 +90,7 @@ namespace Bank.NET___backend.Controllers
         }
 
         //[RequiredScope("access_as_user")]
-        [HttpPost("Approve")]
+        [HttpPost]
         //[Authorize(Policy = "BankEmployee")]
         [Route("/ApproveResponse/{ResponseId}")]
         public ActionResult ApproveResponse(int ResponseId)
@@ -90,7 +113,7 @@ namespace Bank.NET___backend.Controllers
         }
 
         //[RequiredScope("access_as_user")]
-        [HttpPost("Refuse")]
+        [HttpPost]
         //[Authorize(Policy = "BankEmployee")]
         [Route("/RefuseResponse/{ResponseId}")]
         public ActionResult RefuseResponse(int ResponseId)
