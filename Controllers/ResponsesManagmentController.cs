@@ -19,7 +19,7 @@ namespace Bank.NET___backend.Controllers
         }
 
         //[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
-        [HttpGet]
+        [HttpGet("GetResponses")]
         //[Authorize(Policy = "BankEmployee")]
         public ActionResult<IEnumerable<CompleteRequest>> GetResponses([FromQuery] ResponseQueryParameters parametres)
         {
