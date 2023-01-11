@@ -44,7 +44,18 @@ namespace Bank.NET___backend.Controllers
                 data.Add(new CompleteRequest(res, request));
             }
 
-            return Ok(parametres.handleQueryParametres(data.AsQueryable()));
+            var result = parametres.handleQueryParametres(data.AsQueryable());
+            Request.Headers.Add("PagingInfo", parametres.GetPagingMetadata(result.Count));
+
+            return Ok(result);
+        }
+
+        [HttpGet("GetResponseSortingParameters")]
+        //[HttpPost("Approve")]
+        //[Authorize(Policy = "BankEmployee")]
+        public ActionResult<string[]> GetResponseSortingParameters()
+        {
+            return Ok(Enum.GetNames(typeof(ResponseSortingParameters)));
         }
 
         [RequiredScope("access_as_user")]
