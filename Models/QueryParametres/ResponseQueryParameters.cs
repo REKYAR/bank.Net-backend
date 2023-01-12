@@ -110,7 +110,7 @@ namespace Bank.NET___backend.Models.QueryParametres
             if (State == null)
                 return true;
 
-            if (Enum.TryParse<RequestStatus>(State, out _))
+            if (Enum.TryParse<ResponseStatus>(State, out _))
                 return true;
 
             return false;
