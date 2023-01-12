@@ -19,39 +19,74 @@ namespace Bank.NET___backend.Controllers
         }
 
         //[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
-        [HttpGet("GetResponses")]
+        [HttpGet("GetInquiries")]
         //[Authorize(Policy = "BankEmployee")]
-        public ActionResult<IEnumerable<CompleteRequest>> GetResponses([FromQuery] ResponseQueryParameters parametres)
+        public ActionResult<IEnumerable<CompleteRequest>> GetInquiries([FromQuery] ResponseQueryParameters parametres)
         {
             if (!parametres.ValidateParameters())
             {
                 return BadRequest();
             }
 
-            var requests = _sqlContext.Requests.Where(req => req.External == false).ToList();
+            var requests = _sqlContext.Requests.Where(req => req.ResponseID == null && req.External == false).ToList();
             List<CompleteRequest> data = new List<CompleteRequest>(requests.Count());
 
             foreach (Request request in requests)
             {
-                if (request.ResponseID == null)
-                {
-                    data.Add(new CompleteRequest(request, null));
-                }
-                else
-                {
-                    Response? res = _sqlContext.Responses.Where(res => res.ResponseID == request.ResponseID).FirstOrDefault();
-
-                    if (res == null)
-                        continue;
-
-                    data.Add(new CompleteRequest(res, request));
-                }
+                data.Add(new CompleteRequest(request, null));
             }
 
             var result = parametres.handleQueryParametres(data.AsQueryable());
-            Request.Headers.Add("PagingInfo", parametres.GetPagingMetadata(result.Count));
+            HttpContext.Request.Headers.Add("PagingInfo", parametres.GetPagingMetadata(result.Count));
 
             return Ok(result);
+        }
+
+        //[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+        [HttpGet("GetRequests")]
+        //[Authorize(Policy = "BankEmployee")]
+        public ActionResult<IEnumerable<CompleteRequest>> GetRequests([FromQuery] ResponseQueryParameters parametres)
+        {
+            if (!parametres.ValidateParameters())
+            {
+                return BadRequest();
+            }
+
+            var requests = _sqlContext.Requests.Where(req => req.ResponseID != null && req.External == false).ToList();
+            List<CompleteRequest> data = new List<CompleteRequest>(requests.Count());
+
+            foreach (Request request in requests)
+            {
+                Response? res = _sqlContext.Responses.Where(res => res.ResponseID == request.ResponseID).FirstOrDefault();
+
+                if (res == null)
+                    continue;
+
+                data.Add(new CompleteRequest(res, request));
+            }
+
+            var result = parametres.handleQueryParametres(data.AsQueryable());
+            HttpContext.Request.Headers.Add("PagingInfo", parametres.GetPagingMetadata(result.Count));
+
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("isUserABankEmployee")]
+        [Authorize]
+        public ActionResult<bool> isUserABankEmployee(int ResponseId)
+        {
+            var claims = User.Claims.ToList();
+            var EmailClaim = Helpers.GetClaim(claims, "emails");
+            if (EmailClaim == null)
+            {
+                return NotFound();
+            }
+
+            if (_sqlContext.Admins.Where(ad => ad.Email == EmailClaim.Value).Any())
+                return Ok(true);
+
+            return Ok(false);
         }
 
         //[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
