@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Newtonsoft.Json;
 using NuGet.Protocol.Plugins;
+using PdfSharpCore;
 
 namespace Bank.NET___backend.Models.QueryParametres
 {
@@ -21,11 +22,14 @@ namespace Bank.NET___backend.Models.QueryParametres
 
         public string GetPagingMetadata(int TotalCount)
         {
+            int TotalPages = (int)Math.Ceiling(TotalCount / (double)PageSize);
+
             var metadata = new
             {
                 PageNumber,
                 PageSize,
-                TotalCount
+                TotalCount,
+                TotalPages
             };
 
             return JsonConvert.SerializeObject(metadata);

@@ -74,7 +74,7 @@ namespace Bank.NET___backend.Controllers
         [HttpGet]
         [Route("isUserABankEmployee")]
         [Authorize]
-        public ActionResult<bool> isUserABankEmployee(int ResponseId)
+        public ActionResult<bool> isUserABankEmployee()
         {
             var claims = User.Claims.ToList();
             var EmailClaim = Helpers.GetClaim(claims, "emails");
