@@ -86,6 +86,7 @@ builder.Services.AddAuthorization(options =>
 });
 
 builder.Services.AddSingleton<IAuthorizationHandler, GroupAuthorizationHandler>();
+builder.Services.AddScoped<IBankEmployeeService, BankEmployeeService>();
 
 builder.Services.AddCors(options =>
 {

@@ -18,9 +18,9 @@ namespace Bank.NET___backend.Controllers
             _sqlContext = sqlContext;
         }
 
-        //[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+        [RequiredScope("access_as_user")]
         [HttpGet("GetInquiries")]
-        //[Authorize(Policy = "BankEmployee")]
+        [Authorize(Policy = "BankEmployee")]
         public ActionResult<IEnumerable<CompleteRequest>> GetInquiries([FromQuery] ResponseQueryParameters parametres)
         {
             if (!parametres.ValidateParameters())
@@ -42,9 +42,9 @@ namespace Bank.NET___backend.Controllers
             return Ok(result);
         }
 
-        //[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+        [RequiredScope("access_as_user")]
         [HttpGet("GetRequests")]
-        //[Authorize(Policy = "BankEmployee")]
+        [Authorize(Policy = "BankEmployee")]
         public ActionResult<IEnumerable<CompleteRequest>> GetRequests([FromQuery] ResponseQueryParameters parametres)
         {
             if (!parametres.ValidateParameters())
@@ -74,6 +74,7 @@ namespace Bank.NET___backend.Controllers
         [HttpGet]
         [Route("isUserABankEmployee")]
         [Authorize]
+        [RequiredScope("access_as_user")]
         public ActionResult<bool> isUserABankEmployee()
         {
             var claims = User.Claims.ToList();
@@ -89,10 +90,10 @@ namespace Bank.NET___backend.Controllers
             return Ok(false);
         }
 
-        //[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+        [RequiredScope("access_as_user")]
         [HttpGet]
         [Route("/GetResponse/{ResponseId}")]
-        //[Authorize(Policy = "BankEmployee")]
+        [Authorize(Policy = "BankEmployee")]
         public ActionResult<CompleteRequest> GetResponse(int ResponseId)
         {
             var request = _sqlContext.Requests.Where(req => req.ResponseID == ResponseId).FirstOrDefault();
@@ -109,24 +110,20 @@ namespace Bank.NET___backend.Controllers
         }
 
         [HttpGet("GetSortingParameters")]
-        //[HttpPost("Approve")]
-        //[Authorize(Policy = "BankEmployee")]
         public ActionResult<string[]> GetResponseSortingParameters()
         {
             return Ok(Enum.GetNames(typeof(ResponseSortingParameters)));
         }
 
         [HttpGet("GetResponsesStates")]
-        //[HttpPost("Approve")]
-        //[Authorize(Policy = "BankEmployee")]
         public ActionResult<string[]> GetResponsesStates()
         {
             return Ok(Enum.GetNames(typeof(ResponseStatus)));
         }
 
-        //[RequiredScope("access_as_user")]
+        [RequiredScope("access_as_user")]
         [HttpPost]
-        //[Authorize(Policy = "BankEmployee")]
+        [Authorize(Policy = "BankEmployee")]
         [Route("/ApproveResponse/{ResponseId}")]
         public ActionResult ApproveResponse(int ResponseId)
         {
@@ -147,9 +144,9 @@ namespace Bank.NET___backend.Controllers
             }
         }
 
-        //[RequiredScope("access_as_user")]
+        [RequiredScope("access_as_user")]
         [HttpPost]
-        //[Authorize(Policy = "BankEmployee")]
+        [Authorize(Policy = "BankEmployee")]
         [Route("/RefuseResponse/{ResponseId}")]
         public ActionResult RefuseResponse(int ResponseId)
         {
