@@ -37,7 +37,7 @@ namespace Bank.NET___backend.Controllers
             }
 
             var result = parametres.handleQueryParametres(data.AsQueryable());
-            HttpContext.Response.Headers.Add("PagingInfo", parametres.GetPagingMetadata(result.Count));
+            HttpContext.Response.Headers.Add("PagingInfo", parametres.GetPagingMetadata(data.Count));
 
             return Ok(result);
         }
@@ -66,7 +66,7 @@ namespace Bank.NET___backend.Controllers
             }
 
             var result = parametres.handleQueryParametres(data.AsQueryable());
-            HttpContext.Response.Headers.Add("PagingInfo", parametres.GetPagingMetadata(result.Count));
+            HttpContext.Response.Headers.Add("PagingInfo", parametres.GetPagingMetadata(data.Count));
 
             return Ok(result);
         }
