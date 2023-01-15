@@ -98,7 +98,6 @@ namespace Bank.NET___backend.Controllers
                 var res = _sqlContext.Responses.Where(r => r.ResponseID == req.ResponseID).First();
                 if (res.External)
                 {
-                    //TODO send doc to external api as well
                     using (var form = new MultipartFormDataContent())
                     {
                         using(var client = new HttpClient())

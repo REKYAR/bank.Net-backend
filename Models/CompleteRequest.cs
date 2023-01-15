@@ -4,6 +4,7 @@ namespace Bank.NET___backend.Models
 {
     public class CompleteRequest
     {
+        public int RequestID { get; set; }
         public DateTime Date { get; set; }
         public decimal Amount { get; set; }
         public int NumberOfInstallments { get; set; }
@@ -23,6 +24,7 @@ namespace Bank.NET___backend.Models
 
         public CompleteRequest( Request request, decimal? rate)
         {
+            RequestID = request.RequestID;
             Date = request.Date;
             Amount = request.Amount;
             NumberOfInstallments = request.NumberOfInstallments;
@@ -38,6 +40,7 @@ namespace Bank.NET___backend.Models
 
         public CompleteRequest(Response res, Request req)
         {
+            RequestID = req.RequestID;
             Date = req.Date;
             Amount = req.Amount;
             NumberOfInstallments = req.NumberOfInstallments;
