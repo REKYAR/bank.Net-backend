@@ -31,7 +31,7 @@ namespace Bank.NET___backend.Controllers
                     req.ResponseID = res.ResponseID;
                     res.State = ResponseStatus.PendingConfirmation.ToString();
                     _sqlContext.SaveChanges();
-                    Helpers.sendUploadEmail(req.Email,req.RequestID);
+                    //Helpers.sendUploadEmail(req.Email,req.RequestID);
                     return Ok();
                     //wyslac maila
                     //send add documents and send to review here

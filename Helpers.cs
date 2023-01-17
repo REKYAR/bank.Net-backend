@@ -70,6 +70,40 @@ namespace Bank.NET___backend
             SendEmailResult emailResult = emailClient.Send(emailMessage,CancellationToken.None);
             return emailResult; 
         }
+
+        public static SendEmailResult sendLinkToReq(string email, int requestId)
+        {
+            string? commsKey = System.Environment.GetEnvironmentVariable("COMMUNICATION_KEY");
+            if (commsKey is null)
+            {
+                throw new NullReferenceException("COMMUNICATION_KEY is null");
+            }
+            EmailClient emailClient = new EmailClient($"endpoint=https://dotnet-bank-communication-second.communication.azure.com/;accesskey={commsKey}");
+            EmailContent emailContent = new EmailContent("DOTNET bank document upload");
+            emailContent.PlainText = $"Link to offer: https://dotnetfrontend.azurewebsites.net/statusCheck/{requestId} ";
+            List<EmailAddress> emailAddresses = new List<EmailAddress> { new EmailAddress($"{email}") { DisplayName = "Friendly Display Name" }};
+            EmailRecipients emailRecipients = new EmailRecipients(emailAddresses);
+            EmailMessage emailMessage = new EmailMessage("dotnetbank@394f8de0-648f-49e2-ae57-fce7523309f0.azurecomm.net", emailContent, emailRecipients);
+            SendEmailResult emailResult = emailClient.Send(emailMessage,CancellationToken.None);
+            return emailResult; 
+        }
+
+        public static SendEmailResult sendFinal(string email, int requestId, Guid requestGuid)
+        {
+            string? commsKey = System.Environment.GetEnvironmentVariable("COMMUNICATION_KEY");
+            if (commsKey is null)
+            {
+                throw new NullReferenceException("COMMUNICATION_KEY is null");
+            }
+            EmailClient emailClient = new EmailClient($"endpoint=https://dotnet-bank-communication-second.communication.azure.com/;accesskey={commsKey}");
+            EmailContent emailContent = new EmailContent("DOTNET bank document upload");
+            emailContent.PlainText = $" Final confirmation link: https://dotnetfrontend.azurewebsites.net/statusCheck/{requestId} ";
+            List<EmailAddress> emailAddresses = new List<EmailAddress> { new EmailAddress($"{email}") { DisplayName = "Friendly Display Name" }};
+            EmailRecipients emailRecipients = new EmailRecipients(emailAddresses);
+            EmailMessage emailMessage = new EmailMessage("dotnetbank@394f8de0-648f-49e2-ae57-fce7523309f0.azurecomm.net", emailContent, emailRecipients);
+            SendEmailResult emailResult = emailClient.Send(emailMessage,CancellationToken.None);
+            return emailResult; 
+        }
         public static SendEmailResult sendConfirmationEmail(string email, int requestId, Guid requestGuid)
         {
             string? commsKey = System.Environment.GetEnvironmentVariable("COMMUNICATION_KEY");
