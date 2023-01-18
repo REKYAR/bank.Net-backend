@@ -13,7 +13,7 @@ namespace Bank.NET___backend.ApiStructures.NewFolder.bankapi4dotnet
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int DocumentType { get; set; }
-        public int DocumentId { get; set; }
+        public string DocumentId { get; set; }
         public int JobType { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal IncomeLevel { get; set; }
@@ -23,7 +23,7 @@ namespace Bank.NET___backend.ApiStructures.NewFolder.bankapi4dotnet
 
         }
         public Inquiry(Guid _id, DateTime _creationDate, decimal _moneyAmount, int _installmentsCount, string _firstName, string _lastName,
-            int _documentType, int _documentId, int _jobType, decimal _incomeLevel)
+            int _documentType, string _documentId, int _jobType, decimal _incomeLevel)
         {
             //enforce invariants
             Id = _id;
@@ -49,7 +49,7 @@ namespace Bank.NET___backend.ApiStructures.NewFolder.bankapi4dotnet
         public int JobType { get; }
         public decimal IncomeLevel { get; }
 
-        public CreateInquiryRequest(decimal moneyAmount, int installmentsNumber, string firstName, string lastName, int documentType, int documentId, int jobType, decimal incomeLevel)
+        public CreateInquiryRequest(decimal moneyAmount, int installmentsNumber, string firstName, string lastName, int documentType, string documentId, int jobType, decimal incomeLevel)
         {
             MoneyAmount = moneyAmount;
             InstallmentsNumber = installmentsNumber;
