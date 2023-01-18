@@ -180,6 +180,68 @@ namespace Bank.NET___backend
             return stream;
         }
 
+        public static async Task<int> getJobId(string job)
+        {
+            
+            try
+            {
+                string uri = System.Environment.GetEnvironmentVariable("API_2");
+                HttpClient client = new HttpClient();
+                var response = await client.GetAsync($"{uri}/api/v1/Dictionary/jobTypes");
+                List<Job> responseDict = new List<Job>();
+                if (response.IsSuccessStatusCode)
+                {
+                    string s = await response.Content.ReadAsStringAsync();
+                    responseDict = JsonConvert.DeserializeObject<List<Job>>(s);
+                }
+
+                if (responseDict.Where(x=>x.name == job).Count()!= 0)
+                {
+                    return responseDict.Where(x => x.name == job).First().id;
+                }
+
+                return 0;
+            }
+            catch (Exception e)
+            {
+                return -1;
+                Console.WriteLine(e);
+                throw;
+            }
+            
+        }
+
+        public static async Task<int> getDocId(string doc)
+        {
+            
+            try
+            {
+                string uri = System.Environment.GetEnvironmentVariable("API_2");
+                HttpClient client = new HttpClient();
+                var response = await client.GetAsync($"{uri}/api/v1/Dictionary/governmentDocumentTypes");
+                List<Doc> responseDict = new List<Doc>();
+                if (response.IsSuccessStatusCode)
+                {
+                    string s = await response.Content.ReadAsStringAsync();
+                    responseDict = JsonConvert.DeserializeObject<List<Doc>>(s);
+                }
+
+                if (responseDict.Where(x=>x.name == doc).Count()!= 0)
+                {
+                    return responseDict.Where(x => x.name == doc).First().id;
+                }
+
+                return 0;
+            }
+             catch (Exception e)
+            {
+                return -1;
+                Console.WriteLine(e);
+                throw;
+            }
+
+        }
+
         public static async Task<Data.Response> GetOfferFromApi1(Data.Request req, string apiinfo)
         {
             Data.Response res = new Data.Response();
@@ -198,7 +260,7 @@ namespace Bank.NET___backend
                 HttpClient client = new HttpClient();
                 string uri = apiinfo.Split("&&&")[1];
                 CreateInquiryRequest cir = new CreateInquiryRequest(req.Amount, req.NumberOfInstallments, req.Name,
-                    req.Surname, 0, "", 0, req.IncomeLevel);
+                    req.Surname, getDocId(req.GovermentId).Result, req.GovermentId, getJobId(req.JobType).Result, req.IncomeLevel);
                 HttpResponseMessage response = await client.PostAsJsonAsync($"{uri}/api/Inquire", cir);
                 if (response.IsSuccessStatusCode)
                 {
@@ -247,5 +309,18 @@ namespace Bank.NET___backend
             //HttpResponseMessage response3 = await client.GetAsync($"{uri}/Offer/{of.Id}/document/{of.DocumentLink.Split('/').Last()}");
             //return File(response3.Content.ReadAsStream(), MediaTypeNames.Text.Plain, "File.txt");
         }
+    }
+
+    public class Job
+    {
+        public int id { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
+    }
+    public class Doc
+    {
+        public int id { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
     }
 }

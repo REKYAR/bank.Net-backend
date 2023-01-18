@@ -197,8 +197,8 @@ namespace Bank.NET___backend.Controllers
                 r2.State = ResponseStatus.PendingApproval.ToString();
                 _sqlContext.Responses.Add(r2);
                 //external2
-
-                string in1 = "uri&&&https://bankapi4dotnet.azurewebsites.net/";
+                string in1 = System.Environment.GetEnvironmentVariable("API_1");
+                //string in1 = "uri&&&https://bankapi4dotnet.azurewebsites.net/";
                 Response r3 = await Helpers.GetOfferFromApi1(req, in1);
                 offers[2].MonthlyInstallment = r3.MonthlyInstallment;
                 _sqlContext.Responses.Add(r3);
