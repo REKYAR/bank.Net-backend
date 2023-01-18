@@ -104,6 +104,24 @@ namespace Bank.NET___backend
             SendEmailResult emailResult = emailClient.Send(emailMessage,CancellationToken.None);
             return emailResult; 
         }
+
+        public static SendEmailResult sendRefusedRequestMail(string email, int requestId)
+        {
+            string? commsKey = System.Environment.GetEnvironmentVariable("COMMUNICATION_KEY");
+            if (commsKey is null)
+            {
+                throw new NullReferenceException("COMMUNICATION_KEY is null");
+            }
+            EmailClient emailClient = new EmailClient($"endpoint=https://dotnet-bank-communication-second.communication.azure.com/;accesskey={commsKey}");
+            EmailContent emailContent = new EmailContent("DOTNET bank your request was refused");
+            emailContent.PlainText = $"Your request {requestId} was refused.";
+            List<EmailAddress> emailAddresses = new List<EmailAddress> { new EmailAddress($"{email}") { DisplayName = "Friendly Display Name" } };
+            EmailRecipients emailRecipients = new EmailRecipients(emailAddresses);
+            EmailMessage emailMessage = new EmailMessage("dotnetbank@394f8de0-648f-49e2-ae57-fce7523309f0.azurecomm.net", emailContent, emailRecipients);
+            SendEmailResult emailResult = emailClient.Send(emailMessage, CancellationToken.None);
+            return emailResult;
+        }
+
         public static SendEmailResult sendConfirmationEmail(string email, int requestId, Guid requestGuid)
         {
             string? commsKey = System.Environment.GetEnvironmentVariable("COMMUNICATION_KEY");
