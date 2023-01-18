@@ -142,7 +142,6 @@ namespace Bank.NET___backend.Controllers
 
                 Helpers.sendFinal(res.UserEmail, res.RequestID, (Guid)req.MappedGuid);
 
-                _sqlContext.Update(res);
                 _sqlContext.SaveChanges();
 
                 return Ok();
@@ -173,7 +172,6 @@ namespace Bank.NET___backend.Controllers
                 Helpers.sendRefusedRequestMail(req.Email, req.RequestID);
 
                 res.State = ResponseStatus.Refused.ToString();
-                _sqlContext.Update(res);
                 _sqlContext.SaveChanges();
 
                 return Ok();
