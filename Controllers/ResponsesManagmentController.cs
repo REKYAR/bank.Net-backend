@@ -37,6 +37,7 @@ namespace Bank.NET___backend.Controllers
             }
 
             var result = parametres.handleQueryParametres(data.AsQueryable());
+            HttpContext.Response.Headers.Add("Access-Control-Expose-Headers", "Authorization");
             HttpContext.Response.Headers.Add("PagingInfo", parametres.GetPagingMetadata(data.Count));
 
             return Ok(result);
