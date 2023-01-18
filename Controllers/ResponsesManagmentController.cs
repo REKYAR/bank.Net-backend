@@ -131,11 +131,19 @@ namespace Bank.NET___backend.Controllers
             try
             {
                 Response? res = _sqlContext.Responses.Where(res => res.ResponseID == ResponseId).FirstOrDefault();
-
                 if (res == null)
                     return BadRequest();
 
+                Request? req = _sqlContext.Requests.Where(req => req.RequestID == res.RequestID).FirstOrDefault();
+                if (req == null || req.MappedGuid == null)
+                    return BadRequest();
+
                 res.State = ResponseStatus.Approved.ToString();
+
+                Helpers.sendFinal(res.UserEmail, res.RequestID, (Guid)req.MappedGuid);
+
+                _sqlContext.Update(res);
+                _sqlContext.SaveChanges();
 
                 return Ok();
             }
@@ -158,7 +166,15 @@ namespace Bank.NET___backend.Controllers
                 if (res == null)
                     return BadRequest();
 
+                Request? req = _sqlContext.Requests.Where(req => req.RequestID == res.RequestID).FirstOrDefault();
+                if (req == null)
+                    return BadRequest();
+
+                Helpers.sendRefusedRequestMail(req.Email, req.RequestID);
+
                 res.State = ResponseStatus.Refused.ToString();
+                _sqlContext.Update(res);
+                _sqlContext.SaveChanges();
 
                 return Ok();
             }
