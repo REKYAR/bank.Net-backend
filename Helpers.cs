@@ -198,7 +198,7 @@ namespace Bank.NET___backend
                 HttpClient client = new HttpClient();
                 string uri = apiinfo.Split("&&&")[1];
                 CreateInquiryRequest cir = new CreateInquiryRequest(req.Amount, req.NumberOfInstallments, req.Name,
-                    req.Surname, 0, 0, 0, req.IncomeLevel);
+                    req.Surname, 0, "", 0, req.IncomeLevel);
                 HttpResponseMessage response = await client.PostAsJsonAsync($"{uri}/api/Inquire", cir);
                 if (response.IsSuccessStatusCode)
                 {
