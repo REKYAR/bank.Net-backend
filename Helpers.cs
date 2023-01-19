@@ -97,7 +97,7 @@ namespace Bank.NET___backend
             }
             EmailClient emailClient = new EmailClient($"endpoint=https://dotnet-bank-communication-second.communication.azure.com/;accesskey={commsKey}");
             EmailContent emailContent = new EmailContent("DOTNET bank document upload");
-            emailContent.PlainText = $" Final confirmation link: https://dotnetfrontend.azurewebsites.net/statusCheck/{requestId} ";
+            emailContent.PlainText = $" Final confirmation link: https://dotnetfrontend.azurewebsites.net/finalConfirmation/{requestId}/{requestGuid}";
             List<EmailAddress> emailAddresses = new List<EmailAddress> { new EmailAddress($"{email}") { DisplayName = "Friendly Display Name" }};
             EmailRecipients emailRecipients = new EmailRecipients(emailAddresses);
             EmailMessage emailMessage = new EmailMessage("dotnetbank@394f8de0-648f-49e2-ae57-fce7523309f0.azurecomm.net", emailContent, emailRecipients);
@@ -316,7 +316,7 @@ namespace Bank.NET___backend
             }
             catch (Exception e)
             {
-                throw e;
+                //throw e;
                 Console.WriteLine(e);
                 res.ApiInfo = null;
                 res.External = false;

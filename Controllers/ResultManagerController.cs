@@ -180,9 +180,9 @@ namespace Bank.NET___backend.Controllers
         [Route("/getFinalConfirmation/{rqid}/{guid}")]
         public async Task<ActionResult> GetConfirmation(int rqid,Guid guid)
         {
-            if (_sqlContext.Requests.Where(r => r.MappedGuid == guid && r.RequestID == rqid).Count() == 1)
+            if (_sqlContext.Requests.Where(r => (Guid)r.MappedGuid == guid && r.RequestID == rqid).Count() == 1)
             {
-                Request req = _sqlContext.Requests.Where(r => r.MappedGuid == guid && r.RequestID == rqid).First();
+                Request req = _sqlContext.Requests.Where(r => (Guid)r.MappedGuid == guid && r.RequestID == rqid).First();
                 Response res = _sqlContext.Responses.Where(r => r.ResponseID == req.ResponseID).First();
                 res.State = Data.ResponseStatus.FinalApproved.ToString();
                 req.Status = Data.RequestStatus.FinalApproved.ToString();
@@ -190,8 +190,7 @@ namespace Bank.NET___backend.Controllers
                 if (res.External)
                 {
                     HttpClient client = new HttpClient();
-                    var response = await client.PostAsync($"{res.ApiInfo}/Offer/{res.OfferId.ToString()}/complete",null);
-                    //TODO send complete to external api
+                    var response = await client.PostAsync($"{res.ApiInfo}/Offer/{((Guid)res.OfferId)}/complete",null);
                 }
                 return Ok(Response);
             }
