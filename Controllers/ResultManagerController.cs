@@ -180,24 +180,34 @@ namespace Bank.NET___backend.Controllers
         [Route("/getFinalConfirmation/{rqid}/{guid}")]
         public async Task<ActionResult> GetConfirmation(int rqid,Guid guid)
         {
-            if (_sqlContext.Requests.Where(r => (Guid)r.MappedGuid == guid && r.RequestID == rqid).Count() == 1)
+            try
             {
-                Request req = _sqlContext.Requests.Where(r => (Guid)r.MappedGuid == guid && r.RequestID == rqid).First();
-                Response res = _sqlContext.Responses.Where(r => r.ResponseID == req.ResponseID).First();
-                res.State = Data.ResponseStatus.FinalApproved.ToString();
-                req.Status = Data.RequestStatus.FinalApproved.ToString();
-                _sqlContext.SaveChanges();
-                if (res.External)
+                if (_sqlContext.Requests.Where(r => (Guid)r.MappedGuid == guid && r.RequestID == rqid).Count() == 1)
                 {
-                    HttpClient client = new HttpClient();
-                    var response = await client.PostAsync($"{res.ApiInfo}/Offer/{((Guid)res.OfferId)}/complete",null);
+                    Request req = _sqlContext.Requests.Where(r => (Guid)r.MappedGuid == guid && r.RequestID == rqid).First();
+                    Response res = _sqlContext.Responses.Where(r => r.ResponseID == req.ResponseID).First();
+                    res.State = Data.ResponseStatus.FinalApproved.ToString();
+                    req.Status = Data.RequestStatus.FinalApproved.ToString();
+                    _sqlContext.SaveChanges();
+                    if (res.External)
+                    {
+                        string g = ((Guid)res.OfferId).ToString();
+                        HttpClient client = new HttpClient();
+                        var response = await client.PostAsync($"{res.ApiInfo}/Offer/{g}/complete",null);
+                    }
+                    return Ok(Response);
                 }
-                return Ok(Response);
+                else
+                {
+                    return NotFound();
+                }
             }
-            else
+            catch (Exception e)
             {
-                return NotFound();
+                Console.WriteLine($"{e.Message}");
+                throw;
             }
+            
         }
     }
 
