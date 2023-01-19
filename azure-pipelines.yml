@@ -32,3 +32,11 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    azureSubscription: 'Azure for Students(44527ad9-712c-46f6-beaa-9aec98785f8c)'
+    ConnectionType: 'AzureRM'
+    appType: 'webApp'
+    WebAppName: 'Bank-Project-Backend-Prod'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
