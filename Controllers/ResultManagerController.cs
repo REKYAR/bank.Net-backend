@@ -204,8 +204,8 @@ namespace Bank.NET___backend.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine($"{e.Message}");
-                throw;
+                Console.WriteLine($"{e.Message} ||| {e.StackTrace}");
+                throw new BadHttpRequestException($"{e.Message} ||| {e.StackTrace}");
             }
             
         }
