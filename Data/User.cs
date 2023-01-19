@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Bank.NET___backend.Data
@@ -24,6 +25,29 @@ namespace Bank.NET___backend.Data
 
         //public ICollection<Request> Requests { get; set; }
         //public ICollection<Response> Responses { get; set; }
+
+        public bool Validate()
+        {
+            if (string.IsNullOrWhiteSpace(Name))
+                return false;
+
+            if (string.IsNullOrWhiteSpace(Surname))
+                return false;
+
+            if (string.IsNullOrWhiteSpace(GovermentId))
+                return false;
+
+            if (string.IsNullOrWhiteSpace(Email))
+                return false;
+
+            if (string.IsNullOrWhiteSpace(JobType))
+                return false;
+
+            if (IncomeLevel < 0)
+                return false;
+
+            return true;
+        }
     }
     public class UserDTO
     {

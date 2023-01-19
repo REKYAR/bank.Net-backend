@@ -171,6 +171,10 @@ namespace Bank.NET___backend.Controllers
                     User u = _sqlContext.Users.Where(u => u.Email == req.Email).First();
                     req.UserID = u.UserID;
                 }
+
+                if (!req.Validate())
+                    return BadRequest("Invalid data");
+
                 _sqlContext.Requests.Add(req);
                 _sqlContext.SaveChanges();
             }
@@ -206,8 +210,9 @@ namespace Bank.NET___backend.Controllers
                 r1.UserEmail = req.Email;
                 r1.MonthlyInstallment = offers[0].MonthlyInstallment;
                 r1.State = ResponseStatus.PendingApproval.ToString();
-                _sqlContext.Responses.Add(r1);
 
+                if (!r1.Validate())
+                    return NotFound(RequestID);
 
                 //external1 TODO change to integrate with external
                 Response r2 = new Response();
@@ -217,13 +222,15 @@ namespace Bank.NET___backend.Controllers
                 r2.UserEmail = req.Email;
                 r2.MonthlyInstallment = offers[1].MonthlyInstallment;
                 r2.State = ResponseStatus.PendingApproval.ToString();
-                _sqlContext.Responses.Add(r2);
+
+                if (!r2.Validate())
+                    return NotFound(RequestID);
+                
                 //external2
                 string in1 = System.Environment.GetEnvironmentVariable("API_1");
                 //string in1 = "uri&&&https://bankapi4dotnet.azurewebsites.net/";
                 Response r3 = await Helpers.GetOfferFromApi1(req, in1);
                 offers[2].MonthlyInstallment = r3.MonthlyInstallment;
-                _sqlContext.Responses.Add(r3);
                 //foreach (Offer offer in offers)
                 //{
                 //    Response r = new Response();
@@ -235,6 +242,14 @@ namespace Bank.NET___backend.Controllers
                 //    r.State = ResponseStatus.PendingApproval.ToString();
                 //    _sqlContext.Responses.Add(r);
                 //}
+
+                if (!r3.Validate())
+                    return NotFound(RequestID);
+
+                _sqlContext.Responses.Add(r1);
+                _sqlContext.Responses.Add(r2);
+                _sqlContext.Responses.Add(r3);
+
                 _sqlContext.SaveChanges();
                 return Ok(offers);
             }
