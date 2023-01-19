@@ -316,6 +316,7 @@ namespace Bank.NET___backend
             }
             catch (Exception e)
             {
+                Console.WriteLine(e);
                 res.ApiInfo = null;
                 res.External = false;
                 res.MonthlyInstallment = Logic.generateOffer(req);
