@@ -190,7 +190,7 @@ namespace Bank.NET___backend.Controllers
                 if (res.External)
                 {
                     HttpClient client = new HttpClient();
-                    var response = await client.PostAsync($"{res.ApiInfo}/Offer/{res.OfferId.ToString()}/complete",null);
+                    var response = await client.PostAsync($"{res.ApiInfo}/Offer/{((Guid)res.OfferId)}/complete",null);
                 }
                 return Ok(Response);
             }
