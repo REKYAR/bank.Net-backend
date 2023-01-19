@@ -37,7 +37,8 @@ namespace Bank.NET___backend.Controllers
             }
 
             var result = parametres.handleQueryParametres(data.AsQueryable());
-            HttpContext.Response.Headers.Add("Access-Control-Expose-Headers", "Authorization");
+            HttpContext.Response.Headers.Add("access-control-expose-headers", "Authorization");
+            HttpContext.Response.Headers.Add("access-control-allow-headers", "Authorization");
             HttpContext.Response.Headers.Add("PagingInfo", parametres.GetPagingMetadata(data.Count));
 
             return Ok(result);
@@ -139,6 +140,7 @@ namespace Bank.NET___backend.Controllers
                     return BadRequest();
 
                 res.State = ResponseStatus.Approved.ToString();
+                req.Status = RequestStatus.Approved.ToString();
 
                 Helpers.sendFinal(res.UserEmail, res.RequestID, (Guid)req.MappedGuid);
 
@@ -172,6 +174,7 @@ namespace Bank.NET___backend.Controllers
                 Helpers.sendRefusedRequestMail(req.Email, req.RequestID);
 
                 res.State = ResponseStatus.Refused.ToString();
+                req.Status = RequestStatus.FinalRefused.ToString();
                 _sqlContext.SaveChanges();
 
                 return Ok();
