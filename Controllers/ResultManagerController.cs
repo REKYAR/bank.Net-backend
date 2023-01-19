@@ -182,9 +182,9 @@ namespace Bank.NET___backend.Controllers
         {
             try
             {
-                if (_sqlContext.Requests.Where(r => (Guid)r.MappedGuid == guid && r.RequestID == rqid).Count() == 1)
+                if (_sqlContext.Requests.Where(r => r.MappedGuid == guid && r.RequestID == rqid).Count() == 1)
                 {
-                    Request req = _sqlContext.Requests.Where(r => (Guid)r.MappedGuid == guid && r.RequestID == rqid).First();
+                    Request req = _sqlContext.Requests.Where(r => r.MappedGuid == guid && r.RequestID == rqid).First();
                     Response res = _sqlContext.Responses.Where(r => r.ResponseID == req.ResponseID).First();
                     res.State = Data.ResponseStatus.FinalApproved.ToString();
                     req.Status = Data.RequestStatus.FinalApproved.ToString();
