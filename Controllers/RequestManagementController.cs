@@ -46,22 +46,33 @@ namespace Bank.NET___backend.Controllers
                 return NotFound();
             }
             
-            List<Data.Request> reqs = _sqlContext.Requests.Where(req => req.UserID == u.UserID).ToList();
-            List<CompleteRequest> dto =  new List<CompleteRequest>();
-            foreach (Request r in reqs)
+            
+            try
             {
-                if (r.ResponseID is null)
+                List<Data.Request> reqs = _sqlContext.Requests.Where(req => req.UserID == u.UserID).ToList();
+                List<CompleteRequest> dto =  new List<CompleteRequest>();
+                foreach (Request r in reqs)
                 {
-                    dto.Add(new CompleteRequest(r, null));
-                }
-                else
-                {
-                    dto.Add(new CompleteRequest(r, _sqlContext.Responses.Where(res => res.ResponseID == r.ResponseID).First().MonthlyInstallment));
-                }
+                    if (r.ResponseID is null)
+                    {
+                        dto.Add(new CompleteRequest(r, null));
+                    }
+                    else
+                    {
+                        dto.Add(new CompleteRequest(r, _sqlContext.Responses.Where(res => res.ResponseID == r.ResponseID).First().MonthlyInstallment));
+                    }
                
-            }
+                }
 
-            return Ok(dto);
+                return Ok(dto);
+            }
+            catch (Exception e)
+            {
+                return new List<CompleteRequest>();
+                Console.WriteLine(e);
+                throw;
+            }
+            
         }
 
         [RequiredScope("access_as_user")]
@@ -81,22 +92,32 @@ namespace Bank.NET___backend.Controllers
             {
                 return NotFound();
             }
-            
-            List<Data.Request> reqs = _sqlContext.Requests.Where(req => req.UserID == u.UserID && (DateTime.UtcNow - req.Date ).Days <= 30).ToList();
-            List<CompleteRequest> dto =  new List<CompleteRequest>();
-            foreach (Request r in reqs)
-            {
-                if (r.ResponseID is null)
-                {
-                    dto.Add(new CompleteRequest(r, null));
-                }
-                else
-                {
-                    dto.Add(new CompleteRequest(r, _sqlContext.Responses.Where(res => res.ResponseID == r.ResponseID).First().MonthlyInstallment));
-                }
-            }
 
-            return Ok(dto);
+            try
+            {
+                List<Data.Request> reqs = _sqlContext.Requests.Where(req => req.UserID == u.UserID && (DateTime.UtcNow - req.Date ).Days <= 30).ToList();
+                List<CompleteRequest> dto =  new List<CompleteRequest>();
+                foreach (Request r in reqs)
+                {
+                    if (r.ResponseID is null)
+                    {
+                        dto.Add(new CompleteRequest(r, null));
+                    }
+                    else
+                    {
+                        dto.Add(new CompleteRequest(r, _sqlContext.Responses.Where(res => res.ResponseID == r.ResponseID).First().MonthlyInstallment));
+                    }
+                }
+
+                return Ok(dto);
+            }
+            catch (Exception e)
+            {
+                return new List<CompleteRequest>();
+                Console.WriteLine(e);
+                throw;
+            }
+            
         }
 
         [HttpGet]
