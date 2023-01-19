@@ -48,6 +48,9 @@ namespace Bank.NET___backend.Controllers
                 newUser.JobType = Data["extension_" + _extensionAppID + "_JobType"].ToString();
                 newUser.IncomeLevel = Data["extension_" + _extensionAppID + "_Incomelevel"].GetDecimal();
 
+                if (!newUser.Validate())
+                    return Ok(Ok(new APIConnectorBlock("Invalid input data")));
+
                 _sqlContext.Users.Add(newUser);
                 _sqlContext.SaveChanges();
 

@@ -31,6 +31,19 @@ namespace Bank.NET___backend.Data
         public Guid? OfferId { get; set; }
         public string? documentKey { get; set; }
 
+        public bool Validate()
+        {
+            if (string.IsNullOrWhiteSpace(State))
+                return false;
+
+            if (MonthlyInstallment < 0)
+                return false;
+
+            if (string.IsNullOrWhiteSpace(UserEmail))
+                return false;
+
+            return true;
+        }
     }
     public class ResponseDTO
     {

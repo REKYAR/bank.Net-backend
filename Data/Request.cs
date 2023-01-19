@@ -43,6 +43,41 @@ namespace Bank.NET___backend.Data
         public Guid? MappedGuid { get; set; }
         public Guid? InquireId { get; set; }
 
+
+        public bool Validate()
+        {
+            if (this.Date >= DateTime.UtcNow)
+                return false;
+
+            if (this.Amount < 0)
+                return false;
+
+            if (NumberOfInstallments <= 0)
+                return false;
+
+            if (string.IsNullOrWhiteSpace(Name))
+                return false;
+
+            if (string.IsNullOrWhiteSpace(Surname))
+                return false;
+
+            if (string.IsNullOrWhiteSpace(GovermentId))
+                return false;
+
+            if (string.IsNullOrWhiteSpace(Email))
+                return false;
+
+            if (string.IsNullOrWhiteSpace(JobType))
+                return false;
+
+            if (string.IsNullOrWhiteSpace(Status))
+                return false;
+
+            if (IncomeLevel <= 0)
+                return false;
+
+            return true;
+        }
     }
     public class RequestDTO
     {
