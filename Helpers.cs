@@ -316,7 +316,7 @@ namespace Bank.NET___backend
             }
             catch (Exception e)
             {
-                throw e;
+                //throw e;
                 Console.WriteLine(e);
                 res.ApiInfo = null;
                 res.External = false;
