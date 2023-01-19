@@ -195,7 +195,7 @@ namespace Bank.NET___backend.Controllers
                         HttpClient client = new HttpClient();
                         var response = await client.PostAsync($"{res.ApiInfo}/Offer/{g}/complete",null);
                     }
-                    return Ok(Response);
+                    return Ok();
                 }
                 else
                 {
