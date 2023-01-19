@@ -260,7 +260,7 @@ namespace Bank.NET___backend
 
         }
 
-        public static async Task<Data.Response> GetOfferFromApi1(Data.Request req, string apiinfo)
+        public static async Task<Data.Response> GetOfferFromApi1(Data.Request req, string uri)
         {
             Data.Response res = new Data.Response();
             res.UserEmail = req.Email;
@@ -269,14 +269,14 @@ namespace Bank.NET___backend
             try
             {
                 res.External = true;
-                
-                res.ApiInfo = apiinfo;
+                res.ApiInfo = uri;
+                //res.ApiInfo = apiinfo;
                 Dictionary<string, string> responseDict = new Dictionary<string, string>();
                 Dictionary<string, string> response2Dict = new Dictionary<string, string>();
                 ApiStructures.NewFolder.bankapi4dotnet.Offer of;
             
                 HttpClient client = new HttpClient();
-                string uri = apiinfo.Split("&&&")[1];
+                //string uri = apiinfo.Split("&&&")[1];
                 CreateInquiryRequest cir = new CreateInquiryRequest(req.Amount, req.NumberOfInstallments, req.Name,
                     req.Surname, getDocId(req.GovermentId).Result, req.GovermentId, getJobId(req.JobType).Result, req.IncomeLevel);
                 HttpResponseMessage response = await client.PostAsJsonAsync($"{uri}/api/Inquire", cir);
