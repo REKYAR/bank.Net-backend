@@ -62,7 +62,7 @@ namespace Bank.NET___backend.Controllers
                 {
                     //TODO hit external api for result
                     HttpClient client = new HttpClient();
-                    HttpResponseMessage response3 = await client.GetAsync($"{res.ApiInfo.Split("&&&")[1]}/Offer/{res.OfferId.ToString()}/document/{res.documentKey.Split('/').Last()}");
+                    HttpResponseMessage response3 = await client.GetAsync($"{res.ApiInfo}/Offer/{res.OfferId.ToString()}/document/{res.documentKey.Split('/').Last()}");
                     return File(response3.Content.ReadAsStream(), MediaTypeNames.Text.Plain, "File.txt");
                     //var stream = 
                     //return Ok();
@@ -105,7 +105,7 @@ namespace Bank.NET___backend.Controllers
                             using (Stream contentStream = file.OpenReadStream())
                             {
                                 form.Add(new StreamContent(contentStream),"Agreement.txt");
-                                var response = await client.PostAsync($"{res.ApiInfo.Split("&&&")[1]}/Offer/{res.OfferId}/document/upload",form);
+                                var response = await client.PostAsync($"{res.ApiInfo}/Offer/{res.OfferId}/document/upload",form);
                             }
                             
                             //return await response.Content.ReadAsStringAsync();
@@ -190,7 +190,7 @@ namespace Bank.NET___backend.Controllers
                 if (res.External)
                 {
                     HttpClient client = new HttpClient();
-                    var response = await client.PostAsync($"{res.ApiInfo.Split("&&&")[1]}/Offer/{res.OfferId.ToString()}/complete",null);
+                    var response = await client.PostAsync($"{res.ApiInfo}/Offer/{res.OfferId.ToString()}/complete",null);
                     //TODO send complete to external api
                 }
                 return Ok(Response);
