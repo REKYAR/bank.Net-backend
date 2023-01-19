@@ -40,7 +40,7 @@ namespace Bank.NET___backend.Controllers
             {
                 return NotFound();
             }
-            User? u = _sqlContext.Users.Where(u => u.Email == EmailClaim.Value).First();
+            User? u = _sqlContext.Users.Where(u => u.Email == EmailClaim.Value).FirstOrDefault(defaultValue:null);
             if ( u == null)
             {
                 return NotFound();
@@ -87,7 +87,7 @@ namespace Bank.NET___backend.Controllers
             {
                 return NotFound();
             }
-            User? u = _sqlContext.Users.Where(u => u.Email == EmailClaim.Value).First();
+            User? u = _sqlContext.Users.Where(u => u.Email == EmailClaim.Value).FirstOrDefault(defaultValue:null);
             if ( u == null)
             {
                 return NotFound();
